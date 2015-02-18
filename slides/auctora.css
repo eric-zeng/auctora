@@ -1,6 +1,6 @@
 img {
 	max-width: 95%;
-	height: 95%;
+	max-height: 95%;
 	overflow: hidden;
 	background-size: cover;
 	margin-left: auto;
