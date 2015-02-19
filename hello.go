@@ -16,7 +16,13 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello, world!")
+	landingHtml, err := iotuil.ReadFile("bootstrap.html")
+	if err != nil {
+		fmt.Fprintf(w, "Couldn't read bootstrap.html")
+		return
+	}
+	w.Write(landingHtml)
+	//fmt.Fprint(w, "Hello, world!")
 }
 
 // Serve the root page for the Auctora slides.
