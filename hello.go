@@ -8,7 +8,6 @@ import (
 )
 
 func init() {
-	http.HandleFunc("/", handler)
 
 	// Handlers for Auctora pitch slides.
 	http.HandleFunc("/slides", slidesIndexHandler)
@@ -16,6 +15,7 @@ func init() {
 	http.HandleFunc("/css/", fileHandler)
 	http.HandleFunc("/js/", fileHandler)
 	http.HandleFunc("/fonts/", fileHandler)
+	http.HandleFunc("/", fileHandler)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
