@@ -15,7 +15,7 @@ func init() {
 	http.HandleFunc("/css/", fileHandler)
 	http.HandleFunc("/js/", fileHandler)
 	http.HandleFunc("/fonts/", fileHandler)
-	http.HandleFunc("/", fileHandler)
+	http.HandleFunc("/", handler)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
