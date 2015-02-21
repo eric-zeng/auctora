@@ -8,15 +8,24 @@ import (
 )
 
 func init() {
-	http.HandleFunc("/", handler)
 
 	// Handlers for Auctora pitch slides.
 	http.HandleFunc("/slides", slidesIndexHandler)
-	http.HandleFunc("/slides/", slidesHandler)
+	http.HandleFunc("/slides/", fileHandler)
+	http.HandleFunc("/css/", fileHandler)
+	http.HandleFunc("/js/", fileHandler)
+	http.HandleFunc("/fonts/", fileHandler)
+	http.HandleFunc("/", handler)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello, world!")
+	landingHtml, err := ioutil.ReadFile("bootstrap.html")
+	if err != nil {
+		fmt.Fprintf(w, "Couldn't read bootstrap.html")
+		return
+	}
+	w.Write(landingHtml)
+	//fmt.Fprint(w, "Hello, world!")
 }
 
 // Serve the root page for the Auctora slides.
@@ -30,7 +39,7 @@ func slidesIndexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Serve files in the slides/ directory.
-func slidesHandler(w http.ResponseWriter, r *http.Request) {
+func fileHandler(w http.ResponseWriter, r *http.Request) {
 	requestedFile := strings.TrimPrefix(r.URL.Path, "/") // Remove the leading slash
 
 	file, err := ioutil.ReadFile(requestedFile)
