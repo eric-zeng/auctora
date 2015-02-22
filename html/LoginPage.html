@@ -77,8 +77,16 @@
 
 	    function signIn() {
 	    	var client_id = "75kh0yq5sa89ld";
+
+        // Redirect URI can either be our app engine domain or localhost:8080.
+        // Need special cases to accomodate both.
 	    	var redirect_uri = window.location.protocol +  "//" +
-            window.location.hostname + "/auth/linkedIn";
+            window.location.hostname;
+        if (window.location.hostname == "localhost") {
+          redirect_uri = redirect_uri + ":" + window.location.port;
+        }
+        redirect_uri += "/auth/linkedIn";
+
 	    	var state = "ALS12sdij12989IDJSA0923u";
 	    	var scope = "r_basicprofile";
 

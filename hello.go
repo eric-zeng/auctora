@@ -74,7 +74,13 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 	v := url.Values{}
 	v.Set("grant_type", "authorization_code")
 	v.Set("code", oauthToken)
-	url := fmt.Sprintf("http://%s/auth/linkedIn", appengine.DefaultVersionHostname(c))
+
+	port := ""
+	if appengine.DefaultVersionHostname(c) == "localhost" {
+		port = ":8080"
+	}
+
+	url := fmt.Sprintf("http://%s%s/auth/linkedIn", appengine.DefaultVersionHostname(c), port)
 	v.Set("redirect_uri", url)
 	v.Set("client_id", "75kh0yq5sa89ld")
 
