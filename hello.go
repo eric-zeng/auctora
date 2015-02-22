@@ -4,7 +4,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strings"
+
+	"appengine"
+	"appengine/urlfetch"
 )
 
 func init() {
@@ -26,7 +30,7 @@ func init() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	landingHtml, err := ioutil.ReadFile("LoginPage.html")
 	if err != nil {
-		fmt.Fprintf(w, "Couldn't read LoginPage.html")
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Write(landingHtml)
@@ -36,7 +40,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func slidesIndexHandler(w http.ResponseWriter, r *http.Request) {
 	slidesHtml, err := ioutil.ReadFile("slides/auctora.html")
 	if err != nil {
-		fmt.Fprintf(w, "Couldn't read slides/auctora.html")
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Write(slidesHtml)
@@ -48,7 +52,7 @@ func fileHandler(w http.ResponseWriter, r *http.Request) {
 
 	file, err := ioutil.ReadFile(requestedFile)
 	if err != nil {
-		fmt.Fprintf(w, "Couldn't read %s", requestedFile)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Write(file)
@@ -61,12 +65,31 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 		// TODO: Send back authentication error to client.
 	}
 
-	oauthToken := args["code"]
-	state := args["state"]
+	oauthToken := args["code"][0]
+	// state := args["state"][0]
 
-	fmt.Fprintf(w, "OAuth token: %s, State: %s", oauthToken, state)
+	v := url.Values{}
+	v.Set("grant_type", "authorization_code")
+	v.Set("code", oauthToken)
+	v.Set("redirect_uri", "http://tidy-nomad-842.appspot.com/auth/linkedIn")
+	v.Set("client_id", "75kh0yq5sa89ld")
 
-	// TODO: Finish LinkedIn oauth steps.
+	api_key, api_err := ioutil.ReadFile("API_Key.txt")
+	if api_err != nil {
+		http.Error(w, api_err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	v.Set("client_secret", string(api_key))
+
+	c := appengine.NewContext(r)
+	client := urlfetch.Client(c)
+	resp, err := client.PostForm("https://www.linkedin.com/uas/oauth2/accessToken", v)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Fprintf(w, "HTTP POST returned status %v", resp.Status)
 
 	// TODO: serve the questions page
 	// file, err := ioutil.ReadFile("questions.html")
