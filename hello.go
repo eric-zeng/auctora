@@ -1,7 +1,7 @@
 package hello
 
 import (
-	"fmt"
+	//"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -23,6 +23,7 @@ func init() {
 	http.HandleFunc("/css/", fileHandler)
 	http.HandleFunc("/js/", fileHandler)
 	http.HandleFunc("/fonts/", fileHandler)
+	http.HandleFunc("/images/", fileHandler)
 
 	http.HandleFunc("/", handler)
 }
@@ -84,17 +85,16 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 
 	c := appengine.NewContext(r)
 	client := urlfetch.Client(c)
-	resp, err := client.PostForm("https://www.linkedin.com/uas/oauth2/accessToken", v)
+	/*resp*/ _, err := client.PostForm("https://www.linkedin.com/uas/oauth2/accessToken", v)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprintf(w, "HTTP POST returned status %v", resp.Status)
+	// fmt.Fprintf(w, "HTTP POST returned status %v", resp.Status)
 
-	// TODO: serve the questions page
-	// file, err := ioutil.ReadFile("questions.html")
-	// if err != nil {
-	// 	fmt.Fprintf(w, "Couldn't read questions.html")
-	// }
-	// w.Write(file)
+	file, err := ioutil.ReadFile("html/questions.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	w.Write(file)
 }
