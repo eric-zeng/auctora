@@ -1,7 +1,7 @@
 package hello
 
 import (
-	//"fmt"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -69,10 +69,13 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 	oauthToken := args["code"][0]
 	// state := args["state"][0]
 
+	c := appengine.NewContext(r)
+
 	v := url.Values{}
 	v.Set("grant_type", "authorization_code")
 	v.Set("code", oauthToken)
-	v.Set("redirect_uri", "http://tidy-nomad-842.appspot.com/auth/linkedIn")
+	url := fmt.Sprintf("http://%s/auth/linkedIn", appengine.DefaultVersionHostname(c))
+	v.Set("redirect_uri", url)
 	v.Set("client_id", "75kh0yq5sa89ld")
 
 	api_key, api_err := ioutil.ReadFile("API_Key.txt")
@@ -82,8 +85,6 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	v.Set("client_secret", string(api_key))
-
-	c := appengine.NewContext(r)
 	client := urlfetch.Client(c)
 	/*resp*/ _, err := client.PostForm("https://www.linkedin.com/uas/oauth2/accessToken", v)
 	if err != nil {

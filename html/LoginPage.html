@@ -16,8 +16,8 @@
 
     <!-- Custom styles for this template -->
     <link href="../css/cover.css" rel="stylesheet">
-   
-   
+
+
   </head>
   <body>
 
@@ -43,7 +43,7 @@
           <div class="inner cover">
             <h1 class="cover-heading">Auctora</h1>
             <!-- <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p> -->
-            
+
             <input class="lead" id="signIn" type="image" src="../images/Sign-In-Small---Active.png" value="Sign in with LinkedIn"/>
 
             <p class="lead">
@@ -69,7 +69,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
-    
+
     <!-- js button handlerTODO: move to js file? -->
    	<script type="text/javascript">
 		window.onload = function() {
@@ -77,11 +77,12 @@
 
 	    function signIn() {
 	    	var client_id = "75kh0yq5sa89ld";
-	    	var redirect_uri = "http://tidy-nomad-842.appspot.com/auth/linkedIn";
+	    	var redirect_uri = window.location.protocol +  "//" +
+            window.location.hostname + "/auth/linkedIn";
 	    	var state = "ALS12sdij12989IDJSA0923u";
 	    	var scope = "r_basicprofile";
 
-	    	auth_url = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=" + client_id + "&redirect_uri=" + 
+	    	auth_url = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=" + client_id + "&redirect_uri=" +
 	    		encodeURIComponent(redirect_uri) + "&state=" + state + "&scope=" + scope;
 
 	    	console.log(auth_url);
