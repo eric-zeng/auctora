@@ -28,7 +28,7 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	landingHtml, err := ioutil.ReadFile("LoginPage.html")
+	landingHtml, err := ioutil.ReadFile("html/LoginPage.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
