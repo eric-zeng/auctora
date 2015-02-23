@@ -12,11 +12,11 @@ import (
 )
 
 func init() {
-
 	// Handlers for Auctora pitch slides.
 	http.HandleFunc("/slides", slidesIndexHandler)
 	http.HandleFunc("/slides/", fileHandler)
 
+	// LinkedIn authentication handler.
 	http.HandleFunc("/auth/linkedIn", authHandler)
 
 	// Static file handlers
@@ -25,9 +25,12 @@ func init() {
 	http.HandleFunc("/fonts/", fileHandler)
 	http.HandleFunc("/images/", fileHandler)
 
+	// Root path handler.
 	http.HandleFunc("/", handler)
 }
 
+// Handler for URL with no path (just tidy-nomad842.appspot.com). Shows the
+// Auctora login page.
 func handler(w http.ResponseWriter, r *http.Request) {
 	landingHtml, err := ioutil.ReadFile("html/LoginPage.html")
 	if err != nil {
@@ -47,9 +50,10 @@ func slidesIndexHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(slidesHtml)
 }
 
-// Serve files in the slides/ directory.
+// Serve any file referenced with an explicit path in the URL.
 func fileHandler(w http.ResponseWriter, r *http.Request) {
-	requestedFile := strings.TrimPrefix(r.URL.Path, "/") // Remove the leading slash
+	// Remove the leading slash
+	requestedFile := strings.TrimPrefix(r.URL.Path, "/")
 
 	file, err := ioutil.ReadFile(requestedFile)
 	if err != nil {
@@ -59,22 +63,30 @@ func fileHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(file)
 }
 
+// Handler for LinkedIn Authentication. At this point, the user has signed in
+// with LinkedIn, and the browser redirected them to /auth/linkedIn.
+// We need to exchange the authorization code for an access token for the user.
 func authHandler(w http.ResponseWriter, r *http.Request) {
 	args := r.URL.Query()
+
+	// If "error" was in the URL query, then something went wrong.
 	_, queryErr := args["error"]
 	if queryErr {
 		// TODO: Send back authentication error to client.
 	}
 
-	oauthToken := args["code"][0]
-	// state := args["state"][0]
+	authCode := args["code"][0]
+	// state := args["state"][0] // TODO: use value to to test for CSRF attacks.
 
 	c := appengine.NewContext(r)
 
+	// Form the POST request to get a Request Token from LinkedIn.
 	v := url.Values{}
 	v.Set("grant_type", "authorization_code")
-	v.Set("code", oauthToken)
+	v.Set("code", authCode)
 
+	// If we are running a local instance of the server, the port needs to be
+	// included in the redirect URI.
 	port := ""
 	if appengine.DefaultVersionHostname(c) == "localhost" {
 		port = ":8080"
@@ -84,21 +96,27 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 	v.Set("redirect_uri", url)
 	v.Set("client_id", "75kh0yq5sa89ld")
 
+	// We can't hardcode our private API key, it's kept in a file separate from
+	// the git repository. Read the file in to get it.
 	api_key, api_err := ioutil.ReadFile("API_Key.txt")
 	if api_err != nil {
 		http.Error(w, api_err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	v.Set("client_secret", string(api_key))
+
+	// Send the POST request to the server.
 	client := urlfetch.Client(c)
 	/*resp*/ _, err := client.PostForm("https://www.linkedin.com/uas/oauth2/accessToken", v)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	// fmt.Fprintf(w, "HTTP POST returned status %v", resp.Status)
 
+	// TODO: parse the response to get the access token and store it in the
+	// student database.
+
+	// Serve the next page in the student flow.
 	file, err := ioutil.ReadFile("html/questions.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
