@@ -7,26 +7,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- <link rel="icon" href="favicon.ico"> -->
-
     <title>Auctora</title>
-
-
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
-    <link href="../css/cover.css" rel="stylesheet">
-
+    <link href="../css/loginPage.css" rel="stylesheet">
 
   </head>
   <body>
-
     <div class="site-wrapper">
-
       <div class="site-wrapper-inner">
-
         <div class="cover-container">
-
           <div class="masthead clearfix">
             <!-- <div class="inner">
               <h3 class="masthead-brand">Cover</h3>
@@ -39,28 +30,20 @@
               </nav>
             </div> -->
           </div>
-
           <div class="inner cover">
             <h1 class="cover-heading">Auctora</h1>
-            <!-- <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p> -->
-
             <input class="lead" id="signIn" type="image" src="../images/Sign-In-Small---Active.png" value="Sign in with LinkedIn"/>
-
             <p class="lead">
-              <a href="#" class="btn btn-lg btn-default">TODO: Learn more</a>
+              <a href="../slides/auctora.html" class="btn btn-lg btn-default">Learn More</a>
             </p>
           </div>
-
           <!-- <div class="mastfoot">
             <div class="inner">
               <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
             </div>
           </div> -->
-
         </div>
-
       </div>
-
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -71,32 +54,8 @@
     <script src="../../assets/js/docs.min.js"></script>
 
     <!-- js button handlerTODO: move to js file? -->
-   	<script type="text/javascript">
-		window.onload = function() {
-			 document.getElementById("signIn").onclick = signIn;
+   	<script src="js/loginPage.js" type="text/javascript">
 
-	    function signIn() {
-	    	var client_id = "75kh0yq5sa89ld";
-
-        // Redirect URI can either be our app engine domain or localhost:8080.
-        // Need special cases to accomodate both.
-	    	var redirect_uri = window.location.protocol +  "//" +
-            window.location.hostname;
-        if (window.location.hostname == "localhost") {
-          redirect_uri = redirect_uri + ":" + window.location.port;
-        }
-        redirect_uri += "/auth/linkedIn";
-
-	    	var state = "ALS12sdij12989IDJSA0923u";
-	    	var scope = "r_basicprofile";
-
-	    	auth_url = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=" + client_id + "&redirect_uri=" +
-	    		encodeURIComponent(redirect_uri) + "&state=" + state + "&scope=" + scope;
-
-	    	console.log(auth_url);
-	    	window.location = auth_url;
-	    }
-		}
 		</script>
   </body>
 </html>
