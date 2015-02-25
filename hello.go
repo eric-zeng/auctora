@@ -13,7 +13,7 @@ import (
 
 func init() {
 	// Handlers for Auctora pitch slides.
-	http.HandleFunc("/slides", slidesIndexHandler)
+	http.HandleFunc("/slides", slidesLandingHandler)
 	http.HandleFunc("/slides/", fileHandler)
 
 	// LinkedIn authentication handler.
@@ -26,12 +26,12 @@ func init() {
 	http.HandleFunc("/images/", fileHandler)
 
 	// Root path handler.
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/", landingHandler)
 }
 
 // Handler for URL with no path (just tidy-nomad842.appspot.com). Shows the
 // Auctora login page.
-func handler(w http.ResponseWriter, r *http.Request) {
+func landingHandler(w http.ResponseWriter, r *http.Request) {
 	landingHtml, err := ioutil.ReadFile("html/LoginPage.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -41,7 +41,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Serve the root page for the Auctora slides.
-func slidesIndexHandler(w http.ResponseWriter, r *http.Request) {
+func slidesLandingHandler(w http.ResponseWriter, r *http.Request) {
 	slidesHtml, err := ioutil.ReadFile("slides/auctora.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
