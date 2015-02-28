@@ -17,17 +17,27 @@
 		<div class='container-fluid'>
 			<div class="row col-md-12">
 				<form>
-					<div class="checkbox">
-						<label><input type="checkbox" name="intl">Are you an international student who requires visa sponsorship from employers?</label>
+					
+					<div class ="checkbox">
+						Grade:
+						<label><input type="radio" name="grade" value="freshmen"> Freshmen</label>
+						<label><input type="radio" name="grade" value="sophomore"> Sophomore</label>
+						<label><input type="radio" name="grade" value="junior"> Junior</label>
+						<label><input type="radio" name="grade" value="senior"> Senior</label>
 					</div>
-					<br>
-					Looking for:
+					
 					<div class="checkbox">
-						<label><input type="checkbox" name="fulltime">Fulltime employment</label>
+						GPA:
+						<label><input type="text" name="gpa"></label>
 					</div>
 
 					<div class="checkbox">
-						<label><input type="checkbox" name="intern">Internship opportunity</label>
+						<label><input type="checkbox" name="intl">Are you an international student who requires visa sponsorship from employers?</label>
+					</div>
+					<div class="checkbox">
+						Looking for:
+						<label><input type="radio" name="lookingfor" value="fulltime"> Fulltime employment</label>
+						<label><input type="radio" name="lookingfor" value="internship"> Internship opportunity</label>
 					</div>
 					<input type="submit" value="Submit">
 				</form>
