@@ -10,6 +10,7 @@ import (
 	"appengine"
 	"appengine/datastore"
 	"appengine/urlfetch"
+	"appengine/user"
 )
 
 type Candidate struct {
@@ -131,10 +132,15 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(file)
 }
 
-// Inserts a candidate into the datastore. Returns any errors that occured.
+// Inserts a candidate into the datastore. Returns any errors that occurred.
 func addCandidate(linkedInId string, accessToken string, tokenExpiration float64, c appengine.Context) error {
 	candidate := Candidate{linkedInId, accessToken, tokenExpiration}
 	key := datastore.NewIncompleteKey(c, "Candidate", nil)
 	_, err := datastore.Put(c, key, &candidate)
 	return err
+}
+
+// Updates a candidate in the datastore.
+func updateCandidate(linkedInId string, accessToken string, tokenExpiration float64) {
+	
 }
