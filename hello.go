@@ -135,5 +135,12 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 	//intl := r.PostFormValue("intl")
 	goal := r.PostFormValue("lookingfor")
 
+	fairHtml, err := ioutil.ReadFile("html/companies.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return		
+	}
+	w.Write(fairHtml)
+
 	fmt.Fprintf(w, "I am a %s with a %s looking for a %s.", year, gpa, goal)
 }
