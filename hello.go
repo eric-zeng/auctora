@@ -24,6 +24,10 @@ func init() {
 	http.HandleFunc("/js/", fileHandler)
 	http.HandleFunc("/fonts/", fileHandler)
 	http.HandleFunc("/images/", fileHandler)
+	http.HandleFunc("/html/", fileHandler)
+
+	// Form handler
+	http.HandleFunc("html/questions", formHandler)
 
 	// Root path handler.
 	http.HandleFunc("/", landingHandler)
@@ -117,9 +121,27 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 	// student database.
 
 	// Serve the next page in the student flow.
-	file, err := ioutil.ReadFile("html/questions.html")
+	file, err := ioutil.ReadFile("html/redirect.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	w.Write(file)
+}
+
+func formHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+
+	year := r.PostFormValue("grade")
+	gpa  := r.PostFormValue("gpa")
+	//intl := r.PostFormValue("intl")
+	goal := r.PostFormValue("lookingfor")
+
+	fairHtml, err := ioutil.ReadFile("html/companies.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return		
+	}
+	w.Write(fairHtml)
+
+	fmt.Fprintf(w, "I am a %s with a %s looking for a %s.", year, gpa, goal)
 }
