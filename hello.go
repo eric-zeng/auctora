@@ -141,17 +141,13 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 
 	year := r.PostFormValue("grade")
 	gpa  := r.PostFormValue("gpa")
-	//intl := r.PostFormValue("intl")
+	intl := r.PostFormValue("intl")
 	goal := r.PostFormValue("lookingfor")
 
-	/*fairHtml, err := ioutil.ReadFile("html/companies.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return		
-	}
-	w.Write(fairHtml)*/
-
-	fmt.Fprintf(w, "I am a %s with a %s looking for a %s.", year, gpa, goal)
+	c := appengine.NewContext(r)
+	currentUser := user.Current(c)
+	c.Infof("I am a %s with a %s looking for a %s. Int'l student checked? %s\n", year, gpa, goal, intl)
+	c.Infof("Current user is %v", currentUser)
 }
 
 // Inserts a candidate into the datastore. Returns any errors that occurred.
