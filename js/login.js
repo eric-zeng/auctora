@@ -1,5 +1,6 @@
 "use strict";
 
+// this functionality may actually already be built in to app engine
 (function() {						// anonymous function for window load event
 	window.addEventListener("load", function() {
 		
