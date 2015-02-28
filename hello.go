@@ -27,6 +27,9 @@ func init() {
 
 	// Root path handler.
 	http.HandleFunc("/", handler)
+
+	// Form handler
+	http.HandleFunc("/questions", formHandler)
 }
 
 // Handler for URL with no path (just tidy-nomad842.appspot.com). Shows the
@@ -122,4 +125,15 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	w.Write(file)
+}
+
+func formHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+
+	year := r.PostFormValue("grade")
+	gpa  := r.PostFormValue("gpa")
+	//intl := r.PostFormValue("intl")
+	goal := r.PostFormValue("lookingfor")
+
+	fmt.Fprintf(w, "I am a %s with a %s looking for a %s.", year, gpa, goal)
 }
