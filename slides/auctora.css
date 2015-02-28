@@ -1,12 +1,12 @@
 img {
-	max-width: 95%;
-	max-height: 95%;
-	overflow: hidden;
 	background-size: cover;
+  display: block;
+  height: 95%;
 	margin-left: auto;
 	margin-right: auto;
-    text-align: center;
-	display: block;
+  overflow: hidden;
+  text-align: center;
+  width: auto;
 }
 
 body {

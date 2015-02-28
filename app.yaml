@@ -4,5 +4,17 @@ runtime: go
 api_version: go1
 
 handlers:
+
+- url: /css
+  static_dir: css
+  mime_type: text/css
+
+- url: /js
+  static_dir: js
+  mime_type: application/javascript
+
+- url: /fonts
+  static_dir: fonts
+
 - url: /.*
   script: _go_app
