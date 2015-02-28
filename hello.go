@@ -8,8 +8,15 @@ import (
 	"strings"
 
 	"appengine"
+	"appengine/datastore"
 	"appengine/urlfetch"
 )
+
+type Candidate struct {
+	Id          string
+	AccessToken string
+	ExpiresIn   float64
+}
 
 func init() {
 	// Handlers for Auctora pitch slides.
@@ -122,4 +129,12 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	w.Write(file)
+}
+
+// Inserts a candidate into the datastore. Returns any errors that occured.
+func addCandidate(linkedInId string, accessToken string, tokenExpiration float64, c appengine.Context) error {
+	candidate := Candidate{linkedInId, accessToken, tokenExpiration}
+	key := datastore.NewIncompleteKey(c, "Candidate", nil)
+	_, err := datastore.Put(c, key, &candidate)
+	return err
 }
