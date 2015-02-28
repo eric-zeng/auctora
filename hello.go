@@ -25,11 +25,11 @@ func init() {
 	http.HandleFunc("/fonts/", fileHandler)
 	http.HandleFunc("/images/", fileHandler)
 
-	// Root path handler.
-	http.HandleFunc("/", landingHandler)
-
 	// Form handler
 	http.HandleFunc("/questions", formHandler)
+
+	// Root path handler.
+	http.HandleFunc("/", landingHandler)
 }
 
 // Handler for URL with no path (just tidy-nomad842.appspot.com). Shows the
