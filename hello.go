@@ -8,8 +8,16 @@ import (
 	"strings"
 
 	"appengine"
+	"appengine/datastore"
 	"appengine/urlfetch"
+	"appengine/user"
 )
+
+type Candidate struct {
+	Id          string
+	AccessToken string
+	ExpiresIn   float64
+}
 
 func init() {
 	// Handlers for Auctora pitch slides.
@@ -27,7 +35,7 @@ func init() {
 	http.HandleFunc("/html/", fileHandler)
 
 	// Form handler
-	http.HandleFunc("html/questions", formHandler)
+	http.HandleFunc("html/companies", formHandler)
 
 	// Root path handler.
 	http.HandleFunc("/", landingHandler)
@@ -133,15 +141,24 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 
 	year := r.PostFormValue("grade")
 	gpa  := r.PostFormValue("gpa")
-	//intl := r.PostFormValue("intl")
+	intl := r.PostFormValue("intl")
 	goal := r.PostFormValue("lookingfor")
 
-	fairHtml, err := ioutil.ReadFile("html/companies.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return		
-	}
-	w.Write(fairHtml)
+	c := appengine.NewContext(r)
+	currentUser := user.Current(c)
+	c.Infof("I am a %s with a %s looking for a %s. Int'l student checked? %s\n", year, gpa, goal, intl)
+	c.Infof("Current user is %v", currentUser)
+}
 
-	fmt.Fprintf(w, "I am a %s with a %s looking for a %s.", year, gpa, goal)
+// Inserts a candidate into the datastore. Returns any errors that occurred.
+func addCandidate(linkedInId string, accessToken string, tokenExpiration float64, c appengine.Context) error {
+	candidate := Candidate{linkedInId, accessToken, tokenExpiration}
+	key := datastore.NewIncompleteKey(c, "Candidate", nil)
+	_, err := datastore.Put(c, key, &candidate)
+	return err
+}
+
+// Updates a candidate in the datastore.
+func updateCandidate(linkedInId string, accessToken string, tokenExpiration float64) {
+	
 }
