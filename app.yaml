@@ -19,3 +19,9 @@ handlers:
 
 - url: /.*
   script: auctora.application
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: 2.6
