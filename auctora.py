@@ -23,12 +23,12 @@ class LandingHandler(webapp2.RequestHandler):
         self.response.write(template.render())
 
 # serve any file referenced with an explicit path in the URL
-class FileHandler(webapp2.RequestHandler):
-	def get(self):
-		requestedFile = self.request.url[1:]
-		logging.debug("" + requestedFile)
-		template = JINJA_ENVIRONMENT.get_template(requestedFile)
-		self.response.write(template.render())
+# class FileHandler(webapp2.RequestHandler):
+# 	def get(self):
+# 		requestedFile = self.request.url[1:]
+# 		logging.debug("" + requestedFile)
+# 		template = JINJA_ENVIRONMENT.get_template(requestedFile)
+# 		self.response.write(template.render())
 
 # serve the root page for the Auctora slides
 class SlidesLandingHandler(webapp2.RequestHandler):
