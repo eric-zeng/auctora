@@ -1,0 +1,21 @@
+{
+  "name": "auctora",
+  "version": "0.0.0",
+  "homepage": "https://github.com/eric-zeng/auctora",
+  "authors": [
+    "Eric Zeng <ericzeng2@gmail.com>"
+  ],
+  "description": "auctora",
+  "main": "app.yaml",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.5"
+  }
+}
