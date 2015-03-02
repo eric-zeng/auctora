@@ -15,6 +15,17 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 	extensions=['jinja2.ext.autoescape'],
 	autoescape=True)
 
+class BasicProfile(ndb.Model):
+	id = ndb.StringProperty()
+	fname = ndb.StringProperty()
+	lname = ndb.StringProperty()
+	headline = ndb.StringProperty()
+	industry = ndb.StringProperty()
+	location = ndb.StringProperty()
+	pictureUrl = ndb.StringProperty()
+	profileUrl = ndb.StringProperty()
+
+
 # handler for URL with no path (just tidy-nomad-842.appspot.com)
 # shows the Auctora login page
 class LandingHandler(webapp2.RequestHandler):
@@ -79,8 +90,11 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 		# Use the access token to retrieve the basic profile.
 		tokenHeader = 'Bearer ' + accessToken
+		profileFields = 'id,first-name,last-name,headline,location,' + \
+			'industry,summary,specialties,positions,picture-url,' + \
+			'public-profile-url,site-standard-profile-request'
 		profileResponse = urlfetch.fetch(
-			url='https://api.linkedin.com/v1/people/~?format=json',
+			url='https://api.linkedin.com/v1/people/~:(' + profileFields + ')?format=json',
 			method=urlfetch.GET,
 			headers={'Authorization': tokenHeader})
 
@@ -91,7 +105,18 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 		profile = json.loads(profileResponse.content)
 
-		# TODO: Save candidate data in datastore.
+		# Save candidate data in datastore.
+		logging.info(profileResponse.content)
+		profileEntity = BasicProfile(
+			id=profile['id'],
+			fname=profile['firstName'],
+			lname=profile['lastName'],
+			headline=profile['headline'],
+			industry=profile['industry'],
+			location=profile['location']['name'],
+			pictureUrl=profile['pictureUrl'],
+			profileUrl=profile['publicProfileUrl'])
+		profileEntity.put()
 
 		# Send the authentication-to-questions redirect page.
 		template = JINJA_ENVIRONMENT.get_template('html/authredirect.html')
