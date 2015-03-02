@@ -93,8 +93,8 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 		# TODO: Save candidate data in datastore.
 
-		# Send the authentication->questions redirect page.
-		template = JINJA_ENVIRONMENT.get_template('html/redirect.html')
+		# Send the authentication-to-questions redirect page.
+		template = JINJA_ENVIRONMENT.get_template('html/authredirect.html')
 		self.response.write(template.render())
 
 class QuestionsHandler(webapp2.RequestHandler):
