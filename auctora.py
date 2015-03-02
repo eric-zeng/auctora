@@ -102,6 +102,10 @@ class QuestionsHandler(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('html/questions.html')
 		self.response.write(template.render())
 
+class QuestionsFormHandler(webapp2.RequestHandler):
+	def post(self):
+		logging.info(self.request.get('content'))
+
 application = webapp2.WSGIApplication([
 	# Home page handler
 	('/', LandingHandler),
@@ -114,5 +118,8 @@ application = webapp2.WSGIApplication([
 
 	# Student questions handler
 	('/questions', QuestionsHandler),
+
+	# Student questions form response handler
+	('/submitQuestions', QuestionsFormHandler),
 
 ], debug=True)
