@@ -1,9 +1,11 @@
+import logging
+import json
 import os
 import urllib
-import logging
 
-from google.appengine.api import users
 from google.appengine.ext import ndb
+from google.appengine.api import users
+from google.appengine.api import urlfetch
 
 import webapp2
 import jinja2
@@ -18,7 +20,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 class LandingHandler(webapp2.RequestHandler):
 	def get(self):
 		requestedFile = self.request.url[1:]
-		logging.info("" + requestedFile)
+		logging.info('' + requestedFile)
 		template = JINJA_ENVIRONMENT.get_template('html/LoginPage.html')
 		self.response.write(template.render())
 
@@ -26,30 +28,74 @@ class LandingHandler(webapp2.RequestHandler):
 class SlidesLandingHandler(webapp2.RequestHandler):
 	def get(self):
 		requestedFile = self.request.url[1:]
-		logging.info("" + requestedFile)
+		logging.info('' + requestedFile)
 		template = JINJA_ENVIRONMENT.get_template('html/slides.html')
 		self.response.write(template.render())
 
+# Handle the redirect from the LinkedIn sign in page.
 class LinkedInAuthHandler(webapp2.RequestHandler):
 	def get(self):
-		error = self.request.get("error", "no error")
-		if error != "no error":
-			self.response.write("<html><body>Authentication Error</body></html>")
+		error = self.request.get('error', 'no error')
+		if error != 'no error':
+			self.response.write('<html><body>LinkedIn Authentication Error: ' + error + '</body></html>')
+			return
 
-		authCode = self.request.get("code")
-		state = self.request.get("state")
+		# Extract the URL queries.
+		authCode = self.request.get('code')
+		state = self.request.get('state')
 
-		self.response.write("<html><body>Authentication code: " + authCode + "\nState: " + state + " </body></html>")
+		# Read the private API Key from the file.
+		keyFile = open('API_Key.txt', 'r')
+		privateKey = keyFile.read()
 
+		# Create the POST request to obtain an access token.
+		tokenRequest = {
+		  'grant_type': 'authorization_code',
+		  'code': authCode,
+		  'redirect_uri': self.request.path_url,
+		  'client_id': '75kh0yq5sa89ld',
+		  'client_secret': privateKey
+		}
+
+		# Send the POST request.
+		tokenRequestData = urllib.urlencode(tokenRequest)
+		result = urlfetch.fetch(url='https://www.linkedin.com/uas/oauth2/accessToken',
+		    payload=tokenRequestData,
+		    method=urlfetch.POST,
+		    headers={'Content-Type': 'application/x-www-form-urlencoded'})
+
+		if result.status_code != 200:
+			self.response.write('<html><body>Error ' + str(result.status_code) + '</body></html>')
+			return
+
+		# Read the access token from the JSON response.
+		tokenResponse = json.loads(result.content)
+		accessToken = tokenResponse["access_token"]
+		expiresIn = tokenResponse["expires_in"]
+
+		# TODO: Make a request for the LinkedIn profile, then save the data
+		# into the datastore.
+
+		# Send the authentication->questions redirect page.
+		template = JINJA_ENVIRONMENT.get_template('html/redirect.html')
+		self.response.write(template.render())
+
+class QuestionsHandler(webapp2.RequestHandler):
+	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('html/questions.html')
+		self.response.write(template.render())
 
 application = webapp2.WSGIApplication([
-	# root path handler
+	# Home page handler
 	('/', LandingHandler),
 
-	# auctora pitch slides handlers
+	# auctora pitch slides handler
 	('/slides', SlidesLandingHandler),
 
 	# LinkedIn auth handler
 	('/auth/linkedIn', LinkedInAuthHandler),
+
+	# Student questions handler
+	('/questions', QuestionsHandler),
 
 ], debug=True)
