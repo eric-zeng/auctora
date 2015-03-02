@@ -30,6 +30,18 @@ class SlidesLandingHandler(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('html/slides.html')
 		self.response.write(template.render())
 
+class LinkedInAuthHandler(webapp2.RequestHandler):
+	def get(self):
+		error = self.request.get("error", "no error")
+		if error != "no error":
+			self.response.write("<html><body>Authentication Error</body></html>")
+
+		authCode = self.request.get("code")
+		state = self.request.get("state")
+
+		self.response.write("<html><body>Authentication code: " + authCode + "\nState: " + state + " </body></html>")
+
+
 application = webapp2.WSGIApplication([
 	# root path handler
 	('/', LandingHandler),
@@ -38,6 +50,6 @@ application = webapp2.WSGIApplication([
 	('/slides', SlidesLandingHandler),
 
 	# LinkedIn auth handler
-	# ('/auth/linkedIn', authHandler),
+	('/auth/linkedIn', LinkedInAuthHandler),
 
 ], debug=True)
