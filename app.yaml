@@ -14,8 +14,14 @@ handlers:
   static_dir: js
   mime_type: application/javascript
 
+- url: /images
+  static_dir: images
+
 - url: /fonts
   static_dir: fonts
+
+- url: /slides
+  static_dir: slides
 
 - url: /.*
   script: auctora.application
