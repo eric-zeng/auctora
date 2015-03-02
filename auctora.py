@@ -37,7 +37,8 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 	def get(self):
 		error = self.request.get('error', 'no error')
 		if error != 'no error':
-			self.response.write('<html><body>LinkedIn Authentication Error: ' + error + '</body></html>')
+			self.response.write('<html><body>LinkedIn Authentication Error: ' +
+				error + '</body></html>')
 			return
 
 		# Extract the URL queries.
@@ -59,22 +60,38 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 		# Send the POST request.
 		tokenRequestData = urllib.urlencode(tokenRequest)
-		result = urlfetch.fetch(url='https://www.linkedin.com/uas/oauth2/accessToken',
+		tokenResponse = urlfetch.fetch(
+			url='https://www.linkedin.com/uas/oauth2/accessToken',
 		    payload=tokenRequestData,
 		    method=urlfetch.POST,
 		    headers={'Content-Type': 'application/x-www-form-urlencoded'})
 
-		if result.status_code != 200:
-			self.response.write('<html><body>Error ' + str(result.status_code) + '</body></html>')
+		if tokenResponse.status_code != 200:
+			self.response.write('<html><body>Error ' +
+				str(tokenResponse.status_code) +
+				' while getting token</body></html>')
 			return
 
 		# Read the access token from the JSON response.
-		tokenResponse = json.loads(result.content)
-		accessToken = tokenResponse["access_token"]
-		expiresIn = tokenResponse["expires_in"]
+		token = json.loads(tokenResponse.content)
+		accessToken = token["access_token"]
+		expiresIn = token["expires_in"]
 
-		# TODO: Make a request for the LinkedIn profile, then save the data
-		# into the datastore.
+		# Use the access token to retrieve the basic profile.
+		tokenHeader = 'Bearer ' + accessToken
+		profileResponse = urlfetch.fetch(
+			url='https://api.linkedin.com/v1/people/~?format=json',
+			method=urlfetch.GET,
+			headers={'Authorization': tokenHeader})
+
+		if profileResponse.status_code != 200:
+			self.response.write('<html><body>Error ' + str(profile.status_code)+
+				' while retrieving profile</body></html>')
+			return
+
+		profile = json.loads(profileResponse.content)
+
+		# TODO: Save candidate data in datastore.
 
 		# Send the authentication->questions redirect page.
 		template = JINJA_ENVIRONMENT.get_template('html/redirect.html')
