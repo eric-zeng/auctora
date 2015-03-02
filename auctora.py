@@ -85,8 +85,8 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 		# Read the access token from the JSON response.
 		token = json.loads(tokenResponse.content)
-		accessToken = token["access_token"]
-		expiresIn = token["expires_in"]
+		accessToken = token['access_token']
+		expiresIn = token['expires_in']
 
 		# Use the access token to retrieve the basic profile.
 		tokenHeader = 'Bearer ' + accessToken
@@ -131,6 +131,30 @@ class QuestionsFormHandler(webapp2.RequestHandler):
 	def post(self):
 		logging.info(self.request.get('content'))
 
+# Handles requests for profile by id.
+# Send GET http://tidy-nomad-842.appsport.com/profileRequest?<insert id here>
+# to get a JSON string with all of the fields.
+class ProfileRequestHandler(webapp2.RequestHandler):
+	def get(self):
+		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch(1)
+		if len(profiles) < 1:
+			self.response.write('{"error": "no profile with id "' +
+				self.request.get('id') + '}' )
+
+		profile = profiles[0]
+		logging.info(profile)
+		result = json.dumps({
+			'id':         profile.id,
+			'fname':      profile.fname,
+			'lname':      profile.lname,
+			'headline':   profile.headline,
+			'industry':   profile.industry,
+			'location':   profile.location,
+			'pictureUrl': profile.pictureUrl,
+			'profileUrl': profile.profileUrl
+		})
+		self.response.write(result)
+
 application = webapp2.WSGIApplication([
 	# Home page handler
 	('/', LandingHandler),
@@ -146,5 +170,8 @@ application = webapp2.WSGIApplication([
 
 	# Student questions form response handler
 	('/submitQuestions', QuestionsFormHandler),
+
+	# Profile request handler
+	('/profileRequest', ProfileRequestHandler),
 
 ], debug=True)
