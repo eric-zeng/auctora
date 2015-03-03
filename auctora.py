@@ -132,11 +132,11 @@ class QuestionsFormHandler(webapp2.RequestHandler):
 		logging.info(self.request.get('content'))
 
 # Handles requests for profile by id.
-# Send GET http://tidy-nomad-842.appsport.com/profileRequest?<insert id here>
+# Send GET http://tidy-nomad-842.appspot.com/profileRequest?<insert id here>
 # to get a JSON string with all of the fields.
 class ProfileRequestHandler(webapp2.RequestHandler):
 	def get(self):
-		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch(1)
+		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
 		if len(profiles) < 1:
 			self.response.write('{"error": "no profile with id "' +
 				self.request.get('id') + '}' )
@@ -152,8 +152,34 @@ class ProfileRequestHandler(webapp2.RequestHandler):
 			'location':   profile.location,
 			'pictureUrl': profile.pictureUrl,
 			'profileUrl': profile.profileUrl
-		})
+		}, sort_keys=True)
 		self.response.write(result)
+
+# Handles requests for profiles by name.
+# Send GET http://tidy-nomad-842.appspot.com/nameRequest?<insert name here>
+# to get a JSON array containing JSON objects with first name, last name,
+# picture, and id.
+# Intended for use in autocomplete.
+class NameRequestHandler(webapp2.RequestHandler):
+	def get(self):
+		prefix = self.request.get('startsWith').lower()
+		query = BasicProfile.query().order(BasicProfile.fname)
+		profiles = query.fetch(projection=[BasicProfile.fname,
+											BasicProfile.lname,
+											BasicProfile.pictureUrl,
+											BasicProfile.id])
+		output = list()
+		for profile in profiles:
+			fname = profile.fname.lower()
+			lname = profile.lname.lower()
+			fullname = profile.fname.lower() + " " + profile.lname.lower()
+			if fname.startswith(prefix) or lname.startswith(prefix) or fullname.startswith(prefix):
+				output.append({"fname": profile.fname,
+					"lname": profile.lname,
+					"id": profile.id,
+					"pictureUrl": profile.pictureUrl})
+
+		self.response.write(json.dumps(output, sort_keys=True))
 
 application = webapp2.WSGIApplication([
 	# Home page handler
@@ -171,7 +197,8 @@ application = webapp2.WSGIApplication([
 	# Student questions form response handler
 	('/submitQuestions', QuestionsFormHandler),
 
-	# Profile request handler
+	# Profile data request handlers
 	('/profileRequest', ProfileRequestHandler),
+	('/nameRequest', NameRequestHandler),
 
 ], debug=True)
