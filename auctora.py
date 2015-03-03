@@ -107,16 +107,22 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 		# Save candidate data in datastore.
 		logging.info(profileResponse.content)
-		profileEntity = BasicProfile(
-			id=profile['id'],
-			fname=profile['firstName'],
-			lname=profile['lastName'],
-			headline=profile['headline'],
-			industry=profile['industry'],
-			location=profile['location']['name'],
-			pictureUrl=profile['pictureUrl'],
-			profileUrl=profile['publicProfileUrl'])
-		profileEntity.put()
+
+		profiles = BasicProfile.query(BasicProfile.id == profile['id']).fetch()
+
+		if len(profiles) == 0:
+			profileEntity = BasicProfile(
+				id=profile['id'],
+				fname=profile['firstName'],
+				lname=profile['lastName'],
+				headline=profile['headline'],
+				industry=profile['industry'],
+				location=profile['location']['name'],
+				pictureUrl=profile['pictureUrl'],
+				profileUrl=profile['publicProfileUrl'])
+			profileEntity.put()
+		else:
+			logging.info(profile['id'] + " already in db, skipping.")
 
 		# Send the authentication-to-questions redirect page.
 		template = JINJA_ENVIRONMENT.get_template('html/authredirect.html')
