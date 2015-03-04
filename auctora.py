@@ -138,7 +138,7 @@ class QuestionsFormHandler(webapp2.RequestHandler):
 		logging.info(self.request.get('content'))
 
 # Handles requests for profile by id.
-# Send GET http://tidy-nomad-842.appspot.com/profileRequest?<insert id here>
+# Send GET http://tidy-nomad-842.appspot.com/profileRequest?id=<insert id here>
 # to get a JSON string with all of the fields.
 class ProfileRequestHandler(webapp2.RequestHandler):
 	def get(self):
