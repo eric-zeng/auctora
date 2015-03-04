@@ -102,11 +102,16 @@ class QuestionsHandler(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('html/questions-chip.html')
 		self.response.write(template.render())
 
+class CompaniesHandler(webapp2.RequestHandler):
+	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('html/companies-chip.html')
+		self.response.write(template.render())
+
 class QuestionsFormHandler(webapp2.RequestHandler):
 	def post(self):
 		logging.info(self.request.get('content'))
-		template = JINJA_ENVIRONMENT.get_template('html/companies-chip.html')
-		self.response.write(template.render())
+		# template = JINJA_ENVIRONMENT.get_template('html/companies-chip.html')
+		# self.response.write(template.render())
 
 application = webapp2.WSGIApplication([
 	# Home page handler
@@ -120,6 +125,7 @@ application = webapp2.WSGIApplication([
 
 	# Student questions handler
 	('/questions', QuestionsHandler),
+	('/companies', CompaniesHandler),
 
 	# Student questions form response handler
 	('/submitQuestions', QuestionsFormHandler),
