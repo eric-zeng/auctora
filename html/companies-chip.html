@@ -22,12 +22,19 @@
 		</div>
 				<div class="row" style="padding: 5%;">
 					<div class="col-md-6 col-md-offset-3">
-							<h3>67 Participating Companies</h3><br><br>
-							<div>
-							<img id="companyList" src="../images/companies.png" style="width:100%;"/>
-							<img id="exclamation" src="../images/exclamationmark.png" style="width: 15%; position: absolute; right: 50px; top: 50px"/>
-							<div>
-							<div id="microsoftFAQ" style="display: none;">
+						<h3>5 Participating Companies</h3><br><br>
+						<div>
+							<img id="exclamation" src="../images/exclamationmark.png" style="width: 15%; position: absolute; right: 50px; top: 450px"/>
+							<img id="amazon" src="../images/amazon.png" style="width:100%; cursor: pointer;"/>
+							<img id="cisco" src="../images/cisco.png" style="width:100%; cursor: pointer;"/>
+							<div id="ciscoInfo" style="display: none; color: red;">
+								<h3><strong>Ineligible:</strong> Requires at least a 3.7 GPA</h3>
+							</div>
+							<img id="dropbox" src="../images/dropbox.png" style="width:100%; cursor: pointer;"/>
+							<img id="facebook" src="../images/facebook.png" style="width:100%; cursor: pointer;"/>
+							<img id="microsoft" src="../images/microsoft.png" style="width:100%; cursor: pointer;"/>							
+
+							<div id="microsoftInfo" style="display: none;">
 								<h3><strong>Question:</strong> How long are Microsoft internships?</h3>
 
 								<h3><strong>Answer:</strong> All internships are 12 weeks long and typically start in May or June and end in August or September</h3>
@@ -40,7 +47,7 @@
 
 								<h3><strong>Answer:</strong> Please visit <a href="http://careers.microsoft.com/careers/en/us/university-apply-technical.aspx#US,UG,IN,415">this link</a> to find out more detailed information about our internship programs. </h3>
 							</div>
-					</div>
+
 					
 
 				</div>
@@ -50,11 +57,16 @@
 	<script type="text/javascript">
 		
 		window.onload = function() {
-			document.getElementById("companyList").onclick = displayFAQ;
+			document.getElementById("amazon").onclick = displayInfo;
+			document.getElementById("cisco").onclick = displayInfo;
+			document.getElementById("dropbox").onclick = displayInfo;
+			document.getElementById("facebook").onclick = displayInfo;
+			document.getElementById("microsoft").onclick = displayInfo;
 
-			function displayFAQ() {
-				document.getElementById("microsoftFAQ").style.display = "block";
-				console.log(document.getElementById("microsoftFAQ").style.display);
+			document.getElementById("amazon").on
+
+			function displayInfo() {
+				document.getElementById(this.id + "Info").style.display = "block";
 			}
 
 
