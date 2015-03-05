@@ -24,9 +24,9 @@
 					<div class="col-md-6 col-md-offset-3">
 						<h3>5 Participating Companies</h3><br><br>
 						<div>
-							<img id="exclamation" src="../images/exclamationmark.png" style="width: 15%; position: absolute; right: 10%; top: 30%"/>
+							<!-- <img id="exclamation" src="../images/exclamationmark.png" style="width: 15%; position: absolute; right: 10%; top: 30%"/> -->
 							<img id="amazon" src="../images/amazon.png" style="width:100%; cursor: pointer;"/>
-							<img id="cisco" src="../images/cisco.png" style="width:100%; cursor: pointer;"/>
+							<img id="cisco" src="../images/cisco1.png" style="width:100%; cursor: pointer;"/>
 							<div id="ciscoInfo" style="display: none; color: red;">
 								<h3><strong>Ineligible:</strong> Requires at least a 3.7 GPA</h3>
 							</div>
@@ -57,14 +57,14 @@
 	<script type="text/javascript">
 		function customAlert(msg,duration) {
 		 	var styler = document.createElement("div");
-		  styler.setAttribute("style","width:auto; height:auto; background-color:#353a43; color: lightgreen; position: absolute; top: 0%; left: 35%");
-		 styler.innerHTML = "<h1>"+msg+"</h1>";
+		  styler.setAttribute("style","width:auto; height:auto; background-color: lightgreen; color: #353a43; position: absolute; top: 0%; left: 30%");
+		 styler.innerHTML = "<h3>"+msg+"</h3>";
 		 setTimeout(function() { styler.parentNode.removeChild(styler);},duration);
 		 document.getElementById("header").appendChild(styler);
 		}
 		
 		function caller() {
-		  customAlert("Successfully uploaded resume","2000");
+		  customAlert("Successfully uploaded resume","1500");
 		}
 		window.onload = function() {
 			caller();
