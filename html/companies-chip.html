@@ -13,7 +13,7 @@
 	</head>
 
 	<body>
-		<div class="page-header" style="background: #353a43;
+		<div id="header" class="page-header" style="background: #353a43;
 			color: #ffffff;
 			text-align: center;
 			padding-bottom: 3% !important;
@@ -55,8 +55,19 @@
 
 
 	<script type="text/javascript">
+		function customAlert(msg,duration) {
+		 	var styler = document.createElement("div");
+		  styler.setAttribute("style","width:auto; height:auto; top:50%; left:40%; background-color:#353a43; color: lightgreen; text-align: center;");
+		 styler.innerHTML = "<h1>"+msg+"</h1>";
+		 setTimeout(function() { styler.parentNode.removeChild(styler);},duration);
+		 document.getElementById("header").appendChild(styler);
+		}
 		
+		function caller() {
+		  customAlert("This custom alert box will be closed in 2 seconds","2000");
+		}
 		window.onload = function() {
+			caller();
 			document.getElementById("amazon").onclick = displayInfo;
 			document.getElementById("cisco").onclick = displayInfo;
 			document.getElementById("dropbox").onclick = displayInfo;
