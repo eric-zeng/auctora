@@ -151,8 +151,16 @@ class CompaniesHandler(webapp2.RequestHandler):
 class QuestionsFormHandler(webapp2.RequestHandler):
 	def post(self):
 		logging.info(self.request.get('content'))
-		# template = JINJA_ENVIRONMENT.get_template('html/companies-chip.html')
-		# self.response.write(template.render())
+
+class StudentSearchHandler(webapp2.RequestHandler):
+	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('html/studentsearch.html')
+		self.response.write(template.render())
+
+class StudentProfileHandler(webapp2.RequestHandler):
+	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('html/studentprofile.html')
+		self.response.write(template.render())
 
 # Handles requests for profile by id.
 # Send GET http://tidy-nomad-842.appspot.com/profileRequest?id=<insert id here>
@@ -214,12 +222,16 @@ application = webapp2.WSGIApplication([
 	# LinkedIn auth handler
 	('/auth/linkedIn', LinkedInAuthHandler),
 
-	# Student questions handler
+	# Student UI Handlers
 	('/questions', QuestionsHandler),
 	('/companies', CompaniesHandler),
 
 	# Student questions form response handler
 	('/submitQuestions', QuestionsFormHandler),
+
+	# Recruiter UI Handlers
+	('/studentSearch', StudentSearchHandler),
+	('/studentProfile', StudentProfileHandler),
 
 	# Profile data request handlers
 	('/profileRequest', ProfileRequestHandler),
