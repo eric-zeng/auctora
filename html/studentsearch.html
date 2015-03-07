@@ -16,13 +16,14 @@
 		Student name:
 		<input id="input" list="students" />
 		<datalist id="students">
-			<option value="Internet Explorer" id="1">
-		  <option value="Firefox" id="5">
-		  <option value="Chrome" id="4">
-		  <option value="Opera" id="3">
-		  <option value="Safari" id="2">
+			<!-- names go here -->
+			  <option value="Internet Explorer">
+			  <option value="Firefox">
+			  <option value="Chrome">
+			  <option value="CHEEZY">
+			  <option value="CARNAGE">
 		</datalist>
-		<button onclick="selectStudent()" id="selectStudent" type="submit" >Submit</button>
+		<button id="selectStudent" type="submit">Submit</button>
 
 		<div id="sProfile">
 			<ul id="resumeList">
@@ -40,58 +41,55 @@
 		<script>
 
 			function selectStudent() {
-					var s = document.getElementById("students");
-					var input =document.getElementById("input");
-					var id;
-					for (var i = 0; s.options.length; i++) {
-						if (s.options[i].value == input.value) {
-							id = s.options[i].id;
-							break;
-						}
+				var students = document.getElementById("students");
+				var input = document.getElementById("input");
+				var id;
+				for (var i = 0; students.options.length; i++) {
+					if (students.options[i].value == input.value) {
+						id = students.options[i].id;
+						break;
 					}
+				}
 
-					var id = this.id;
-          var xml = new XMLHttpRequest();
-        
-          xml.open("GET","http://tidy-nomad-842.appspot.com/profileRequest?id=" + id, true);
-          xml.responseType = "JSON";
-          xmlhttp.onload = function(e) {
-          	var arr = JSON.parse(xmlhttp.response);
-            var list = document.getElementById("resumeList");
-            
-            for (var key in arr) {
-            	var name = document.createElement("li"); 
-            	name.innerHTML = arr[key];
-            	list.appendChild(name);
-            }
-          }
+				var profileUrl = window.location.protocol + "//" + window.location.hostname;
+
+	    	if (window.location.hostname == "localhost") {
+	    		profileUrl += ":" + window.location.port;
+	    	}
+	    	
+	    	profileUrl += "/studentProfile?id=" + id;
+
+      	window.location = profileUrl;
 			}
 			
 			window.onload = function() {
-				document.getElementById("selectStudent").onClick = selectStudent;
+				document.getElementById("selectStudent").onclick = selectStudent;
 
 	    	var xmlhttp = new XMLHttpRequest();
-	    	xmlhttp.open("GET","http://tidy-nomad-842.appspot.com/nameRequest",true);
+	    	var requestUrl = window.location.protocol + "//" + window.location.hostname;
+
+	    	if (window.location.hostname == "localhost") {
+	    		requestUrl += ":" + window.location.port;
+	    	}
+	    	
+	    	requestUrl += "/nameRequest";
+
+	    	xmlhttp.open("GET",requestUrl,true);
 	    	xmlhttp.responseType = "JSON";
 	    	xmlhttp.onload = function(e) {
 	    		var arr = JSON.parse(xmlhttp.response);
-	    		console.log(arr); // TODO: delete
 	    		var students = document.getElementById("students");
 	    		
 	    		for (var i = 0; i < arr.length; i++) {
 	    			for (var key in arr) {
             	var node = document.createElement("option");
-							node.value = studentName;
-							node.id = studentId;
+							node.value = arr[key]["fname"] + " " + arr[key]["lname"];
+							node.id = arr[key]["id"];
 							students.appendChild(node);
             }
 	    		}
-	    			
 	    	}
 				xmlhttp.send();
-
-
-
 			}	
 		</script>
 	</body>

@@ -10,45 +10,19 @@
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
 	</head>
 
+
   <body>
 
-
-
+      <h1>name<!-- fname lname --></h1>
+      <img src="" alt="profilePic">
+      <h2>headline<!-- headline --></h2>
+      <h2>industry<!-- industry --></h2>
+      <h2>location<!-- location --></h2>
+      <p>profile url<!-- profileUrl --></p>
 
       <script>
       window.onload = function() {
-        var id = location.search;
-
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET","http://tidy-nomad-842.appspot.com/nameRequest",true);
-        xmlhttp.responseType = "JSON";
-        xmlhttp.onload = function(e) {
-          var arr = JSON.parse(xmlhttp.response);
-          console.log(arr); // TODO: delete
-          var browsers = document.getElementById("browsers");
-          /*
-          for () {  // each student
-            var node = document.createElement("option");
-            node.value = studentName;
-            node.id = studentId;
-            node.onClick = getStudent;
-            browsers.appendChild(node);
-          }
-          */
-
-        }
-        xmlhttp.send();
-
-        function getStudent() {
-          var id = this.id;
-          var xml = new XMLHttpRequest();
-        
-          xml.open("GET","http://tidy-nomad-842.appspot.com/profileRequest?id=" + id,true);
-          xml.responseType = "JSON";
-          xmlhttp.onload = function(e) {
-            // do something
-          }
-        }
+       
       } 
     </script>
   </body>
