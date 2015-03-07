@@ -15,6 +15,17 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 	extensions=['jinja2.ext.autoescape'],
 	autoescape=True)
 
+class BasicProfile(ndb.Model):
+	id = ndb.StringProperty()
+	fname = ndb.StringProperty()
+	lname = ndb.StringProperty()
+	headline = ndb.StringProperty()
+	industry = ndb.StringProperty()
+	location = ndb.StringProperty()
+	pictureUrl = ndb.StringProperty()
+	profileUrl = ndb.StringProperty()
+
+
 # handler for URL with no path (just tidy-nomad-842.appspot.com)
 # shows the Auctora login page
 class LandingHandler(webapp2.RequestHandler):
@@ -74,13 +85,16 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 		# Read the access token from the JSON response.
 		token = json.loads(tokenResponse.content)
-		accessToken = token["access_token"]
-		expiresIn = token["expires_in"]
+		accessToken = token['access_token']
+		expiresIn = token['expires_in']
 
 		# Use the access token to retrieve the basic profile.
 		tokenHeader = 'Bearer ' + accessToken
+		profileFields = 'id,first-name,last-name,headline,location,' + \
+			'industry,summary,specialties,positions,picture-url,' + \
+			'public-profile-url,site-standard-profile-request'
 		profileResponse = urlfetch.fetch(
-			url='https://api.linkedin.com/v1/people/~?format=json',
+			url='https://api.linkedin.com/v1/people/~:(' + profileFields + ')?format=json',
 			method=urlfetch.GET,
 			headers={'Authorization': tokenHeader})
 
@@ -91,7 +105,34 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 		profile = json.loads(profileResponse.content)
 
-		# TODO: Save candidate data in datastore.
+		# Save candidate data in datastore.
+		logging.info(profileResponse.content)
+
+		profiles = BasicProfile.query(BasicProfile.id == profile['id']).fetch()
+
+		if len(profiles) == 0:
+			profileEntity = BasicProfile(
+				id         = profile['id'],
+				fname      = profile['firstName'],
+				lname      = profile['lastName'],
+				headline   = None,
+				industry   = None,
+				location   = None,
+				pictureUrl = None,
+				profileUrl = profile['publicProfileUrl']
+			)
+			aData = profile.keys()
+			if 'headline' in aData:
+				profileEntity.headline = profile['headline']
+			if 'industry' in aData:
+				profileEntity.industry = profile['industry']
+			if 'location' in aData and 'name' in aData:
+				profileEntity.location = profile['location']['name']
+			if 'pictureUrl' in aData:
+				profileEntity.pictureUrl = profile['pictureUrl']
+			profileEntity.put()
+		else:
+			logging.info(profile['id'] + " already in db, skipping.")
 
 		# Send the authentication-to-questions redirect page.
 		template = JINJA_ENVIRONMENT.get_template('html/authredirect.html')
@@ -113,6 +154,56 @@ class QuestionsFormHandler(webapp2.RequestHandler):
 		# template = JINJA_ENVIRONMENT.get_template('html/companies-chip.html')
 		# self.response.write(template.render())
 
+# Handles requests for profile by id.
+# Send GET http://tidy-nomad-842.appspot.com/profileRequest?id=<insert id here>
+# to get a JSON string with all of the fields.
+class ProfileRequestHandler(webapp2.RequestHandler):
+	def get(self):
+		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
+		if len(profiles) < 1:
+			self.response.write('{"error": "no profile with id "' +
+				self.request.get('id') + '}' )
+
+		profile = profiles[0]
+		logging.info(profile)
+		result = json.dumps({
+			'id':         profile.id,
+			'fname':      profile.fname,
+			'lname':      profile.lname,
+			'headline':   profile.headline,
+			'industry':   profile.industry,
+			'location':   profile.location,
+			'pictureUrl': profile.pictureUrl,
+			'profileUrl': profile.profileUrl
+		}, sort_keys=True)
+		self.response.write(result)
+
+# Handles requests for profiles by name.
+# Send GET http://tidy-nomad-842.appspot.com/nameRequest?<insert name here>
+# to get a JSON array containing JSON objects with first name, last name,
+# picture, and id.
+# Intended for use in autocomplete.
+class NameRequestHandler(webapp2.RequestHandler):
+	def get(self):
+		prefix = self.request.get('startsWith').lower()
+		query = BasicProfile.query().order(BasicProfile.fname)
+		profiles = query.fetch(projection=[BasicProfile.fname,
+											BasicProfile.lname,
+											BasicProfile.pictureUrl,
+											BasicProfile.id])
+		output = list()
+		for profile in profiles:
+			fname = profile.fname.lower()
+			lname = profile.lname.lower()
+			fullname = profile.fname.lower() + " " + profile.lname.lower()
+			if fname.startswith(prefix) or lname.startswith(prefix) or fullname.startswith(prefix):
+				output.append({"fname": profile.fname,
+					"lname": profile.lname,
+					"id": profile.id,
+					"pictureUrl": profile.pictureUrl})
+
+		self.response.write(json.dumps(output, sort_keys=True))
+
 application = webapp2.WSGIApplication([
 	# Home page handler
 	('/', LandingHandler),
@@ -129,5 +220,9 @@ application = webapp2.WSGIApplication([
 
 	# Student questions form response handler
 	('/submitQuestions', QuestionsFormHandler),
+
+	# Profile data request handlers
+	('/profileRequest', ProfileRequestHandler),
+	('/nameRequest', NameRequestHandler),
 
 ], debug=True)

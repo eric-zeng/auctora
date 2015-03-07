@@ -10,4 +10,47 @@
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
 	</head>
 
+  <body>
+
+
+
+
+      <script>
+      window.onload = function() {
+        var id = location.search;
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET","http://tidy-nomad-842.appspot.com/nameRequest",true);
+        xmlhttp.responseType = "JSON";
+        xmlhttp.onload = function(e) {
+          var arr = JSON.parse(xmlhttp.response);
+          console.log(arr); // TODO: delete
+          var browsers = document.getElementById("browsers");
+          /*
+          for () {  // each student
+            var node = document.createElement("option");
+            node.value = studentName;
+            node.id = studentId;
+            node.onClick = getStudent;
+            browsers.appendChild(node);
+          }
+          */
+
+        }
+        xmlhttp.send();
+
+        function getStudent() {
+          var id = this.id;
+          var xml = new XMLHttpRequest();
+        
+          xml.open("GET","http://tidy-nomad-842.appspot.com/profileRequest?id=" + id,true);
+          xml.responseType = "JSON";
+          xmlhttp.onload = function(e) {
+            // do something
+          }
+        }
+      } 
+    </script>
+  </body>
+
 </html>
