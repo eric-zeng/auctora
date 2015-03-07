@@ -168,7 +168,7 @@ class StarsHandler(webapp2.RequestHandler):
 	def post(self):
 		stars = json.loads(self.request.body)
 		profiles = BasicProfile.query(BasicProfile.id == stars['id']).fetch()
-		profiles[0].stars = stars['stars']
+		profiles[0].stars = int(stars['stars'])
 		profiles[0].put()
 
 # Handles requests for profile by id.
