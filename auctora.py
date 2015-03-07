@@ -25,6 +25,14 @@ class BasicProfile(ndb.Model):
 	pictureUrl = ndb.StringProperty()
 	profileUrl = ndb.StringProperty()
 
+class Annotation(ndb.Model):
+	# id of BasicProfile that the annotation is associated with.
+	id = ndb.StringProperty()
+	 # Name of BasicProfile field that is annotated.
+	field = ndb.StringProperty()
+	 # Data-URL of the image.
+	image = ndb.StringProperty()
+
 
 # handler for URL with no path (just tidy-nomad-842.appspot.com)
 # shows the Auctora login page
@@ -94,7 +102,8 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 			'industry,summary,specialties,positions,picture-url,' + \
 			'public-profile-url,site-standard-profile-request'
 		profileResponse = urlfetch.fetch(
-			url='https://api.linkedin.com/v1/people/~:(' + profileFields + ')?format=json',
+			url='https://api.linkedin.com/v1/people/~:(' + profileFields + \
+				')?format=json',
 			method=urlfetch.GET,
 			headers={'Authorization': tokenHeader})
 
@@ -150,7 +159,7 @@ class CompaniesHandler(webapp2.RequestHandler):
 
 class QuestionsFormHandler(webapp2.RequestHandler):
 	def post(self):
-		logging.info(self.request.get('content'))
+		logging.info(self.request.body)
 
 class StudentSearchHandler(webapp2.RequestHandler):
 	def get(self):
@@ -212,6 +221,39 @@ class NameRequestHandler(webapp2.RequestHandler):
 
 		self.response.write(json.dumps(output, sort_keys=True))
 
+# Handles saving profile annotations.
+# POST http://tidy-nomad-842.appspot.com/submitAnnotation
+# With JSON body:
+# {
+#   id:    asdflkj
+#   field: (fname|lname|headline|industry|location)
+#   image: <the data-uri of the image>
+# }
+class AnnotationHandler(webapp2.RequestHandler):
+	def post(self):
+		annotation = json.loads(self.request.body)
+		annotationEntity = Annotation(id=annotation['id'],
+									  field=annotation['field'],
+									  image=annotation['image'])
+		annotationEntity.put()
+
+	# GET handler for testing. We'll might want to generate the annotation
+	# in the profile page when it is loaded.
+	def get(self):
+		results = Annotation.query(
+				Annotation.id == self.request.get['id'],
+				Annotation.field == self.request.get['field']).fetch()
+		if len(results) == 0:
+			self.response.write("{}")
+
+		# Assume one annotation per id+field
+		a = results[0]
+		output = {
+			"id": a.id,
+			"field": a.field,
+			"image": a.image}
+		self.response.write(json.dumps(output, sort_keys=True))
+
 application = webapp2.WSGIApplication([
 	# Home page handler
 	('/', LandingHandler),
@@ -236,5 +278,8 @@ application = webapp2.WSGIApplication([
 	# Profile data request handlers
 	('/profileRequest', ProfileRequestHandler),
 	('/nameRequest', NameRequestHandler),
+
+	# Handler for submitting an annotations image.
+	('/submitAnnotation', AnnotationHandler)
 
 ], debug=True)
