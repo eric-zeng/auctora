@@ -105,7 +105,13 @@
 						//$(window).scrollTop(y);
 						console.log(y);
 						$("html, body").animate({scrollTop: y-result}, '200', "swing");
-
+					}
+					else if (this.id == "cisco") {
+						console.log("in cisco");
+						if(document.getElementById(this.id + "Info").style.display == "block") {
+							/*document.getElementById(this.id + "Info").style.display = "block";*/
+							document.getElementById(this.id + "Info").style.display = "none";
+						}
 					}
 					document.getElementById(this.id + "Info").style.visibility = "hidden";
 					//document.getElementById(this.id + "Info").style.display = "block";
@@ -123,6 +129,9 @@
 						var answer = (y * 1.0 + (1.0) * result) * 1.0;
 						console.log(answer);
 						$("html, body").animate({scrollTop: answer}, '200', "swing");
+					}
+					else if (this.id == "cisco") {
+						//document.getElementById(this.id + "Info").style.display = "none";
 					}
 				}
 			}
