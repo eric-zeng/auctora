@@ -39,29 +39,6 @@
 
 
 		<script>
-
-			function selectStudent() {
-				var students = document.getElementById("students");
-				var input = document.getElementById("input");
-				var id;
-				for (var i = 0; students.options.length; i++) {
-					if (students.options[i].value == input.value) {
-						id = students.options[i].id;
-						break;
-					}
-				}
-
-				var profileUrl = window.location.protocol + "//" + window.location.hostname;
-
-	    	if (window.location.hostname == "localhost") {
-	    		profileUrl += ":" + window.location.port;
-	    	}
-	    	
-	    	profileUrl += "/studentProfile?id=" + id;
-
-      	window.location = profileUrl;
-			}
-			
 			window.onload = function() {
 				document.getElementById("selectStudent").onclick = selectStudent;
 
@@ -90,6 +67,27 @@
 	    		}
 	    	}
 				xmlhttp.send();
+
+				function selectStudent() {
+					var students = document.getElementById("students");
+					var input = document.getElementById("input");
+					var id;
+					for (var i = 0; students.options.length; i++) {
+						if (students.options[i].value == input.value) {
+							id = students.options[i].id;
+							break;
+						}
+					}
+
+					var profileUrl = window.location.protocol + "//" + window.location.hostname;
+		    	if (window.location.hostname == "localhost") {
+		    		profileUrl += ":" + window.location.port;
+		    	}
+		    	profileUrl += "/studentProfile?id=" + id;
+
+	      	window.location = profileUrl;
+				}
+
 			}	
 		</script>
 	</body>

@@ -32,7 +32,7 @@
           </form>
       </div>
       <br />
-      <button id="selectStudent" type="submit">Done</button>
+      <button id="submit" type="submit">Done</button>
 
       <script>
       window.onload = function() {
@@ -41,6 +41,16 @@
         document.getElementById("star3").onclick = selectStars;
         document.getElementById("star4").onclick = selectStars;
         document.getElementById("star5").onclick = selectStars;
+        document.getElementById("submit").onclick = doneRequest;
+
+        function doneRequest() {
+          var url = window.location.protocol + "//" + window.location.hostname;
+          if (window.location.hostname == "localhost") {
+            url += ":" + window.location.port;
+          }
+          url += "/studentSearch";
+          window.location = url;
+        }
 
 
         function selectStars() {
@@ -54,18 +64,11 @@
           url += "/setStars";
 
           var id = document.URL.split("=")[1];
-          var params = { id:id, numStars:numStars };
+          var params = { id:id, stars:numStars };
           xmlhttp.open("POST", url, true);
           xmlhttp.send(JSON.stringify(params));
-
         }
 
-
-       // post request
-       // {
-       //   id : askdfh
-       //   stars: 5
-       // }
       } 
     </script>
   </body>
