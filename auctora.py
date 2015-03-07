@@ -24,7 +24,7 @@ class BasicProfile(ndb.Model):
 	location = ndb.StringProperty()
 	pictureUrl = ndb.StringProperty()
 	profileUrl = ndb.StringProperty()
-
+	stars = ndb.IntegerProperty()
 
 # handler for URL with no path (just tidy-nomad-842.appspot.com)
 # shows the Auctora login page
@@ -119,7 +119,8 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 				industry   = None,
 				location   = None,
 				pictureUrl = None,
-				profileUrl = profile['publicProfileUrl']
+				profileUrl = profile['publicProfileUrl'],
+				stars      = 0
 			)
 			aData = profile.keys()
 			if 'headline' in aData:
@@ -162,6 +163,14 @@ class StudentProfileHandler(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('html/studentprofile.html')
 		self.response.write(template.render())
 
+# Update the number of stars in the profile.
+class StarsHandler(webapp2.RequestHandler):
+	def post(self):
+		stars = json.loads(self.request.body)
+		profiles = BasicProfile.query(BasicProfile.id == stars['id'])
+		profiles[0].stars = stars['stars']
+		profiles[0].put()
+
 # Handles requests for profile by id.
 # Send GET http://tidy-nomad-842.appspot.com/profileRequest?id=<insert id here>
 # to get a JSON string with all of the fields.
@@ -182,7 +191,8 @@ class ProfileRequestHandler(webapp2.RequestHandler):
 			'industry':   profile.industry,
 			'location':   profile.location,
 			'pictureUrl': profile.pictureUrl,
-			'profileUrl': profile.profileUrl
+			'profileUrl': profile.profileUrl,
+			'stars':      profile.stars
 		}, sort_keys=True)
 		self.response.write(result)
 
@@ -232,6 +242,7 @@ application = webapp2.WSGIApplication([
 	# Recruiter UI Handlers
 	('/studentSearch', StudentSearchHandler),
 	('/studentProfile', StudentProfileHandler),
+	('/setStars', StarsHandler),
 
 	# Profile data request handlers
 	('/profileRequest', ProfileRequestHandler),
