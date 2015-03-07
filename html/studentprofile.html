@@ -8,6 +8,7 @@
 
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/studentProfile.css">
 	</head>
 
 
@@ -20,9 +21,51 @@
       <h2>location<!-- location --></h2>
       <p>profile url<!-- profileUrl --></p>
 
+      <h3>Rate</h3>
+      <div class="acidjs-rating-stars">
+          <form id="starsForm">
+              <input type="radio" name="group-1" id="star5" value="5" /><label for="star5"></label>
+              <input type="radio" name="group-1" id="star4" value="4" /><label for="star4"></label>
+              <input type="radio" name="group-1" id="star3" value="3" /><label for="star3"></label>
+              <input type="radio" name="group-1" id="star2" value="2" /><label for="star2"></label>
+              <input type="radio" name="group-1" id="star1"  value="1" /><label for="star1"></label>
+          </form>
+      </div>
+      <br />
+      <button id="selectStudent" type="submit">Done</button>
+
       <script>
       window.onload = function() {
-       
+        document.getElementById("star1").onclick = selectStars;
+        document.getElementById("star2").onclick = selectStars;
+        document.getElementById("star3").onclick = selectStars;
+        document.getElementById("star4").onclick = selectStars;
+        document.getElementById("star5").onclick = selectStars;
+
+
+        function selectStars() {
+          var numStars = this.value;
+          var xmlhttp = new XMLHttpRequest();
+
+          var url = window.location.protocol + "//" + window.location.hostname;
+          if (window.location.hostname == "localhost") {
+            url += ":" + window.location.port;
+          }
+          url += "/setStars";
+
+          var id = document.URL.split("=")[1];
+          var params = { id:id, numStars:numStars };
+          xmlhttp.open("POST", url, true);
+          xmlhttp.send(JSON.stringify(params));
+
+        }
+
+
+       // post request
+       // {
+       //   id : askdfh
+       //   stars: 5
+       // }
       } 
     </script>
   </body>
