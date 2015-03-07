@@ -1,4 +1,3 @@
-
 window.onload = function() {
   document.getElementById("selectStudent").onclick = selectStudent;
 

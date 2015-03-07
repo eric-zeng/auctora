@@ -6,12 +6,9 @@ window.onload = function() {
   document.getElementById("star5").onclick = selectStars;
   document.getElementById("submit").onclick = doneRequest;
 
-  function doneRequest() {
-    var url = getUrl("studentSearch");
-    window.location = url;
-  }
+  
 
-
+  // gets the numberof stars selected and sends it to the DB. 
   function selectStars() {
     var numStars = this.value;
     var xmlhttp = new XMLHttpRequest();
@@ -22,6 +19,13 @@ window.onload = function() {
     xmlhttp.send(JSON.stringify(params));
   }
 
+  // returns to the studentSearch page
+  function doneRequest() {
+    var url = getUrl("studentSearch");
+    window.location = url;
+  }
+
+  // Helper function to determine if we're running on localhost or production web server
   function getUrl(nextPage) {
     var url = window.location.protocol + "//" + window.location.hostname;
     if (window.location.hostname == "localhost") {
