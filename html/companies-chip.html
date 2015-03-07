@@ -66,6 +66,17 @@
 		function caller() {
 		  customAlert("Successfully uploaded resume","1500");
 		}
+
+		function sleep(milliseconds) {
+  			var start = new Date().getTime();
+  			for (var i = 0; i < 1e7; i++) {
+   				if ((new Date().getTime() - start) > milliseconds) {
+   			  		break;
+  				}
+ 			}
+		}
+
+
 		window.onload = function() {
 			caller();
 			document.getElementById("amazon").onclick = displayInfo;
@@ -74,15 +85,50 @@
 			document.getElementById("facebook").onclick = displayInfo;
 			document.getElementById("microsoft").onclick = displayInfo;
 
-			document.getElementById("amazon").on
-
 			function displayInfo() {
-				document.getElementById(this.id + "Info").style.display = "block";
+				console.log(this.id);
+				//console.log("is happening");
+				var result = $("#microsoftInfo").css('height');
+				result = result.substring(0, 3);
+				if(document.getElementById(this.id +"Info").style.display == "none") {
+					document.getElementById(this.id + "Info").style.display = "block";
+					document.getElementById(this.id + "Info").style.visibility = "hidden";
+				}
+				if(document.getElementById(this.id + "Info").style.visibility != "hidden") {
+					//document.getElementById(this.id + "Info").style.display = "block";
+					//console.log(this.id);
+					if(this.id == "microsoft") {
+						console.log("in here")
+						var y = $(window).scrollTop();  //your current y position on the page
+						var result = $("#microsoftInfo").css('height');
+						result = result.substring(0, 3);
+						//$(window).scrollTop(y);
+						console.log(y);
+						$("html, body").animate({scrollTop: y-result}, '200', "swing");
+
+					}
+					document.getElementById(this.id + "Info").style.visibility = "hidden";
+					//document.getElementById(this.id + "Info").style.display = "block";
+			
+				} else {
+					document.getElementById(this.id + "Info").style.visibility = "visible";
+					if(this.id == "microsoft") {
+						//console.log(this.id);
+						//console.log("in here");
+						var y = $(window).scrollTop();  //your current y position on the page
+						var result = $("#microsoftInfo").css('height');
+						result = result.substring(0, 3);
+						//$(window).scrollTop(y+result);
+						//console.log(y+ result);
+						var answer = (y * 1.0 + (1.0) * result) * 1.0;
+						console.log(answer);
+						$("html, body").animate({scrollTop: answer}, '200', "swing");
+					}
+				}
 			}
 
 
 		}
 	</script>
 	</body>
-
 </html>
