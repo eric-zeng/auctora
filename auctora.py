@@ -32,7 +32,7 @@ class LandingHandler(webapp2.RequestHandler):
 	def get(self):
 		requestedFile = self.request.url[1:]
 		logging.info('' + requestedFile)
-		template = JINJA_ENVIRONMENT.get_template('html/LoginPage.html')
+		template = JINJA_ENVIRONMENT.get_template('html/LoginPage-chip.html')
 		self.response.write(template.render())
 
 # serve the root page for the Auctora slides
@@ -140,12 +140,12 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 class QuestionsHandler(webapp2.RequestHandler):
 	def get(self):
-		template = JINJA_ENVIRONMENT.get_template('html/questions.html')
+		template = JINJA_ENVIRONMENT.get_template('html/questions-chip.html')
 		self.response.write(template.render())
 
 class CompaniesHandler(webapp2.RequestHandler):
 	def get(self):
-		template = JINJA_ENVIRONMENT.get_template('html/companies.html')
+		template = JINJA_ENVIRONMENT.get_template('html/companies-chip.html')
 		self.response.write(template.render())
 
 class QuestionsFormHandler(webapp2.RequestHandler):
