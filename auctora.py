@@ -115,13 +115,20 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 				id         = profile['id'],
 				fname      = profile['firstName'],
 				lname      = profile['lastName'],
-				headline   = profile['headline'],
-				industry   = profile['industry'],
-				location   = profile['location']['name'],
+				headline   = None,
+				industry   = None,
+				location   = None,
 				pictureUrl = None,
 				profileUrl = profile['publicProfileUrl']
 			)
-			if 'pictureUrl' in profile.keys():
+			aData = profile.keys()
+			if 'headline' in aData:
+				profileEntity.headline = profile['headline']
+			if 'industry' in aData:
+				profileEntity.industry = profile['industry']
+			if 'location' in aData and 'name' in aData:
+				profileEntity.location = profile['location']['name']
+			if 'pictureUrl' in aData:
 				profileEntity.pictureUrl = profile['pictureUrl']
 			profileEntity.put()
 		else:
