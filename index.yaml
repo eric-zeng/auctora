@@ -16,3 +16,11 @@ indexes:
   - name: id
   - name: lname
   - name: pictureUrl
+
+- kind: BasicProfile
+  properties:
+  - name: fname
+  - name: id
+  - name: lname
+  - name: pictureUrl
+  - name: stars

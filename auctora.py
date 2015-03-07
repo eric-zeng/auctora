@@ -208,17 +208,20 @@ class NameRequestHandler(webapp2.RequestHandler):
 		profiles = query.fetch(projection=[BasicProfile.fname,
 											BasicProfile.lname,
 											BasicProfile.pictureUrl,
-											BasicProfile.id])
+											BasicProfile.id,
+											BasicProfile.stars])
 		output = list()
 		for profile in profiles:
 			fname = profile.fname.lower()
 			lname = profile.lname.lower()
 			fullname = profile.fname.lower() + " " + profile.lname.lower()
 			if fname.startswith(prefix) or lname.startswith(prefix) or fullname.startswith(prefix):
-				output.append({"fname": profile.fname,
+				output.append({
+					"fname": profile.fname,
 					"lname": profile.lname,
 					"id": profile.id,
-					"pictureUrl": profile.pictureUrl})
+					"pictureUrl": profile.pictureUrl,
+					"stars": profile.stars})
 
 		self.response.write(json.dumps(output, sort_keys=True))
 
