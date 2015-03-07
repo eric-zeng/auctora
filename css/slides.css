@@ -1,0 +1,39 @@
+img {
+	background-size: cover;
+  display: block;
+  height: 95%;
+	margin-left: auto;
+	margin-right: auto;
+  overflow: hidden;
+  text-align: center;
+  width: auto;
+}
+
+body {
+	background-color:#000000;
+}
+
+iframe {
+	display: block;
+	margin: auto auto;
+	width: 90%;
+	height: 95%;
+}
+
+button {
+  -webkit-border-radius: 7;
+  -moz-border-radius: 7;
+  border-radius: 7px;
+  font-family: Arial;
+  color: #adadad;
+  font-size: 15px;
+  background: #000000;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+  border: none;
+}
+
+button:hover {
+  background: #5c5c5c;
+  text-decoration: none;
+}

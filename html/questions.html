@@ -3,21 +3,40 @@
 <html>
 	<head>
 		<title>Auctora</title>
-		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-		<link rel="stylesheet" href="../css/questions.css">
 
-		<!-- Latest compiled and minified CSS -->
+		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
+		<script>
+			window.onload = function() {
+			$('#questionsForm').on('submit',function(e) {
+				e.preventDefault();
+				var form = $(this);
+				var formData = JSON.stringify(form.serializeArray());
+
+				alert("I am about to POST this:\n\n" + formData);
+
+				$.ajax({
+					type: "POST",
+					url: "/submitQuestions",
+					data: formData,
+					success: function(){document.location.href = "/companies"},
+					contentType : "application/json"
+				});
+			});
+			}
+		</script>
+
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/questions.css">
 	</head>
-	
+
 	<body>
 		<div class="page-header">
 			<h1>Auctora</h1>
 		</div>
 		<div class='container-fluid'>
 			<div class="row col-md-12">
-				<form action="companies.html">
-					
+				<form id="questionsForm">
 					<div class ="checkbox">
 						Grade:
 						<label><input type="radio" name="grade" value="freshmen"> Freshmen</label>
@@ -25,12 +44,10 @@
 						<label><input type="radio" name="grade" value="junior"> Junior</label>
 						<label><input type="radio" name="grade" value="senior"> Senior</label>
 					</div>
-					
 					<div class="checkbox">
 						GPA:
 						<label><input type="text" name="gpa"></label>
 					</div>
-
 					<div class="checkbox">
 						<label><input type="checkbox" name="intl">Are you an international student who requires visa sponsorship from employers?</label>
 					</div>
@@ -42,6 +59,6 @@
 					<input type="submit" value="Submit">
 				</form>
 			</div>
-		</div>		
+		</div>
 	</body>
 </html>

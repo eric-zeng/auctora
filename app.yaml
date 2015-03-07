@@ -1,7 +1,8 @@
 application: tidy-nomad-842
 version: 1
-runtime: go
-api_version: go1
+runtime: python27
+api_version: 1
+threadsafe: true
 
 handlers:
 
@@ -13,8 +14,20 @@ handlers:
   static_dir: js
   mime_type: application/javascript
 
+- url: /images
+  static_dir: images
+
 - url: /fonts
   static_dir: fonts
 
+- url: /slides
+  static_dir: slides
+
 - url: /.*
-  script: _go_app
+  script: auctora.application
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: 2.6
