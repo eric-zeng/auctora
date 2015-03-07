@@ -112,14 +112,17 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 		if len(profiles) == 0:
 			profileEntity = BasicProfile(
-				id=profile['id'],
-				fname=profile['firstName'],
-				lname=profile['lastName'],
-				headline=profile['headline'],
-				industry=profile['industry'],
-				location=profile['location']['name'],
-				pictureUrl=profile['pictureUrl'],
-				profileUrl=profile['publicProfileUrl'])
+				id         = profile['id'],
+				fname      = profile['firstName'],
+				lname      = profile['lastName'],
+				headline   = profile['headline'],
+				industry   = profile['industry'],
+				location   = profile['location']['name'],
+				pictureUrl = None,
+				profileUrl = profile['publicProfileUrl']
+			)
+			if 'pictureUrl' in profile.keys():
+				profileEntity.pictureUrl = profile['pictureUrl']
 			profileEntity.put()
 		else:
 			logging.info(profile['id'] + " already in db, skipping.")
