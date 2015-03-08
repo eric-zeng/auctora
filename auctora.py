@@ -127,7 +127,7 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 				profileEntity.headline = profile['headline']
 			if 'industry' in aData:
 				profileEntity.industry = profile['industry']
-			if 'location' in aData and 'name' in aData:
+			if 'location' in aData and 'name' in profile['location']:
 				profileEntity.location = profile['location']['name']
 			if 'pictureUrl' in aData:
 				profileEntity.pictureUrl = profile['pictureUrl']
