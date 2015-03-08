@@ -111,6 +111,7 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 		profiles = BasicProfile.query(BasicProfile.id == profile['id']).fetch()
 
 		if len(profiles) == 0:
+			# If this is a new sign-in, create a new profile.
 			profileEntity = BasicProfile(
 				id         = profile['id'],
 				fname      = profile['firstName'],
@@ -133,7 +134,34 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 				profileEntity.pictureUrl = profile['pictureUrl']
 			profileEntity.put()
 		else:
-			logging.info(profile['id'] + " already in db, skipping.")
+			# If the profile already exists, update the fields with the newest
+			# info from LinkedIn.
+			existing = profiles[0]
+			existing.fname = profile['firstName']
+			existing.lname = profile['lastName']
+
+			aData = profile.keys()
+			if 'headline' in aData:
+				existing.headline = profile['headline']
+			else:
+				existing.headline = None
+
+			if 'industry' in aData:
+				existing.industry = profile['industry']
+			else:
+				existing.industry = None
+
+			if 'location' in aData and 'name' in profile['location']:
+				existing.location = profile['location']['name']
+			else:
+				existing.location = None
+
+			if 'pictureUrl' in aData:
+				existing.pictureUrl = profile['pictureUrl']
+			else:
+				existing.pictureUrl = None
+
+			existing.put()
 
 		# Send the authentication-to-questions redirect page.
 		template = JINJA_ENVIRONMENT.get_template('html/authredirect.html')
