@@ -163,6 +163,11 @@ class StudentProfileHandler(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('html/studentprofile.html')
 		self.response.write(template.render())
 
+class StudentListHandler(webapp2.RequestHandler):
+	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('html/yourstudents.html')
+		self.response.write(template.render())
+
 # Update the number of stars in the profile.
 class StarsHandler(webapp2.RequestHandler):
 	def post(self):
@@ -249,6 +254,7 @@ application = webapp2.WSGIApplication([
 	# Recruiter UI Handlers
 	('/studentSearch', StudentSearchHandler),
 	('/studentProfile', StudentProfileHandler),
+	('/yourstudents', StudentListHandler),
 	('/setStars', StarsHandler),
 
 	# Profile data request handlers
