@@ -173,7 +173,9 @@ class StudentProfileHandler(webapp2.RequestHandler):
 class StudentListHandler(webapp2.RequestHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('html/yourstudents.html')
-		self.response.write(template.render())
+		profiles = BasicProfile.query(BasicProfile.stars > 0).fetch()
+		template_values = {"profiles": profiles}
+		self.response.write(template.render(template_values))
 
 # Update the number of stars in the profile.
 class StarsHandler(webapp2.RequestHandler):

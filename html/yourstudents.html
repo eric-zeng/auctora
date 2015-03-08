@@ -14,101 +14,26 @@
 
     <h1>Your Students</h1>
     <ul id="students">
-      <!-- students go here -->
-    </ul>
-
-    <!-- html tags for template -->
-    <ul id="students">
+      {% for profile in profiles %}
       <li>
-        <img src="" alt="studentPic">
-        <p><!-- student name --></p>
+        <img src="{{profile.pictureUrl}}" alt="studentPic">
+        <p>{{profile.fname}} {{profile.lname}}</p>
         <div class="acidjs-rating-stars">
           <form id="starsForm">
-              <input type="radio" name="group-1" id="star5" value="5" /><label for="star5"></label>
-              <input type="radio" name="group-1" id="star4" value="4" /><label for="star4"></label>
-              <input type="radio" name="group-1" id="star3" value="3" /><label for="star3"></label>
-              <input type="radio" name="group-1" id="star2" value="2" /><label for="star2"></label>
-              <input type="radio" name="group-1" id="star1"  value="1" /><label for="star1"></label>
+              <input {% if profile.stars == 5 %} checked {% endif %} type="radio" name="group-1" id="star5" value="5" /><label for="star5"></label>
+              <input {% if profile.stars == 4 %} checked {% endif %} type="radio" name="group-1" id="star4" value="4" /><label for="star4"></label>
+              <input {% if profile.stars == 3 %} checked {% endif %} type="radio" name="group-1" id="star3" value="3" /><label for="star3"></label>
+              <input {% if profile.stars == 2 %} checked {% endif %} type="radio" name="group-1" id="star2" value="2" /><label for="star2"></label>
+              <input {% if profile.stars == 1 %} checked {% endif %} type="radio" name="group-1" id="star1"  value="1" /><label for="star1"></label>
           </form>
         </div>
       </li>
+      {% endfor %}
     </ul>
 
-    <form action="/studentSearch"> 
-      Search Students 
+    <form action="/studentSearch">
+      Search Students
       <input type="submit">
     </form>
-
-    <!-- JAVASCRIPT -->
-    <script>
-      // TODO: &rated=true
-
-      // Send a GET request to get all the already rated students
-      var xmlhttp = new XMLHttpRequest();
-      var url = getUrl("nameRequest");
-      url += "?rated=true";
-      xmlhttp.open("GET", url, true);
-      xmlhttp.responseType = "JSON";
-      xmlhttp.onload = function(e) {
-        var arr = JSON.parse(xmlhttp.response);
-        var students = document.getElementById("students");
-        
-        for (var i = 0; i < arr.length; i++) {
-          for (var key in arr) {
-            // for each student returned
-            // add their name to the list of searchable students
-            
-            // list item with student name and rating
-            var li = document.createElement("li");
-            li.id = arr[key]["id"];
-
-            // student image
-            var img = document.createElement("img");
-            var imgUrl = arr[key]["pictureUrl"];
-            img.src = imgUrl;
-            li.appendChild(img);
-
-            // student name
-            var p = document.createElement("p");
-            p.innerHTML = arr[key]["fname"] + " " + arr[key]["lname"];
-            li.appendChild(p);
-            
-            // student rating
-            var stars = arr[key]["stars"];
-            var div = document.createElement("div");
-            div.className = "acidjs-rating-stars";
-            div.innerHTML = '<form id="starsForm">' + 
-                              '<input type="radio" name="group-1" id="star5" value="5" /><label for="star5"></label>' + 
-                              '<input type="radio" name="group-1" id="star4" value="4" /><label for="star4"></label>' + 
-                              '<input type="radio" name="group-1" id="star3" value="3" /><label for="star3"></label>' + 
-                              '<input type="radio" name="group-1" id="star2" value="2" /><label for="star2"></label>' + 
-                              '<input type="radio" name="group-1" id="star1" value="1" /><label for="star1"></label>' + 
-                          '</form>';
-            li.appendChild(div);
-
-            // document.getElementById("star" + stars).checked = true;
-
-            console.log(li);
-            console.log(imgUrl);
-            console.log(stars);
-            students.appendChild(li);
-
-            document.getElementById("star" + stars).checked = true;
-          }
-        }
-      }
-      xmlhttp.send();
-
-      // Helper function to determine if we're running on localhost or production web server
-      function getUrl(nextPage) {
-        var url = window.location.protocol + "//" + window.location.hostname;
-        if (window.location.hostname == "localhost") {
-          url += ":" + window.location.port;
-        }
-        url += "/" + nextPage;
-        return url;
-      }
-    </script>
   </body>
-
 </html>
