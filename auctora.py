@@ -160,8 +160,15 @@ class StudentSearchHandler(webapp2.RequestHandler):
 
 class StudentProfileHandler(webapp2.RequestHandler):
 	def get(self):
+		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
+		if len(profiles) == 0:
+			self.response.write('<html><body>Could not find profile ' + \
+								self.request.get('id') + '</body></html>')
+
 		template = JINJA_ENVIRONMENT.get_template('html/studentprofile.html')
-		self.response.write(template.render())
+		template_values = {'profile': profiles[0]}
+
+		self.response.write(template.render(template_values))
 
 class StudentListHandler(webapp2.RequestHandler):
 	def get(self):
