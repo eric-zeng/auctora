@@ -8,23 +8,35 @@
 
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/rating.css">
 	</head>
 
 
   <body>
 
-      <h1>name<!-- fname lname --></h1>
-      <img src="" alt="profilePic">
-      <h2>headline<!-- headline --></h2>
-      <h2>industry<!-- industry --></h2>
-      <h2>location<!-- location --></h2>
-      <p>profile url<!-- profileUrl --></p>
+      <h1>{{ profile.fname }} {{ profile.lname }}</h1>
+      <img src="{{ profile.pictureUrl }}" alt="profilePic">
+      <h2>{{ profile.headline }}</h2>
+      <h2>{{ profile.industry }}</h2>
+      <h2>{{ profile.location }}</h2>
+      <p>{{ profile.profileUrl }}</p>
 
-      <script>
-      window.onload = function() {
-       
-      } 
-    </script>
+      <h3>Rate</h3>
+      <div class="acidjs-rating-stars">
+          <form id="starsForm">
+              <input {% if profile.stars == 5 %} checked {% endif %} type="radio" name="group-1" id="star5" value="5" /><label for="star5"></label>
+              <input {% if profile.stars == 4 %} checked {% endif %} type="radio" name="group-1" id="star4" value="4" /><label for="star4"></label>
+              <input {% if profile.stars == 3 %} checked {% endif %} type="radio" name="group-1" id="star3" value="3" /><label for="star3"></label>
+              <input {% if profile.stars == 2 %} checked {% endif %} type="radio" name="group-1" id="star2" value="2" /><label for="star2"></label>
+              <input {% if profile.stars == 1 %} checked {% endif %} type="radio" name="group-1" id="star1"  value="1" /><label for="star1"></label>
+          </form>
+      </div>
+      <br />
+      <button id="submit" type="submit">Done</button>
+
+      <!-- JAVASCRIPT -->
+      <script src="../js/studentProfile.js"></script>
+
   </body>
 
 </html>

@@ -24,7 +24,7 @@ class BasicProfile(ndb.Model):
 	location = ndb.StringProperty()
 	pictureUrl = ndb.StringProperty()
 	profileUrl = ndb.StringProperty()
-
+	stars = ndb.IntegerProperty()
 
 # handler for URL with no path (just tidy-nomad-842.appspot.com)
 # shows the Auctora login page
@@ -119,7 +119,8 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 				industry   = None,
 				location   = None,
 				pictureUrl = None,
-				profileUrl = profile['publicProfileUrl']
+				profileUrl = profile['publicProfileUrl'],
+				stars      = 0
 			)
 			aData = profile.keys()
 			if 'headline' in aData:
@@ -159,8 +160,30 @@ class StudentSearchHandler(webapp2.RequestHandler):
 
 class StudentProfileHandler(webapp2.RequestHandler):
 	def get(self):
+		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
+		if len(profiles) == 0:
+			self.response.write('<html><body>Could not find profile ' + \
+								self.request.get('id') + '</body></html>')
+
 		template = JINJA_ENVIRONMENT.get_template('html/studentprofile.html')
-		self.response.write(template.render())
+		template_values = {'profile': profiles[0]}
+
+		self.response.write(template.render(template_values))
+
+class StudentListHandler(webapp2.RequestHandler):
+	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('html/yourstudents.html')
+		profiles = BasicProfile.query(BasicProfile.stars > 0).fetch()
+		template_values = {"profiles": profiles}
+		self.response.write(template.render(template_values))
+
+# Update the number of stars in the profile.
+class StarsHandler(webapp2.RequestHandler):
+	def post(self):
+		stars = json.loads(self.request.body)
+		profiles = BasicProfile.query(BasicProfile.id == stars['id']).fetch()
+		profiles[0].stars = int(stars['stars'])
+		profiles[0].put()
 
 # Handles requests for profile by id.
 # Send GET http://tidy-nomad-842.appspot.com/profileRequest?id=<insert id here>
@@ -182,7 +205,8 @@ class ProfileRequestHandler(webapp2.RequestHandler):
 			'industry':   profile.industry,
 			'location':   profile.location,
 			'pictureUrl': profile.pictureUrl,
-			'profileUrl': profile.profileUrl
+			'profileUrl': profile.profileUrl,
+			'stars':      profile.stars
 		}, sort_keys=True)
 		self.response.write(result)
 
@@ -198,17 +222,24 @@ class NameRequestHandler(webapp2.RequestHandler):
 		profiles = query.fetch(projection=[BasicProfile.fname,
 											BasicProfile.lname,
 											BasicProfile.pictureUrl,
-											BasicProfile.id])
+											BasicProfile.id,
+											BasicProfile.stars])
 		output = list()
 		for profile in profiles:
+			# Skip returning a profile if it is unrated and the request only
+			# wants rated profiles.
+			if self.request.get('rated') == 'true' and profile.stars == 0:
+				continue
 			fname = profile.fname.lower()
 			lname = profile.lname.lower()
 			fullname = profile.fname.lower() + " " + profile.lname.lower()
 			if fname.startswith(prefix) or lname.startswith(prefix) or fullname.startswith(prefix):
-				output.append({"fname": profile.fname,
+				output.append({
+					"fname": profile.fname,
 					"lname": profile.lname,
 					"id": profile.id,
-					"pictureUrl": profile.pictureUrl})
+					"pictureUrl": profile.pictureUrl,
+					"stars": profile.stars})
 
 		self.response.write(json.dumps(output, sort_keys=True))
 
@@ -232,6 +263,8 @@ application = webapp2.WSGIApplication([
 	# Recruiter UI Handlers
 	('/studentSearch', StudentSearchHandler),
 	('/studentProfile', StudentProfileHandler),
+	('/yourstudents', StudentListHandler),
+	('/setStars', StarsHandler),
 
 	# Profile data request handlers
 	('/profileRequest', ProfileRequestHandler),

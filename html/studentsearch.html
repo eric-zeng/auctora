@@ -17,81 +17,17 @@
 		<input id="input" list="students" />
 		<datalist id="students">
 			<!-- names go here -->
-			  <option value="Internet Explorer">
-			  <option value="Firefox">
-			  <option value="Chrome">
-			  <option value="CHEEZY">
-			  <option value="CARNAGE">
 		</datalist>
 		<button id="selectStudent" type="submit">Submit</button>
 
-		<div id="sProfile">
-			<ul id="resumeList">
-
-			</ul>
-		</div>
-
-
-		<form action=".."> 
+		<form action="/yourstudents"> 
 			See Your Students 
 			<input type="submit">
 		</form>
 
-
-		<script>
-
-			function selectStudent() {
-				var students = document.getElementById("students");
-				var input = document.getElementById("input");
-				var id;
-				for (var i = 0; students.options.length; i++) {
-					if (students.options[i].value == input.value) {
-						id = students.options[i].id;
-						break;
-					}
-				}
-
-				var profileUrl = window.location.protocol + "//" + window.location.hostname;
-
-	    	if (window.location.hostname == "localhost") {
-	    		profileUrl += ":" + window.location.port;
-	    	}
-	    	
-	    	profileUrl += "/studentProfile?id=" + id;
-
-      	window.location = profileUrl;
-			}
-			
-			window.onload = function() {
-				document.getElementById("selectStudent").onclick = selectStudent;
-
-	    	var xmlhttp = new XMLHttpRequest();
-	    	var requestUrl = window.location.protocol + "//" + window.location.hostname;
-
-	    	if (window.location.hostname == "localhost") {
-	    		requestUrl += ":" + window.location.port;
-	    	}
-	    	
-	    	requestUrl += "/nameRequest";
-
-	    	xmlhttp.open("GET",requestUrl,true);
-	    	xmlhttp.responseType = "JSON";
-	    	xmlhttp.onload = function(e) {
-	    		var arr = JSON.parse(xmlhttp.response);
-	    		var students = document.getElementById("students");
-	    		
-	    		for (var i = 0; i < arr.length; i++) {
-	    			for (var key in arr) {
-            	var node = document.createElement("option");
-							node.value = arr[key]["fname"] + " " + arr[key]["lname"];
-							node.id = arr[key]["id"];
-							students.appendChild(node);
-            }
-	    		}
-	    	}
-				xmlhttp.send();
-			}	
-		</script>
+    <!-- JAVASCRIPT -->
+	  <script src="../js/studentSearch.js"></script>
+		
 	</body>
 
 </html>
