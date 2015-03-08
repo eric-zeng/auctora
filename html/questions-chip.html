@@ -6,10 +6,11 @@
 
 		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
+<!-- Currently not logging this in the backend - if we change that we should use this script to send to backend
 		<script>
 			window.onload = function() {
 			$('#questionsForm').on('submit',function(e) {
-				e.preventDefault();
+				//e.preventDefault();
 				var form = $(this);
 				var formData = JSON.stringify(form.serializeArray());
 
@@ -19,13 +20,13 @@
 					type: "POST",
 					url: "/submitQuestions",
 					data: formData,
-					success: function(){document.location.href = "/companies"},
+					success: function(){},
 					contentType : "application/json"
 				});
 			});
 			}
 		</script>
-
+-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
 		<link rel="stylesheet" href="../css/questions.css">
 		<link rel="stylesheet" href="../css/toggle-button.css">
@@ -41,8 +42,8 @@ padding-top: 3% !important; margin: 0 !important;">
 			</div>
 			<div class="row" style="padding: 5%;">
 						<div class="col-md-6 col-md-offset-3">
-						<form id="questionsForm">
-							<div class ="checkbox">
+						<form id="questionsForm" action="/companies">
+							<div id="year" class ="checkbox">
 								<h3>Year in School</h3>
 								<label style="padding-left: 0 !important;"><input type="radio" name="grade" value="freshmen"> Freshmen</label><br>
 								<label style="padding-left: 0 !important;"><input type="radio" name="grade" value="sophomore"> Sophomore</label><br>
