@@ -8,16 +8,134 @@
 
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<!-- <link rel="stylesheet" href="../css/questions.css">
+		<link rel="stylesheet" href="../css/toggle-button.css"> -->
 	</head>
 
 	<body>
-		<h1>University of Washington Computer Science & Engineering Career Fair</h1>
-
-		<div class="companies"> 
-			<ul> Companies
-				<li> Sample Company</li>
-			</ul>
+		<div id="header" class="page-header" style="background: #353a43;
+			color: #ffffff;
+			text-align: center;
+			padding-bottom: 3% !important;
+			padding-top: 3% !important; margin: 0 !important;">
+			<h3 style="font-weight: 300; padding: 3%;">Welcome to University of Washington Computer Science & Engineering Career Fair</h3>
 		</div>
-	</body>
+				<div class="row" style="padding: 5%;">
+					<div class="col-md-6 col-md-offset-3">
+						<h3>5 Participating Companies</h3><br><br>
+						<div>
+							<!-- <img id="exclamation" src="../images/exclamationmark.png" style="width: 15%; position: absolute; right: 10%; top: 30%"/> -->
+							<img id="amazon" src="../images/amazon.png" style="width:100%; cursor: pointer;"/>
+							<img id="cisco" src="../images/cisco1.png" style="width:100%; cursor: pointer;"/>
+							<div id="ciscoInfo" style="display: none; color: red;">
+								<h3><strong>Ineligible:</strong> Requires at least a 3.7 GPA</h3>
+							</div>
+							<img id="dropbox" src="../images/dropbox.png" style="width:100%; cursor: pointer;"/>
+							<img id="facebook" src="../images/facebook.png" style="width:100%; cursor: pointer;"/>
+							<img id="microsoft" src="../images/microsoft.png" style="width:100%; cursor: pointer;"/>							
 
+							<div id="microsoftInfo" style="display: none;">
+								<h3><strong>Question:</strong> How long are Microsoft internships?</h3>
+
+								<h3><strong>Answer:</strong> All internships are 12 weeks long and typically start in May or June and end in August or September</h3>
+
+								<h3><strong>Question:</strong> What internship roles are available?</h3>
+
+								<h3><strong>Answer:</strong> At Microsoft a summer intern can either be a Software Developer Engineer (SDE), a Software Developer Engineer in Test (SDET), or a Program Manager (PM).</h3>
+
+								<h3><strong>Question:</strong> Where can I find more information?</h3>
+
+								<h3><strong>Answer:</strong> Please visit <a href="http://careers.microsoft.com/careers/en/us/university-apply-technical.aspx#US,UG,IN,415">this link</a> to find out more detailed information about our internship programs. </h3>
+							</div>
+
+					
+
+				</div>
+		</div>
+
+
+	<script type="text/javascript">
+		function customAlert(msg,duration) {
+		 	var styler = document.createElement("div");
+		  styler.setAttribute("style","width:auto; height:auto; background-color: lightgreen; color: #353a43; position: absolute; top: 0%; left: 30%");
+		 styler.innerHTML = "<h3>"+msg+"</h3>";
+		 setTimeout(function() { styler.parentNode.removeChild(styler);},duration);
+		 document.getElementById("header").appendChild(styler);
+		}
+		
+		function caller() {
+		  customAlert("Successfully uploaded resume","1500");
+		}
+
+		function sleep(milliseconds) {
+  			var start = new Date().getTime();
+  			for (var i = 0; i < 1e7; i++) {
+   				if ((new Date().getTime() - start) > milliseconds) {
+   			  		break;
+  				}
+ 			}
+		}
+
+
+		window.onload = function() {
+			caller();
+			document.getElementById("amazon").onclick = displayInfo;
+			document.getElementById("cisco").onclick = displayInfo;
+			document.getElementById("dropbox").onclick = displayInfo;
+			document.getElementById("facebook").onclick = displayInfo;
+			document.getElementById("microsoft").onclick = displayInfo;
+
+			function displayInfo() {
+				console.log(this.id);
+				//console.log("is happening");
+				var result = $("#microsoftInfo").css('height');
+				result = result.substring(0, 3);
+				if(document.getElementById(this.id +"Info").style.display == "none") {
+					document.getElementById(this.id + "Info").style.display = "block";
+					document.getElementById(this.id + "Info").style.visibility = "hidden";
+				}
+				if(document.getElementById(this.id + "Info").style.visibility != "hidden") {
+					//document.getElementById(this.id + "Info").style.display = "block";
+					//console.log(this.id);
+					if(this.id == "microsoft") {
+						console.log("in here")
+						var y = $(window).scrollTop();  //your current y position on the page
+						var result = $("#microsoftInfo").css('height');
+						result = result.substring(0, 3);
+						//$(window).scrollTop(y);
+						console.log(y);
+						$("html, body").animate({scrollTop: y-result}, '200', "swing");
+					}
+					else if (this.id == "cisco") {
+						console.log("in cisco");
+						if(document.getElementById(this.id + "Info").style.display == "block") {
+							/*document.getElementById(this.id + "Info").style.display = "block";*/
+							document.getElementById(this.id + "Info").style.display = "none";
+						}
+					}
+					document.getElementById(this.id + "Info").style.visibility = "hidden";
+					//document.getElementById(this.id + "Info").style.display = "block";
+			
+				} else {
+					document.getElementById(this.id + "Info").style.visibility = "visible";
+					if(this.id == "microsoft") {
+						//console.log(this.id);
+						//console.log("in here");
+						var y = $(window).scrollTop();  //your current y position on the page
+						var result = $("#microsoftInfo").css('height');
+						result = result.substring(0, 3);
+						//$(window).scrollTop(y+result);
+						//console.log(y+ result);
+						var answer = (y * 1.0 + (1.0) * result) * 1.0;
+						console.log(answer);
+						$("html, body").animate({scrollTop: answer}, '200', "swing");
+					}
+					else if (this.id == "cisco") {
+						//document.getElementById(this.id + "Info").style.display = "none";
+					}
+				}
+			}
+		}
+	</script>
+	</body>
 </html>
