@@ -39,13 +39,41 @@ padding: 7px;">AUCTORA</span></h2>
                   <h3 style="font-weight: 300;">Sign in for a better experience<br> for your
       career fair.</h3>
                   <br>
-                  <select style="color: black">
-                    <option value="aslkdj">UW CSE 4/20/15</option>
-                    <option value="aslkdj">Stanford 9/20/15</option>
-                    <option value="aslkdj">WSUcks 3/20/15</option>
-                  </select>
-                  <br>
+                  <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+    <div id = "selectedfair">Select Fair <span class="caret"></span></div>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li id="Select Fair" role="presentation" onclick="changeFair('Select Fair')" ><a role="menuitem" tabindex="-1" href="#">Select Fair</a></li>
+    <li id="UW CSE 4/20/15" role="presentation" onclick="changeFair('UW CSE 4/20/15')" ><a role="menuitem" tabindex="-1" href="#" >UW CSE 4/20/15</a></li>
+    <li id="Stanford 9/20/15" role="presentation" onclick="changeFair('Stanford 9/20/15')"><a role="menuitem" tabindex="-1" href="#">Stanford 9/20/15</a></li>
+    <li id="WSUcks 3/20/15" role="presentation" onclick="changeFair('WSUcks 3/20/15')" ><a role="menuitem" tabindex="-1" href="#">WSUcks 3/20/15</a></li>
+  </ul>
+</div>
 
+<script>
+
+  function changeFair(id) {;
+    document.getElementById("selectedfair").innerHTML = id;
+  }
+
+</script>
+
+                   <!-- ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block" id="selectfair">
+                      <li><a tabindex="-1" href="#">Select Fair</a></li>
+                      <li><a tabindex="-1" href="#">UW CSE 4/20/15</a></li>
+                      <li><a tabindex="-1" href="#">Stanford 9/20/15</a></li>
+                      <li><a tabindex="-1" href="#">WSUcks 3/20/15</a></li>
+                    </ul> -->
+                  <div id='errormessage'>Please select a career fair</div>
+                  <!-- <select style="color: black" id="selectfair">
+                    <option value="select">Select Fair</option>
+                    <option value="uw">UW CSE 4/20/15</option>
+                    <option value="stanford">Stanford 9/20/15</option>
+                    <option value="wsu">WSUcks 3/20/15</option>
+                  </select>
+                -->
+                  <br>
                   <br>
                   <input class="lead" id="signIn" type="image" src="../images/linkedin-signin.png" style="width:100%;" value="Sign in with LinkedIn"/>
                 </div>
