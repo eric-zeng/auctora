@@ -13,81 +13,49 @@
     <!-- Custom styles for this template -->
     <link href="../css/loginPage.css" rel="stylesheet">
 
+    <script>
+    function changeFair(text) {;
+      document.getElementById("selectedfair").innerHTML = text;
+    }
+    </script>
   </head>
+
   <body>
     <div class="site-wrapper">
       <div class="site-wrapper-inner">
         <div class="cover-container">
-          <div class="masthead clearfix">
-            <!-- <div class="inner">
-              <h3 class="masthead-brand">Cover</h3>
-              <nav>
-                <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Contact</a></li>
-                </ul>
-              </nav>
-            </div> -->
-          </div>
           <div class="inner cover">
-          <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                  <h2 class="cover-heading"><span style="border-style: solid;
-border-width: 4px;
-padding: 7px;">AUCTORA</span></h2>
-                  <h3 style="font-weight: 300;">Sign in for a better experience<br> for your
-      career fair.</h3>
-                  <br>
-                  <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-    <div id = "selectedfair">Select Fair<span class="caret"></span></div>
-  </button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-    <li id="Select Fair" role="presentation" onclick="changeFair('Select Fair')" ><a role="menuitem" tabindex="-1" href="#">Select Fair</a></li>
-    <li id="UW CSE 4/20/15" role="presentation" onclick="changeFair('UW CSE 4/20/15')" ><a role="menuitem" tabindex="-1" href="#" >UW CSE 4/20/15</a></li>
-    <li id="Stanford 9/20/15" role="presentation" onclick="changeFair('Stanford 9/20/15')"><a role="menuitem" tabindex="-1" href="#">Stanford 9/20/15</a></li>
-    <li id="WSUcks 3/20/15" role="presentation" onclick="changeFair('WSUcks 3/20/15')" ><a role="menuitem" tabindex="-1" href="#">WSUcks 3/20/15</a></li>
-  </ul>
-</div>
-
-<script>
-
-  function changeFair(id) {;
-    document.getElementById("selectedfair").innerHTML = id;
-  }
-
-</script>
-
-                   <!-- ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block" id="selectfair">
-                      <li><a tabindex="-1" href="#">Select Fair</a></li>
-                      <li><a tabindex="-1" href="#">UW CSE 4/20/15</a></li>
-                      <li><a tabindex="-1" href="#">Stanford 9/20/15</a></li>
-                      <li><a tabindex="-1" href="#">WSUcks 3/20/15</a></li>
-                    </ul> -->
-                  <div id='errormessage'>Please select a career fair</div>
-                  <!-- <select style="color: black" id="selectfair">
-                    <option value="select">Select Fair</option>
-                    <option value="uw">UW CSE 4/20/15</option>
-                    <option value="stanford">Stanford 9/20/15</option>
-                    <option value="wsu">WSUcks 3/20/15</option>
-                  </select>
-                -->
-                  <br>
-                  <br>
-                  <input class="lead" id="signIn" type="image" src="../images/linkedin-signin.png" style="width:100%;" value="Sign in with LinkedIn"/>
-                </div>
-          </div>
-
-            <!-- <p class="lead">
-              <a href="recruiterlogin.html" class="btn btn-lg btn-default">Recruiters Sign In Here</a>
-            </p> -->
-          </div>
-          <!-- <div class="mastfoot">
-            <div class="inner">
-              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3">
+                <h2 class="cover-heading"><span style="border-style: solid; border-width: 4px; padding: 7px;">AUCTORA</span></h2>
+                <h3 style="font-weight: 300;">A better way to connect with recruiters at career fairs.</h3>
+                <br>
+                <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                  <div id = "selectedfair">Select Fair<span class="caret"></span></div>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                  <li role="presentation" onclick="changeFair('Select Career Fair')" >
+                    <a role="menuitem" tabindex="-1" href="#">Select Career Fair</a>
+                  </li>
+                  <li role="presentation" onclick="changeFair('UW CSE Career Fair - 4/20/15')">
+                    <a role="menuitem" tabindex="-1" href="#">UW CSE Career Fair - 4/20/15</a>
+                  </li>
+                  <li role="presentation" onclick="changeFair('Stanford Computer Forum - 9/20/15')">
+                    <a role="menuitem" tabindex="-1" href="#">Stanford Computer Forum - 9/20/15</a>
+                  </li>
+                  <li role="presentation" onclick="changeFair('WSU Career Expo - 3/20/15')" >
+                    <a role="menuitem" tabindex="-1" href="#">WSU Career Expo - 3/20/15</a>
+                  </li>
+                </ul>
+              </div>
+              <div id='errormessage'>Please select a career fair</div>
+              <br>
+              <br>
+              <input class="lead" id="signIn" type="image" src="../images/linkedin-signin.png" style="width:85%;" value="Sign in with LinkedIn"/>
+              </div>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
