@@ -111,57 +111,40 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 		profiles = BasicProfile.query(BasicProfile.id == profile['id']).fetch()
 
 		if len(profiles) == 0:
-			# If this is a new sign-in, create a new profile.
-			profileEntity = BasicProfile(
-				id         = profile['id'],
-				fname      = profile['firstName'],
-				lname      = profile['lastName'],
-				headline   = None,
-				industry   = None,
-				location   = None,
-				pictureUrl = None,
-				profileUrl = profile['publicProfileUrl'],
-				stars      = 0
-			)
-			aData = profile.keys()
-			if 'headline' in aData:
-				profileEntity.headline = profile['headline']
-			if 'industry' in aData:
-				profileEntity.industry = profile['industry']
-			if 'location' in aData and 'name' in profile['location']:
-				profileEntity.location = profile['location']['name']
-			if 'pictureUrl' in aData:
-				profileEntity.pictureUrl = profile['pictureUrl']
-			profileEntity.put()
+			# If this is the first login, create a new entity for their profile.
+			profileEntity = BasicProfile()
 		else:
-			# If the profile already exists, update the fields with the newest
-			# info from LinkedIn.
-			existing = profiles[0]
-			existing.fname = profile['firstName']
-			existing.lname = profile['lastName']
+			# Otherwise get the old profile and update it with newest version of
+			# their LinkedIn profile.
+			profileEntity = profiles[0]
 
-			aData = profile.keys()
-			if 'headline' in aData:
-				existing.headline = profile['headline']
-			else:
-				existing.headline = None
+		profileEntity.id = profile['id']
+		profileEntity.fname = profile['firstName']
+		profileEntity.lname = profile['lastName']
+		profileEntity.profileUrl = profile['publicProfileUrl']
+		profileEntity.stars = 0
 
-			if 'industry' in aData:
-				existing.industry = profile['industry']
-			else:
-				existing.industry = None
+		# These are optional fields, so run a check on each to see if they
+		# exist.
+		aData = profile.keys()
+		if 'headline' in aData:
+			profileEntity.headline = profile['headline']
+		else:
+			profileEntity.headline = None
+		if 'industry' in aData:
+			profileEntity.industry = profile['industry']
+		else:
+			profileEntity.industry = None
+		if 'location' in aData and 'name' in profile['location']:
+			profileEntity.location = profile['location']['name']
+		else:
+			profileEntity.location = None
+		if 'pictureUrl' in aData:
+			profileEntity.pictureUrl = profile['pictureUrl']
+		else:
+			profileEntity.pictureUrl = None
 
-			if 'location' in aData and 'name' in profile['location']:
-				existing.location = profile['location']['name']
-			else:
-				existing.location = None
-
-			if 'pictureUrl' in aData:
-				existing.pictureUrl = profile['pictureUrl']
-			else:
-				existing.pictureUrl = None
-
-			existing.put()
+		profileEntity.put()
 
 		# Send the authentication-to-questions redirect page.
 		template = JINJA_ENVIRONMENT.get_template('html/authredirect.html')
