@@ -319,6 +319,53 @@ class NameRequestHandler(webapp2.RequestHandler):
 
 		self.response.write(json.dumps(output, sort_keys=True))
 
+class ManualPositionHandler(webapp2.RequestHandler):
+	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('/manualData.html')
+		self.response.write(template.render())
+	def post(self):
+		form = json.loads(self.request.body)
+		position = Position()
+		failed = False
+		for obj in form:
+			if obj['name'] == 'profileId':
+				position.profileId = obj['value']
+			if obj['name'] == 'title':
+				position.title = obj['value']
+			if obj['name'] == 'description':
+				position.description = obj['value']
+			if obj['name'] == 'company':
+				position.company = obj['value']
+			if obj['name'] == 'startMonth':
+				try:
+					position.startMonth = int(obj['value'])
+				except ValueError:
+					self.response.write('Start month must be a number\n')
+					failed = True
+			if obj['name'] == 'startYear':
+				try:
+					position.startYear = int(obj['value'])
+				except ValueError:
+					self.response.write('Start Year must be a number\n')
+					failed = True
+			if obj['name'] == 'endMonth':
+				try:
+					position.endMonth = int(obj['value'])
+				except ValueError:
+					self.response.write('End month must be a number\n')
+					failed = True
+			if obj['name'] == 'endYear':
+				try:
+					position.endYear = int(obj['value'])
+				except ValueError:
+					self.response.write('End year must be a number\n')
+					failed = True
+			if obj['name'] == 'isCurrent':
+				position.isCurrent = True
+
+		if not failed:
+			position.put()
+
 application = webapp2.WSGIApplication([
 	# Home page handler
 	('/', LandingHandler),
@@ -345,5 +392,8 @@ application = webapp2.WSGIApplication([
 	# Profile data request handlers
 	('/profileRequest', ProfileRequestHandler),
 	('/nameRequest', NameRequestHandler),
+
+	# Manual data entry for demos
+	('/manualPosition', ManualPositionHandler),
 
 ], debug=True)

@@ -1,0 +1,94 @@
+<html>
+	<head>
+		<title>Manual Entry</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
+
+		<style>
+			h4    {padding: 6px; margin-left: 16px}
+			form  { display: table; margin-left: 16px; }
+			p     { display: table-row; }
+			section { display: table-cell; padding: 6px; }
+			input { display: table-cell; }
+		</style>
+
+		<script>
+			window.onload = function() {
+				$('form').on('submit',function(e) {
+					e.preventDefault();
+					var form = $(this);
+					var formData = JSON.stringify(form.serializeArray());
+
+					alert("I am about to POST this:\n\n" + formData);
+
+					$.ajax({
+						type: "POST",
+						url: "/manualPosition",
+						data: formData,
+						success: function(data){
+							if (data == '') {
+								alert("Data successfully entered");
+								document.getElementById('myform').reset();
+							} else {
+								alert(data);
+							}
+						},
+						contentType : "application/json"
+					});
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<h4>Manual Position Data Entry Form</h4>
+		<form action="/manualPosition" id="myform">
+		<p>
+			<section>Profile ID:</section>
+			<input type="text" name="profileId">
+			<br>
+		</p>
+		<p>
+			<section>Title:</section>
+			<input type="text" name="title">
+			<br>
+		</p>
+		<p>
+			<section>Description:</section>
+			<input type="text" name="description">
+			<br>
+		</p>
+		<p>
+			<section>Company:</section>
+			<input type="text" name="company">
+			<br>
+		</p>
+		<p>
+			<section>Start Month:</section>
+			<input type="text" name="startMonth">
+			<br>
+		</p>
+		<p>
+			<section>Start Year:</section>
+			<input type="text" name="startYear">
+			<br>
+		</p>
+		<p>
+			<section>End Month:</section>
+			<input type="text" name="endMonth">
+			<br>
+		</p>
+		<p>
+			<section>End Year:</section>
+			<input type="text" name="endYear">
+			<br>
+		</p>
+		<p>
+			<section>Current Position?</section>
+			<input type="checkbox" name="isCurrent">
+			<br>
+		</p>
+		<input type="submit" value="Submit" style="margin-left: 6px;">
+		</form>
+	</body>
+</html>
