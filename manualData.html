@@ -45,42 +45,43 @@
 		<form action="/manualPosition" id="myform">
 		<p>
 			<section>Profile ID:</section>
-			<input type="text" name="profileId">
+			<input type="text" name="profileId" required>
+			<a href="/profileIdLookup" target="_blank">Lookup your profile ID</a>
 			<br>
 		</p>
 		<p>
 			<section>Title:</section>
-			<input type="text" name="title">
+			<input type="text" name="title" required>
 			<br>
 		</p>
 		<p>
 			<section>Description:</section>
-			<input type="text" name="description">
+			<input type="text" name="description" required>
 			<br>
 		</p>
 		<p>
 			<section>Company:</section>
-			<input type="text" name="company">
+			<input type="text" name="company" required>
 			<br>
 		</p>
 		<p>
 			<section>Start Month:</section>
-			<input type="text" name="startMonth">
+			<input type="number" name="startMonth" min="1" max="12" required>
 			<br>
 		</p>
 		<p>
 			<section>Start Year:</section>
-			<input type="text" name="startYear">
+			<input type="number" name="startYear" min="1900" max="2015" required>
 			<br>
 		</p>
 		<p>
 			<section>End Month:</section>
-			<input type="text" name="endMonth">
+			<input type="number" name="endMonth" min="1" max="12" >
 			<br>
 		</p>
 		<p>
 			<section>End Year:</section>
-			<input type="text" name="endYear">
+			<input type="number" name="endYear" min="1900" max="2015">
 			<br>
 		</p>
 		<p>

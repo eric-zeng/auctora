@@ -326,7 +326,6 @@ class ManualPositionHandler(webapp2.RequestHandler):
 	def post(self):
 		form = json.loads(self.request.body)
 		position = Position()
-		failed = False
 		for obj in form:
 			if obj['name'] == 'profileId':
 				position.profileId = obj['value']
@@ -337,34 +336,26 @@ class ManualPositionHandler(webapp2.RequestHandler):
 			if obj['name'] == 'company':
 				position.company = obj['value']
 			if obj['name'] == 'startMonth':
-				try:
-					position.startMonth = int(obj['value'])
-				except ValueError:
-					self.response.write('Start month must be a number\n')
-					failed = True
+				position.startMonth = int(obj['value'])
 			if obj['name'] == 'startYear':
-				try:
-					position.startYear = int(obj['value'])
-				except ValueError:
-					self.response.write('Start Year must be a number\n')
-					failed = True
+				position.startYear = int(obj['value'])
 			if obj['name'] == 'endMonth':
-				try:
-					position.endMonth = int(obj['value'])
-				except ValueError:
-					self.response.write('End month must be a number\n')
-					failed = True
+				position.endMonth = int(obj['value'])
 			if obj['name'] == 'endYear':
-				try:
-					position.endYear = int(obj['value'])
-				except ValueError:
-					self.response.write('End year must be a number\n')
-					failed = True
+				position.endYear = int(obj['value'])
 			if obj['name'] == 'isCurrent':
 				position.isCurrent = True
+		position.put()
 
-		if not failed:
-			position.put()
+class ProfileIdLookupHandler(webapp2.RequestHandler):
+	def get(self):
+		self.response.write('<html><body>')
+		self.response.write('<h3>Profile IDs</h3>')
+		profiles = BasicProfile.query().fetch()
+		for profile in profiles:
+			self.response.write(profile.fname + " " + profile.lname + ": ")
+			self.response.write(profile.id + "\n")
+		self.response.write('</body></html>')
 
 application = webapp2.WSGIApplication([
 	# Home page handler
@@ -395,5 +386,6 @@ application = webapp2.WSGIApplication([
 
 	# Manual data entry for demos
 	('/manualPosition', ManualPositionHandler),
+	('/profileIdLookup', ProfileIdLookupHandler),
 
 ], debug=True)
