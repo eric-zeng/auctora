@@ -16,10 +16,10 @@
 
       <h1>{{ profile.fname }} {{ profile.lname }}</h1>
       <img src="{{ profile.pictureUrl }}" alt="profilePic">
-      <h2>{{ profile.headline }}</h2>
-      <h2>{{ profile.industry }}</h2>
-      <h2>{{ profile.location }}</h2>
-      <p>{{ profile.profileUrl }}</p>
+      <h3>{{ profile.headline }}</h3>
+      <p>{{ profile.industry }}</p>
+      <p>{{ profile.location }}</p>
+      <a href="{{ profile.profileUrl }}">LinkedIn Profile</a>
 
       <h3>Rate</h3>
       <div class="acidjs-rating-stars">
@@ -32,6 +32,24 @@
           </form>
       </div>
       <br />
+
+      {% if positions %}
+      <h3>Experience</h3>
+      {% endif %}
+
+      {% for position in positions %}
+      <h4>{{position.title}}</h4>
+      <p>{{position.company}}</p>
+      <p>{{position.startMonth}}/{{position.startYear}}-
+      {% if position.isCurrent %}
+        Present
+      {% else %}
+        {{position.endMonth}}/{{position.endYear}}
+      {% endif %}</p>
+
+      <p>{{position.description}}</p>
+      {% endfor %}
+
       <button id="submit" type="submit">Done</button>
 
       <!-- JAVASCRIPT -->

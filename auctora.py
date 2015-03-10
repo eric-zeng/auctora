@@ -26,6 +26,21 @@ class BasicProfile(ndb.Model):
 	profileUrl = ndb.StringProperty()
 	stars = ndb.IntegerProperty()
 
+class Position(ndb.Model):
+	id = ndb.IntegerProperty()
+	profileId = ndb.StringProperty() # Foreign key to BasicProfile
+	title = ndb.StringProperty()
+	description = ndb.StringProperty()
+	company = ndb.StringProperty()
+
+	startMonth = ndb.IntegerProperty()
+	startYear = ndb.IntegerProperty()
+	endMonth = ndb.IntegerProperty()
+	endYear = ndb.IntegerProperty()
+	isCurrent = ndb.BooleanProperty()
+
+#class Education(ndb.Model):
+
 # handler for URL with no path (just tidy-nomad-842.appspot.com)
 # shows the Auctora login page
 class LandingHandler(webapp2.RequestHandler):
@@ -143,8 +158,56 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 			profileEntity.pictureUrl = profile['pictureUrl']
 		else:
 			profileEntity.pictureUrl = None
-
 		profileEntity.put()
+
+		# Parse the position objects if they exist and put them in the datastore
+		if 'positions' in aData and profile['positions']['_total'] > 0:
+			total = profile['positions']['_total']
+			for i in range(0, total):
+				pos = profile['positions']['values'][i]
+
+				# Check if this position already exists, if yes update, if not
+				# create a new one.
+				posQuery = Position.query(Position.id == pos['id']).fetch()
+				if len(posQuery) == 0:
+					posEntity = Position()
+				else:
+					posEntity = posQuery[0]
+
+				posEntity.id = pos['id']
+				posEntity.profileId = profile['id']
+				posEntity.isCurrent = pos['isCurrent']
+
+				if 'title' in pos:
+					posEntity.title = pos['title']
+				else:
+					posEntity.title = None
+
+				if 'summary' in pos:
+					posEntity.description = pos['summary']
+				else:
+					posEntity.description = None
+
+				if 'company' in pos:
+					posEntity.company = pos['company']['name']
+				else:
+					posEntity.company = None
+
+				if 'startDate' in pos:
+					posEntity.startMonth = pos['startDate']['month']
+					posEntity.startYear = pos['startDate']['year']
+				else:
+					posEntity.startMonth = None
+					posEntity.startYear = None
+
+				if 'endDate' in pos:
+					posEntity.endMonth = pos['endDate']['month']
+					posEntity.endYear = pos['endDate']['year']
+				else:
+					posEntity.endMonth = None
+					posEntity.endYear = None
+
+				posEntity.put()
 
 		# Send the authentication-to-questions redirect page.
 		template = JINJA_ENVIRONMENT.get_template('html/authredirect.html')
@@ -176,8 +239,10 @@ class StudentProfileHandler(webapp2.RequestHandler):
 			self.response.write('<html><body>Could not find profile ' + \
 								self.request.get('id') + '</body></html>')
 
+		positions = Position.query(Position.profileId == self.request.get('id'))
+
 		template = JINJA_ENVIRONMENT.get_template('html/studentprofile.html')
-		template_values = {'profile': profiles[0]}
+		template_values = {'profile': profiles[0], 'positions': positions}
 
 		self.response.write(template.render(template_values))
 
