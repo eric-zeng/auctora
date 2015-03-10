@@ -356,7 +356,7 @@ class ProfileIdLookupHandler(webapp2.RequestHandler):
 		profiles = BasicProfile.query().fetch()
 		for profile in profiles:
 			self.response.write(profile.fname + " " + profile.lname + ": ")
-			self.response.write(profile.id + "\n")
+			self.response.write(profile.id + "<br>")
 		self.response.write('</body></html>')
 
 application = webapp2.WSGIApplication([
