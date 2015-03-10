@@ -11,15 +11,21 @@
 	</head>
 
 	<body>
-		<h1>My Career Fairs</h1>
+		Student name:
+		<input id="input" list="students" />
+		<datalist id="students">
+			<!-- names go here -->
+		</datalist>
+		<button id="selectStudent" type="submit">Submit</button>
 
-		<div class="companies"> 
-			<ul>
-				<li> UW CSE </li>
-				<li> MIT CS </li>
-				<li> Stanford </li>
-			</ul>
-		</div>
+		<form action="/yourstudents">
+			See Your Students
+			<input type="submit">
+		</form>
+
+    <!-- JAVASCRIPT -->
+	  <script src="../js/search.js"></script>
+
 	</body>
 
 </html>
