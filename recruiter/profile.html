@@ -10,15 +10,19 @@
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/rating.css">
 	</head>
+
+
   <body>
 
-    <h1>Your Students</h1>
-    <ul id="students">
-      {% for profile in profiles %}
-      <li>
-        <img src="{{profile.pictureUrl}}" alt="studentPic">
-        <p>{{profile.fname}} {{profile.lname}}</p>
-        <div class="acidjs-rating-stars">
+      <h1>{{ profile.fname }} {{ profile.lname }}</h1>
+      <img src="{{ profile.pictureUrl }}" alt="profilePic">
+      <h3>{{ profile.headline }}</h3>
+      <p>{{ profile.industry }}</p>
+      <p>{{ profile.location }}</p>
+      <a href="{{ profile.profileUrl }}">LinkedIn Profile</a>
+
+      <h3>Rate</h3>
+      <div class="acidjs-rating-stars">
           <form id="starsForm">
               <input {% if profile.stars == 5 %} checked {% endif %} type="radio" name="group-1" id="star5" value="5" /><label for="star5"></label>
               <input {% if profile.stars == 4 %} checked {% endif %} type="radio" name="group-1" id="star4" value="4" /><label for="star4"></label>
@@ -26,14 +30,31 @@
               <input {% if profile.stars == 2 %} checked {% endif %} type="radio" name="group-1" id="star2" value="2" /><label for="star2"></label>
               <input {% if profile.stars == 1 %} checked {% endif %} type="radio" name="group-1" id="star1"  value="1" /><label for="star1"></label>
           </form>
-        </div>
-      </li>
-      {% endfor %}
-    </ul>
+      </div>
+      <br />
 
-    <form action="/studentSearch">
-      Search Students
-      <input type="submit">
-    </form>
+      {% if positions %}
+      <h3>Experience</h3>
+      {% endif %}
+
+      {% for position in positions %}
+      <h4>{{position.title}}</h4>
+      <p>{{position.company}}</p>
+      <p>{{position.startMonth}}/{{position.startYear}}-
+      {% if position.isCurrent %}
+        Present
+      {% else %}
+        {{position.endMonth}}/{{position.endYear}}
+      {% endif %}</p>
+
+      <p>{{position.description}}</p>
+      {% endfor %}
+
+      <button id="submit" type="submit">Done</button>
+
+      <!-- JAVASCRIPT -->
+      <script src="../js/profile.js"></script>
+
   </body>
+
 </html>

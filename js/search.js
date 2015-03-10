@@ -8,7 +8,7 @@ window.onload = function() {
   xmlhttp.onload = function(e) {
     var arr = JSON.parse(xmlhttp.response);
     var students = document.getElementById("students");
-    
+
     for (var i = 0; i < arr.length; i++) {
       for (var key in arr) {
         var node = document.createElement("option");
@@ -31,7 +31,7 @@ window.onload = function() {
       }
     }
 
-    url = getUrl("studentProfile");
+    url = getUrl("profile");
     url += "?id=" + id;
     window.location = url;
   }
@@ -45,4 +45,4 @@ window.onload = function() {
     return url;
   }
 
-} 
+}

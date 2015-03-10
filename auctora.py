@@ -47,7 +47,7 @@ class LandingHandler(webapp2.RequestHandler):
 	def get(self):
 		requestedFile = self.request.url[1:]
 		logging.info('' + requestedFile)
-		template = JINJA_ENVIRONMENT.get_template('html/loginPage.html')
+		template = JINJA_ENVIRONMENT.get_template('candidate/loginPage.html')
 		self.response.write(template.render())
 
 # serve the root page for the Auctora slides
@@ -55,7 +55,7 @@ class SlidesLandingHandler(webapp2.RequestHandler):
 	def get(self):
 		requestedFile = self.request.url[1:]
 		logging.info('' + requestedFile)
-		template = JINJA_ENVIRONMENT.get_template('html/slides.html')
+		template = JINJA_ENVIRONMENT.get_template('slides/slides.html')
 		self.response.write(template.render())
 
 # Handle the redirect from the LinkedIn sign in page.
@@ -210,29 +210,29 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 				posEntity.put()
 
 		# Send the authentication-to-questions redirect page.
-		template = JINJA_ENVIRONMENT.get_template('html/authredirect.html')
+		template = JINJA_ENVIRONMENT.get_template('candidate/authredirect.html')
 		self.response.write(template.render())
 
 class QuestionsHandler(webapp2.RequestHandler):
 	def get(self):
-		template = JINJA_ENVIRONMENT.get_template('html/questions.html')
+		template = JINJA_ENVIRONMENT.get_template('candidate/questions.html')
 		self.response.write(template.render())
 
 class CompaniesHandler(webapp2.RequestHandler):
 	def get(self):
-		template = JINJA_ENVIRONMENT.get_template('html/companies.html')
+		template = JINJA_ENVIRONMENT.get_template('candidate/companies.html')
 		self.response.write(template.render())
 
 class QuestionsFormHandler(webapp2.RequestHandler):
 	def post(self):
 		logging.info(self.request.get('content'))
 
-class StudentSearchHandler(webapp2.RequestHandler):
+class SearchHandler(webapp2.RequestHandler):
 	def get(self):
-		template = JINJA_ENVIRONMENT.get_template('html/studentsearch.html')
+		template = JINJA_ENVIRONMENT.get_template('recruiter/search.html')
 		self.response.write(template.render())
 
-class StudentProfileHandler(webapp2.RequestHandler):
+class ProfileHandler(webapp2.RequestHandler):
 	def get(self):
 		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
 		if len(profiles) == 0:
@@ -241,14 +241,14 @@ class StudentProfileHandler(webapp2.RequestHandler):
 
 		positions = Position.query(Position.profileId == self.request.get('id'))
 
-		template = JINJA_ENVIRONMENT.get_template('html/studentprofile.html')
+		template = JINJA_ENVIRONMENT.get_template('recruiter/profile.html')
 		template_values = {'profile': profiles[0], 'positions': positions}
 
 		self.response.write(template.render(template_values))
 
-class StudentListHandler(webapp2.RequestHandler):
+class CandidateListHandler(webapp2.RequestHandler):
 	def get(self):
-		template = JINJA_ENVIRONMENT.get_template('html/yourstudents.html')
+		template = JINJA_ENVIRONMENT.get_template('recruiter/candidateList.html')
 		profiles = BasicProfile.query(BasicProfile.stars > 0).fetch()
 		template_values = {"profiles": profiles}
 		self.response.write(template.render(template_values))
@@ -337,9 +337,9 @@ application = webapp2.WSGIApplication([
 	('/submitQuestions', QuestionsFormHandler),
 
 	# Recruiter UI Handlers
-	('/studentSearch', StudentSearchHandler),
-	('/studentProfile', StudentProfileHandler),
-	('/yourstudents', StudentListHandler),
+	('/search', SearchHandler),
+	('/profile', ProfileHandler),
+	('/candidateList', CandidateListHandler),
 	('/setStars', StarsHandler),
 
 	# Profile data request handlers
