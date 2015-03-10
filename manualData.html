@@ -21,8 +21,6 @@
 					var form = $(this);
 					var formData = JSON.stringify(form.serializeArray());
 
-					alert("I am about to POST this:\n\n" + formData);
-
 					$.ajax({
 						type: "POST",
 						url: "/manualPosition",
