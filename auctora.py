@@ -1,6 +1,7 @@
 import logging
 import json
 import os
+import random
 import urllib
 
 from google.appengine.ext import ndb
@@ -345,6 +346,7 @@ class ManualPositionHandler(webapp2.RequestHandler):
 				position.endYear = int(obj['value'])
 			if obj['name'] == 'isCurrent':
 				position.isCurrent = True
+		position.id = random.randint(1, 1000000)
 		position.put()
 
 class ProfileIdLookupHandler(webapp2.RequestHandler):
