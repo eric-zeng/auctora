@@ -1,0 +1,23 @@
+#header-text {
+	padding: 3%;
+}
+
+@media (min-width: 800px) {
+	#header-text {
+		font-size: 36px;
+	}
+}
+
+.page-header {
+	background: #353a43;
+	color: #ffffff;
+	font-weight: 300;
+	margin: 0 !important;
+	padding-bottom: 0.25em ;
+	padding-top: 0.25em ;
+	text-align: center;
+}
+
+.row {
+	text-align: center;
+}
