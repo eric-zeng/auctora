@@ -8,15 +8,14 @@ March 7, 2015
 // module-global format
 (function() {						// anonymous function for window load event
 	window.addEventListener("load", function() {
-		$("#signature").jSignature()
-		document.getElementById("done").addEventListener("click", submitAnnotation);
-		$(".canvas").click(function() {
-		  	alert("i'm drawing!");
-		})
+		var canvas = document.querySelector("canvas");
+   		var signaturePad = new SignaturePad(canvas);
+   		document.getElementById("canvasParent").style.display="inline-block";
+		document.getElementById("canvasClear").addEventListener("click", function() { submitAnnotation(signaturePad); });
 	});
 
 	// for submitting the annotation
-	function submitAnnotation() {
-		$("#signature").jSignature("reset") // clears the canvas and rerenders the decor on it.
+	function submitAnnotation(signaturePad) {
+		signaturePad.clear();
 	}
 })();
