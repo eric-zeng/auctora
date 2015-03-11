@@ -1,6 +1,23 @@
+@font-face {
+	font-family: 'RobotoMedium';
+	src: url("../fonts/Roboto-Medium.ttf");
+}
+
+@font-face {
+	font-family: 'RobotoLight';
+	src: url("../fonts/Roboto-Light.ttf");
+}
+
 html, body {
-	background-color: #353a43;
+	background-color: #141821;
 	height: 100%;
+	font-family: "RobotoLight";
+}
+
+h1 {
+	font-family: 'RobotoMedium';
+	font-size: 45px;
+	font-weight: normal;
 }
 
 .container {
@@ -23,13 +40,12 @@ html, body {
 #header {
 	padding-top: 1em;
 	padding-bottom: 1em;
-	background-color: #191955;
+	background-color: #3B424C;
 	margin-bottom:3em;
 	color: #fff;
 	text-align: center;
 	text-shadow: 0 1px 3px rgba(0,0,0,.5);
 	border: 2px;
-	border-color
 }
 
 .profilepic {
