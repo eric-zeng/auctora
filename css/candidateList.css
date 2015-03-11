@@ -8,10 +8,51 @@ html, body {
 	background-color: #fff;
 }
 
-h1 {
+.btn.sidebar {
 	text-align: center;
+	width: 85%;
+}
+
+.table {
+	font-size: 18px;
+}
+
+.table tbody>tr>td.vert-align{
+    vertical-align: middle;
+}
+
+#header {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	background-color: #191955;
+	margin-bottom:3em;
+	color: #fff;
+	text-align: center;
+	text-shadow: 0 1px 3px rgba(0,0,0,.5);
+	border: 2px;
+	border-color
+}
+
+.profilepic {
+	height: 2.8em;
+}
+
+.row.sidebar {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.twitter-typeahead {
+    width: 100%;
+}
+.tt-dropdown-menu{
+    width: 102%;
+}
+.typeahead.tt-input {
+	width: 100%;
 }
 
 #searchbox {
-	margin-left: 40px;
+	padding-bottom: 3em;
+	margin: 0 20px 0 20px;
 }
