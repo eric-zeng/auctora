@@ -46,3 +46,7 @@ window.onload = function() {
   }
 
 }
+
+function navToList() {
+  document.location.href = "/candidateList"
+}
