@@ -4,9 +4,12 @@
 	<head>
 		<title>Auctora</title>
 		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="../js/typeahead.bundle.min.js"></script>
+    <script src="../js/candidateList.js"></script>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/rating.css">
+    <link rel="stylesheet" href="../css/typeaheadjs.css">
     <link rel="stylesheet" href="../css/candidateList.css">
 	</head>
   <body>
@@ -17,9 +20,11 @@
 
       <div id="main" class="row fill">
         <div id="sidebar" class="col-md-3">
-          <button onclick="navToSearch()" type="button" class="btn btn-primary">
-            Add Candidate
-          </button>
+          <div class="row">
+            <div id="searchbox">
+              <input class="typeahead" type="text" placeholder="Search for students">
+            </div>
+          </div>
         </div>
 
         <div id="candidates" class="col-md-9">
@@ -59,11 +64,5 @@
         </div>
       </div>
     </div>
-    <script>
-      function navToSearch() {
-        document.location.href = "/search"
-      }
-    </script>
-
   </body>
 </html>

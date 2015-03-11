@@ -19,7 +19,7 @@ window.onload = function() {
 
   // Changes page to the candidate search page.
   function doneRequest() {
-    var url = getUrl("search");
+    var url = getUrl("candidateList");
     window.location = url;
   }
 
