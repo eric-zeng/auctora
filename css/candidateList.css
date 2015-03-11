@@ -12,6 +12,6 @@ h1 {
 	text-align: center;
 }
 
-#sidebar {
-	text-align: center;
+#searchbox {
+	margin-left: 40px;
 }
