@@ -4,7 +4,10 @@
 	<head>
 		<title>Auctora</title>
 		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../libs/jSignature.min.js"></script>
+    <script type="text/javascript" src="../js/profile.js"></script>
 		<link rel="stylesheet" href="../css/questions.css">
+    <link rel="stylesheet" href="../css/canvas.css"></link>
 
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -52,9 +55,16 @@
 
       <button id="submit" type="submit">Done</button>
 
-      <!-- JAVASCRIPT -->
-      <script src="../js/profile.js"></script>
-
+      <br><br><br>
+      <div id="canvasParent">
+        <div id="canvas">
+          <canvas class="jSignature" width="585" height="146">
+          </canvas>
+        </div>
+        <button id="canvasDone" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+          Done
+        </button>
+      </div>
   </body>
 
 </html>

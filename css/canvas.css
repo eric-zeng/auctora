@@ -1,4 +1,4 @@
-#signature {
+#canvas {
 	padding:0;
 	margin:0;
 	width: 50%;
@@ -17,6 +17,14 @@
 	width: 100%;
 }
 
-#done {
+#canvasDone {
 	display: inline-block;
+}
+
+.annotated {
+	background-color: #A2CAF5;
+}
+
+.active {
+	background-color: #CEE7F5;
 }

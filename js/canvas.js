@@ -10,6 +10,9 @@ March 7, 2015
 	window.addEventListener("load", function() {
 		$("#signature").jSignature()
 		document.getElementById("done").addEventListener("click", submitAnnotation);
+		$(".canvas").click(function() {
+		  	alert("i'm drawing!");
+		})
 	});
 
 	// for submitting the annotation

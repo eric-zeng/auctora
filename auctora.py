@@ -429,7 +429,7 @@ application = webapp2.WSGIApplication([
 	('/nameRequest', NameRequestHandler),
 
 	# Handler for submitting an annotations image.
-	('/submitAnnotation', AnnotationHandler)
+	('/submitAnnotation', AnnotationHandler),
 
 	# Manual data entry for demos
 	('/manualPosition', ManualPositionHandler),
