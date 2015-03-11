@@ -1,0 +1,17 @@
+html, body {
+	background-color: #353a43;
+	height: 100%;
+}
+
+.container {
+	height: 100%;
+	background-color: #fff;
+}
+
+h1 {
+	text-align: center;
+}
+
+#sidebar {
+	text-align: center;
+}

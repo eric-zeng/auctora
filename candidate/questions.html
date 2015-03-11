@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+	<head>
+		<title>Auctora</title>
+
+		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
+<!-- Currently not logging this in the backend - if we change that we should use this script to send to backend
+		<script>
+			window.onload = function() {
+			$('#questionsForm').on('submit',function(e) {
+				//e.preventDefault();
+				var form = $(this);
+				var formData = JSON.stringify(form.serializeArray());
+
+				//alert("I am about to POST this:\n\n" + formData);
+
+				$.ajax({
+					type: "POST",
+					url: "/submitQuestions",
+					data: formData,
+					success: function(){},
+					contentType : "application/json"
+				});
+			});
+			}
+		</script>
+-->
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/questions.css">
+		<link rel="stylesheet" href="../css/toggle-button.css">
+	</head>
+
+	<body>
+		<div class="page-header">
+			<h3 id="header-text">Welcome to the UW CSE Career Fair!</h3>
+		</div>
+		<div class="row" style="padding: 5%;">
+			<div class="col-md-6 col-md-offset-3">
+				<p>Please answer a few short questions to help recruiters get to know you better.</p>
+				<form id="questionsForm" action="/companies">
+					<div id="year" class ="checkbox">
+						<h3 class="form-question">What is your class standing?</h3>
+						<label class="list-item">
+							<input type="radio" name="grade" value="freshman">
+							Freshman
+						</label>
+						<br>
+						<label class="list-item">
+							<input type="radio" name="grade" value="sophomore">
+							Sophomore
+						</label>
+						<br>
+						<label class="list-item">
+							<input type="radio" name="grade" value="junior">
+							Junior
+						</label>
+						<br>
+						<label class="list-item">
+							<input type="radio" name="grade" value="senior">
+							Senior
+						</label>
+						<br>
+					</div>
+
+					<h3 class="form-question">GPA</h3>
+					<label>
+						<select name="gpa">
+							<option value="4.0">4.0</option>
+							<option value="3.9">3.9</option>
+							<option value="3.8">3.8</option>
+							<option value="3.7">3.7</option>
+							<option value="3.6">3.6</option>
+							<option value="3.5">3.5</option>
+							<option value="3.4">3.4</option>
+							<option value="3.3">3.3</option>
+							<option value="3.2">3.2</option>
+							<option value="3.1">3.1</option>
+							<option value="3.0">3.0</option>
+							<option value="2.9">2.9</option>
+							<option value="2.8">2.8</option>
+							<option value="2.7">2.7</option>
+							<option value="2.6">2.6</option>
+							<option value="2.5">2.5</option>
+							<option value="<2.5">&lt2.5</option>
+						</select>
+					</label>
+					<br>
+					<label>
+						<h3 class="form-question">Do you require visa sponsorship from an employer to work in the United States?</h3>
+					</label>
+					<div id="toggles">
+						<input type="checkbox" name="checkbox1" id="checkbox1" class="ios-toggle" />
+						<label for="checkbox1" class="checkbox-label" data-off="no" data-on="yes"></label>
+					</div>
+					<div class="checkbox">
+						<h3 class="form-question">What kind of position are you looking for?</h3>
+						<label class="list-item">
+							<input type="radio" name="lookingfor" value="fulltime">
+							Fulltime employment
+						</label>
+						<br>
+						<label class="list-item">
+							<input type="radio" name="lookingfor" value="internship">
+							Internship opportunity
+						</label>
+					</div>
+					<input type="submit" value="Submit" style="10px;">
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

@@ -3,9 +3,8 @@ window.onload = function() {
 
     // Send users to the LinkedIn login page.
     function signIn() {
-        var selectfair = document.getElementById("selectfair");
-        var selected = selectfair.options[selectfair.selectedIndex].value;
-        if(selected != "select"){
+        var selected = document.getElementById("selectedfair").outerText;
+        if(selected != "Select Fair"){
             var client_id = "75kh0yq5sa89ld";
 
             // Redirect URI can either be our app engine domain or localhost:8080.
