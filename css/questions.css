@@ -1,5 +1,30 @@
-h1, .container-fluid {
-	text-align: center;
+@font-face {
+	font-family: 'RobotoMedium';
+	src: url("../fonts/Roboto-Medium.ttf");
+}
+
+@font-face {
+	font-family: 'RobotoLight';
+	src: url("../fonts/Roboto-Light.ttf");
+}
+
+html, body {
+	background-color: #141821;
+	height: 100%;
+	font-family: "RobotoLight";
+}
+
+h1 {
+	font-family: 'RobotoMedium';
+	font-size: 36px;
+	font-weight: normal;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.container {
+	background-color: #fff;
+	padding-bottom: 48px;
 }
 
 .checkbox {
@@ -10,14 +35,15 @@ h1, .container-fluid {
 	font-size: 1.5em;
 }
 
-#header-text {
-	padding: 5%;
-}
-
-@media (min-width: 800px) {
-	#header-text {
-		font-size: 36px;
-	}
+#header {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	background-color: #3B424C;
+	margin-bottom:3em;
+	color: #fff;
+	text-align: center;
+	text-shadow: 0 1px 3px rgba(0,0,0,.5);
+	border: 2px;
 }
 
 .page-header {
