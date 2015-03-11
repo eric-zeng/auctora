@@ -158,7 +158,7 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 		if 'pictureUrl' in aData:
 			profileEntity.pictureUrl = profile['pictureUrl']
 		else:
-			profileEntity.pictureUrl = None
+			profileEntity.pictureUrl = '/images/profile-pic.png'
 		profileEntity.put()
 
 		# Parse the position objects if they exist and put them in the datastore
