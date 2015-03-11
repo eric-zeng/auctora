@@ -56,7 +56,7 @@ class SlidesLandingHandler(webapp2.RequestHandler):
 	def get(self):
 		requestedFile = self.request.url[1:]
 		logging.info('' + requestedFile)
-		template = JINJA_ENVIRONMENT.get_template('slides/slides.html')
+		template = JINJA_ENVIRONMENT.get_template('slides.html')
 		self.response.write(template.render())
 
 # Handle the redirect from the LinkedIn sign in page.
