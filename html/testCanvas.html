@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" href="../css/canvas.css"></link>
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
 		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<!--[if lt IE 9]>
-		<script type="text/javascript" src="libs/flashcanvas.js"></script>
+			<script type="text/javascript" src="libs/flashcanvas.js"></script>
 		<![endif]-->
-		<script src="../libs/jSignature.min.js"></script>
+		<script type="text/javascript" src="../libs/jSignature.min.js"></script>
+		<script type="text/javascript" src="../js/canvas.js"></script>
 		
 	</head>
 	<body>
-		<div id="signature"></div>
-		<script>
-		    $(document).ready(function() {
-		        $("#signature").jSignature()
-		    })
-		</script>
+		<div id="signatureParent">
+			<div id="signature">
+				<canvas class="jSignature" width="585" height="146">
+				</canvas>
+			</div>
+			<button id="done" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+				Done
+			</button>
+		</div>
 	</body>
 </html>
