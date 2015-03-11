@@ -1,0 +1,21 @@
+#signature {
+	padding:0;
+	margin:0;
+	width: 50%;
+	height: 0;
+	margin-top:-1em;
+	margin-bottom:1em;
+	!important;
+}
+
+.jSignature {
+	margin: 0px;
+	padding: 0px;
+	border: medium none;
+	height: 146px;
+	width: 100%;
+}
+
+#done {
+	display: block;
+}
