@@ -247,9 +247,9 @@ class ProfileHandler(webapp2.RequestHandler):
 
 		self.response.write(template.render(template_values))
 
-class CandidateListHandler(webapp2.RequestHandler):
+class RecruiterHomeHandler(webapp2.RequestHandler):
 	def get(self):
-		template = JINJA_ENVIRONMENT.get_template('recruiter/candidateList.html')
+		template = JINJA_ENVIRONMENT.get_template('recruiter/home.html')
 		profiles = BasicProfile.query(BasicProfile.stars > 0).fetch()
 		template_values = {"profiles": profiles}
 		self.response.write(template.render(template_values))
@@ -379,7 +379,7 @@ application = webapp2.WSGIApplication([
 	# Recruiter UI Handlers
 	('/search', SearchHandler),
 	('/profile', ProfileHandler),
-	('/candidateList', CandidateListHandler),
+	('/home', RecruiterHomeHandler),
 	('/setStars', StarsHandler),
 
 	# Profile data request handlers
