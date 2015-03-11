@@ -4,6 +4,7 @@
 	<head>
 		<title>Auctora</title>
 		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <script src="../js/typeahead.bundle.min.js"></script>
     <script src="../js/home.js"></script>
 		<!-- Latest compiled and minified CSS -->
@@ -13,6 +14,24 @@
     <link rel="stylesheet" href="../css/home.css">
 	</head>
   <body>
+  <div class="modal fade" id="basicmodal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="title"></h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <p>One fine body&hellip;</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="cancelaction">Cancel</button>
+          <button type="button" class="btn btn-primary" id="actionitem">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
     <div class="container">
       <div id="header" class="row">
         <h1>Auctora</h1>
@@ -26,13 +45,13 @@
             </div>
           </div>
           <div class="row sidebar">
-            <button type="button" class="btn btn-primary sidebar center-block">Email All</button>
+            <button type="button" id="emailall" class="btn btn-primary sidebar center-block" data-toggle="modal" href="#basicmodal" data-target="#basicmodal">Email All</button>
           </div>
           <div class="row sidebar">
-            <button type="button" class="btn btn-primary sidebar center-block">Categorize</button>
+            <button type="button" id="categorize"class="btn btn-primary sidebar center-block" data-toggle="modal" href="#basicmodal" data-target="#basicmodal">Categorize</button>
           </div>
           <div class="row sidebar">
-            <button type="button" class="btn btn-primary sidebar center-block">Export</button>
+            <button type="button" id="exportdata" class="btn btn-primary sidebar center-block" data-toggle="modal" href="#basicmodal" data-target="#basicmodal">Export</button>
           </div>
 
         </div>

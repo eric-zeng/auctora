@@ -34,6 +34,25 @@ var substringMatcher = function(strs) {
 };
 
 $(document).ready(function() {
+    // $('#modal').on('shown.bs.modal', function () {
+    //     alert();
+    //     $('#myInput').focus();
+    // });
+
+    // $("#basicmodal").modal();
+
+    $("#emailall").click(function(){
+        $("#basicmodal #title").html("Email candidates");        
+    });
+
+    $("#categorize").click(function(){
+        $("#basicmodal #title").html("Categorize");      
+    });
+
+    $("#exportdata").click(function(){
+        $("#basicmodal #title").html("Export data");        
+    });
+
     var nameToId = {}
 
     $('.typeahead').typeahead('val');
