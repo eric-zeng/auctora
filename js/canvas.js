@@ -9,7 +9,7 @@ March 7, 2015
 (function() {						// anonymous function for window load event
 	window.addEventListener("load", function() {
 		$("#signature").jSignature()
-		document.getElementById("done").addEventListener("click", submitAnnotation);
+		$("#done").onclick(submitAnnotation);
 	});
 
 	// for submitting the annotation

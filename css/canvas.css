@@ -6,6 +6,7 @@
 	margin-top:-1em;
 	margin-bottom:1em;
 	!important;
+	display: inline-block;
 }
 
 .jSignature {
@@ -17,5 +18,5 @@
 }
 
 #done {
-	display: block;
+	display: inline-block;
 }
