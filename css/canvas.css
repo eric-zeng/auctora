@@ -1,7 +1,5 @@
 #canvas {
-	width: 99%;
-	margin-left: auto;
-	margin-right: auto;
+	width: 100%;
 	display: block;
 }
 
@@ -20,8 +18,13 @@
 }
 
 #canvasButtons {
-	width: 100%;
-	background-color: gray;
+	border-radius: 4px;
+  	box-shadow: 0px 0px 5px 3px #888888;
+	width: 208px;
+	padding: 5px;
+	margin: 10px;
+	background-color: white;
+	float: right;
 }
 
 .canvasButton {
@@ -35,4 +38,8 @@
 .annotated:hover {
 	background-color: #A2CAF5;
 	cursor: pointer;
+}
+
+.active {
+	background-color: #A2CAF5;
 }
