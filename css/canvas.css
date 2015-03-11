@@ -1,30 +1,38 @@
 #canvas {
-	padding:0;
-	margin:0;
-	width: 50%;
-	height: 0;
-	margin-top:-1em;
-	margin-bottom:1em;
-	!important;
-	display: inline-block;
+	width: 99%;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
 }
 
-.jSignature {
-	margin: 0px;
-	padding: 0px;
-	border: medium none;
-	height: 146px;
+#canvasParent {
+	background-image: url(../images/graph-paper-background.gif);
+	border-top-style: solid;
+	border-top-color: gray;
+	bottom: 0px;
+	left: 0px;
 	width: 100%;
 }
 
-#canvasDone {
+.noNote:hover {
+	background-color: #D4D4D4;
+	cursor: pointer;
+}
+
+#canvasButtons {
+	width: 100%;
+	background-color: gray;
+}
+
+.canvasButton {
 	display: inline-block;
 }
 
 .annotated {
-	background-color: #A2CAF5;
+	background-color: #CEE7F5;
 }
 
-.active {
-	background-color: #CEE7F5;
+.annotated:hover {
+	background-color: #A2CAF5;
+	cursor: pointer;
 }

@@ -4,8 +4,12 @@
    <head>
       <title>Auctora</title>
       <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script type="text/javascript" src="../libs/jSignature.min.js"></script>
+
+      <script type="text/javascript" src="../js/signature_pad.js"></script>
+      <script type="text/javascript" src="../js/note.js"></script>
+
       <script type="text/javascript" src="../js/profile.js"></script>
+
       <link rel="stylesheet" href="../css/questions.css">
       <link rel="stylesheet" href="../css/canvas.css"></link>
 
@@ -59,5 +63,25 @@
             </div>
          </div>
       </div>
+
+      <div id="canvasParent">
+        <div id="canvas">
+          <canvas width="10000" height="150">
+          </canvas>
+        </div>
+
+        <div id="canvasButtons">
+          <button id="canvasClear" type="button" class="btn canvasButton" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Clear
+          </button>
+          <button id="canvasCancel" type="button" class="btn canvasButton" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Cancel
+          </button>
+          <button id="canvasDone" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Done
+          </button>
+        </div>
+      </div>
+
    </body>
 </html>

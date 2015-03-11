@@ -7,20 +7,29 @@
 		<!--[if lt IE 9]>
 			<script type="text/javascript" src="libs/flashcanvas.js"></script>
 		<![endif]-->
-		<script type="text/javascript" src="../libs/jSignature.min.js"></script>
+		<script type="text/javascript" src="../js/signature_pad.js"></script>
 		<script type="text/javascript" src="../js/canvas.js"></script>
 		
 	</head>
 	<body>
 		<h1>Testing!</h1>
-		<div id="signatureParent">
-			<div id="signature">
-				<canvas class="jSignature" width="585" height="146">
-				</canvas>
-			</div>
-			<button id="done" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-				Done
-			</button>
-		</div>
+      <div id="canvasParent">
+        <div id="canvas">
+          <canvas width="10000" height="150">
+          </canvas>
+        </div>
+
+        <div id="canvasButtons">
+          <button id="canvasClear" type="button" class="btn canvasButton" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Clear
+          </button>
+          <button id="canvasCancel" type="button" class="btn canvasButton" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Cancel
+          </button>
+          <button id="canvasDone" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Done
+          </button>
+        </div>
+      </div>
 	</body>
 </html>
