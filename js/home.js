@@ -1,11 +1,11 @@
 
 
 function getUrl(nextPage) {
-    var url = window.location.protocol + "//" + window.location.hostname;
-    if (window.location.hostname == "localhost") {
-        url += ":" + window.location.port;
+    var url = window.location.protocol + '//' + window.location.hostname;
+    if (window.location.hostname == 'localhost') {
+        url += ':' + window.location.port;
     }
-    url += "/" + nextPage;
+    url += '/' + nextPage;
     return url;
 }
 
@@ -39,18 +39,20 @@ $(document).ready(function() {
     //     $('#myInput').focus();
     // });
 
-    // $("#basicmodal").modal();
+    // $('#basicmodal').modal();
 
-    $("#emailall").click(function(){
-        $("#basicmodal #title").html("Email candidates");        
+    $('#emailall').click(function(){
+        $('#basicmodal #title').html('Email candidates');
+        var email = $('#email').attr('style', '')
+        $('#basicmodal #modal-body').append(email)
     });
 
-    $("#categorize").click(function(){
-        $("#basicmodal #title").html("Categorize");      
+    $('#categorize').click(function(){
+        $('#basicmodal #title').html('Categorize');
     });
 
-    $("#exportdata").click(function(){
-        $("#basicmodal #title").html("Export data");        
+    $('#exportdata').click(function(){
+        $('#basicmodal #title').html('Export data');
     });
 
     var nameToId = {}
@@ -58,15 +60,15 @@ $(document).ready(function() {
     $('.typeahead').typeahead('val');
 
     var xmlhttp = new XMLHttpRequest();
-    var url = getUrl("nameRequest");
-    xmlhttp.open("GET", url, true);
-    xmlhttp.responseType = "JSON";
+    var url = getUrl('nameRequest');
+    xmlhttp.open('GET', url, true);
+    xmlhttp.responseType = 'JSON';
     xmlhttp.onload = function(e) {
         var arr = JSON.parse(xmlhttp.response);
 
         for (var i = 0; i < arr.length; i++) {
             for (var key in arr) {
-                nameToId[arr[key]["fname"] + " " + arr[key]["lname"]] = arr[key]["id"];
+                nameToId[arr[key]['fname'] + ' ' + arr[key]['lname']] = arr[key]['id'];
             }
         }
 
@@ -82,9 +84,9 @@ $(document).ready(function() {
             name: 'names',
             displayKey: 'value',
             source: substringMatcher(Object.keys(nameToId))
-        }).bind("typeahead:selected", function(obj, datum, name) {
+        }).bind('typeahead:selected', function(obj, datum, name) {
             var id = nameToId[datum['value']];
-            document.location.href = "/profile?id=" + id
+            document.location.href = '/profile?id=' + id
         });
     }
     xmlhttp.send();
@@ -92,5 +94,5 @@ $(document).ready(function() {
 });
 
 function navToSearch() {
-    document.location.href = "/search"
+    document.location.href = '/search'
 }
