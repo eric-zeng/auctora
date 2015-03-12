@@ -24,3 +24,20 @@ indexes:
   - name: lname
   - name: pictureUrl
   - name: stars
+
+- kind: BasicProfile
+  properties:
+  - name: stars
+  - name: fname
+  - name: id
+  - name: lname
+  - name: pictureUrl
+
+- kind: BasicProfile
+  properties:
+  - name: stars
+    direction: desc
+  - name: fname
+  - name: id
+  - name: lname
+  - name: pictureUrl

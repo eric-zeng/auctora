@@ -259,7 +259,7 @@ class ProfileHandler(webapp2.RequestHandler):
 class RecruiterHomeHandler(webapp2.RequestHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('recruiter/home.html')
-		profiles = BasicProfile.query(BasicProfile.stars > 0).fetch()
+		profiles = BasicProfile.query().order(-BasicProfile.stars).fetch()
 		template_values = {"profiles": profiles}
 		self.response.write(template.render(template_values))
 
