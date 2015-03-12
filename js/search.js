@@ -48,5 +48,5 @@ window.onload = function() {
 }
 
 function navToList() {
-  document.location.href = "/candidateList"
+  document.location.href = "/home"
 }

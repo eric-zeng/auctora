@@ -123,8 +123,14 @@ function setBackgrounds () {
 
         var educationLevel = urlParams["grade"];
         if(!companyToGPA[i][educationLevel]){
+            var grade = ""
+            if (urlParams["grade"] == "freshman") {
+                grade = "freshmen"
+            } else {
+                grade = urlParams["grade"] + "s"
+            }
             document.getElementById(companyToGPA[i].name + "Info").innerHTML =
-                "Sorry, we aren't looking for " + urlParams["grade"] + "s";
+                "Sorry, we aren't looking for " + grade;
             isValid = false;
         }
 

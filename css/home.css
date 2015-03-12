@@ -16,23 +16,25 @@ html, body {
 
 h1 {
 	font-family: 'RobotoMedium';
-	font-size: 36px;
+	font-size: 45px;
 	font-weight: normal;
-	padding-left: 10px;
-	padding-right: 10px;
 }
 
 .container {
 	background-color: #fff;
-	padding-bottom: 48px;
 }
 
-.checkbox {
-	padding-bottom: 10px;
+.btn.sidebar {
+	text-align: center;
+	width: 85%;
 }
 
-.form-question {
-	font-size: 1.5em;
+.table {
+	font-size: 18px;
+}
+
+.table tbody>tr>td.vert-align{
+    vertical-align: middle;
 }
 
 #header {
@@ -46,16 +48,26 @@ h1 {
 	border: 2px;
 }
 
-.page-header {
-	background: #353a43;
-	color: #ffffff;
-	font-weight: 300;
-	margin: 0 !important;
-	padding-bottom: 0.25em ;
-	padding-top: 0.25em ;
-	text-align: center;
+.profilepic {
+	height: 2.8em;
 }
 
-.class-standing {
-	padding-left: 0 !important;
+.row.sidebar {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.twitter-typeahead {
+    width: 100%;
+}
+.tt-dropdown-menu{
+    width: 102%;
+}
+.typeahead.tt-input {
+	width: 100%;
+}
+
+#searchbox {
+	padding-bottom: 3em;
+	margin: 0 20px 0 20px;
 }

@@ -1,23 +1,43 @@
-#header-text {
-	padding: 3%;
+@font-face {
+	font-family: 'RobotoMedium';
+	src: url("../fonts/Roboto-Medium.ttf");
 }
 
-@media (min-width: 800px) {
-	#header-text {
-		font-size: 36px;
-	}
+@font-face {
+	font-family: 'RobotoLight';
+	src: url("../fonts/Roboto-Light.ttf");
 }
 
-.page-header {
-	background: #353a43;
-	color: #ffffff;
-	font-weight: 300;
-	margin: 0 !important;
-	padding-bottom: 0.25em ;
-	padding-top: 0.25em ;
-	text-align: center;
+html, body {
+	background-color: #141821;
+	height: 100%;
+	font-family: "RobotoLight";
+}
+
+h1 {
+	font-family: 'RobotoMedium';
+	font-size: 36px;
+	font-weight: normal;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .row {
 	text-align: center;
+}
+
+.container {
+	background-color: #fff;
+	padding-bottom: 48px;
+}
+
+#header {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	background-color: #3B424C;
+	margin-bottom:3em;
+	color: #fff;
+	text-align: center;
+	text-shadow: 0 1px 3px rgba(0,0,0,.5);
+	border: 2px;
 }
