@@ -20,6 +20,7 @@ class BasicProfile(ndb.Model):
 	id = ndb.StringProperty()
 	fname = ndb.StringProperty()
 	lname = ndb.StringProperty()
+	email = ndb.StringProperty()
 	headline = ndb.StringProperty()
 	industry = ndb.StringProperty()
 	location = ndb.StringProperty()
@@ -106,8 +107,8 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 		# Use the access token to retrieve the basic profile.
 		tokenHeader = 'Bearer ' + accessToken
-		profileFields = 'id,first-name,last-name,headline,location,' + \
-			'industry,summary,specialties,positions,picture-url,' + \
+		profileFields = 'id,first-name,last-name,email-address,headline,' + \
+			'location,industry,summary,specialties,positions,picture-url,' + \
 			'public-profile-url,site-standard-profile-request'
 		profileResponse = urlfetch.fetch(
 			url='https://api.linkedin.com/v1/people/~:(' + profileFields + ')?format=json',
@@ -137,6 +138,7 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 		profileEntity.id = profile['id']
 		profileEntity.fname = profile['firstName']
 		profileEntity.lname = profile['lastName']
+		profileEntity.email = profile['emailAddress']
 		profileEntity.profileUrl = profile['publicProfileUrl']
 		profileEntity.stars = 0
 

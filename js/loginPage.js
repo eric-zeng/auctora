@@ -17,7 +17,7 @@ window.onload = function() {
             redirect_uri += "/auth/linkedIn";
 
             var state = "ALS12sdij12989IDJSA0923u";
-            var scope = "r_basicprofile";
+            var scope = "r_basicprofile r_emailaddress";
 
             auth_url = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id="
                 + client_id + "&redirect_uri=" + encodeURIComponent(redirect_uri) +
