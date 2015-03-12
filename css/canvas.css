@@ -5,8 +5,9 @@
 
 #canvasParent {
 	background-image: url(../images/graph-paper-background.gif);
-	border-top-style: solid;
-	border-top-color: gray;
+	/*border-top-style: solid;
+	border-top-color: gray;*/
+	box-shadow: 0px 0px 8px #888888;
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
