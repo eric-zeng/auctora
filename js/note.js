@@ -38,6 +38,7 @@ function addTriggersTo() {
 function displayCanvas(element) {
   $(element).toggleClass("active");
   if( lastClick != element ) {
+    $(lastClick).removeClass("active");
     signaturePad.clear();
   }
   var noNote = element.classList.contains("noNote");
