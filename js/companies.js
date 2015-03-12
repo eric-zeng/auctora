@@ -46,7 +46,7 @@ var companyToGPA = [
     },
     {
         "name": "microsoft",
-        "minGPA": 3.5,
+        "minGPA": 0.0,
         "visa": true,
         "fulltime": true,
         "internship": true,
@@ -142,12 +142,12 @@ function setBackgrounds () {
 
 window.onload = function() {
     caller();
-    setBackgrounds();
     document.getElementById("amazon").onclick = displayInfo;
     document.getElementById("cisco").onclick = displayInfo;
     document.getElementById("dropbox").onclick = displayInfo;
     document.getElementById("facebook").onclick = displayInfo;
     document.getElementById("microsoft").onclick = displayInfo;
+    setBackgrounds();
 
     function displayInfo() {
         console.log(this.id);
