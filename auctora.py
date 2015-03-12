@@ -304,7 +304,7 @@ class ProfileRequestHandler(webapp2.RequestHandler):
 class NameRequestHandler(webapp2.RequestHandler):
 	def get(self):
 		prefix = self.request.get('startsWith').lower()
-		query = BasicProfile.query().order(BasicProfile.fname)
+		query = BasicProfile.query().order(-BasicProfile.stars)
 		profiles = query.fetch(projection=[BasicProfile.fname,
 											BasicProfile.lname,
 											BasicProfile.pictureUrl,
@@ -314,8 +314,8 @@ class NameRequestHandler(webapp2.RequestHandler):
 		for profile in profiles:
 			# Skip returning a profile if it is unrated and the request only
 			# wants rated profiles.
-			if self.request.get('rated') == 'true' and profile.stars == 0:
-				continue
+			# if self.request.get('rated') == 'true' and profile.stars == 0:
+			# 	continue
 			fname = profile.fname.lower()
 			lname = profile.lname.lower()
 			fullname = profile.fname.lower() + " " + profile.lname.lower()
