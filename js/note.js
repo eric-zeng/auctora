@@ -39,10 +39,9 @@ function displayCanvas(element) {
   var cPar = document.getElementById("canvasParent");
   if( !element.classList.contains("active") ) {
     $(element).toggleClass("active");
-    
+    signaturePad.clear();
     if( lastClick != element ) {
-      $(lastClick).removeClass("active");
-      signaturePad.clear();
+      $(lastClick).removeClass("active"); 
     }
     var noNote = element.classList.contains("noNote");
     
