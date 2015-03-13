@@ -7,7 +7,7 @@ window.onload = function() {
   document.getElementById("star4").addEventListener("click", selectStars);
   document.getElementById("star5").addEventListener("click", selectStars);
   document.getElementById("submit").addEventListener("click", doneRequest);
-  enableAnnotation(); //calls from annotation.js
+  enableAnnotation(); //calls from note.js
 
   // Gets the numberof stars selected and sends it to the backend.
   function selectStars() {
