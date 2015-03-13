@@ -43,8 +43,12 @@ $(document).ready(function() {
 
     $('#emailall').click(function(){
         $('#basicmodal #title').html('Email candidates');
-        var email = $('#email').attr('style', '')
-        $('#basicmodal #modal-body').append(email)
+        var email = $('#email').attr('style', '');
+        $('#basicmodal #modal-body').append(email);
+    });
+
+    $("#actionitem").click(function() {
+        $('#basicmodal').modal("hide");
     });
 
     $('#categorize').click(function(){

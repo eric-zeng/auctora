@@ -6,9 +6,9 @@ var companyToGPA = [
         "visa": true,
         "fulltime": true,
         "internship": true,
-        "freshmen": false,
-        "sophomores": true,
-        "juniors": true,
+        "freshman": false,
+        "sophomore": true,
+        "junior": true,
         "senior": true
      },
     {
@@ -17,9 +17,9 @@ var companyToGPA = [
         "visa": false,
         "fulltime": true,
         "internship": false,
-        "freshmen": false,
-        "sophomores": false,
-        "juniors": true,
+        "freshman": false,
+        "sophomore": false,
+        "junior": true,
         "senior": true
     },
     {
@@ -28,9 +28,9 @@ var companyToGPA = [
         "visa": true,
         "fulltime": true,
         "internship": false,
-        "freshmen": false,
-        "sophomores": true,
-        "juniors": true,
+        "freshman": false,
+        "sophomore": true,
+        "junior": true,
         "senior": true
     },
     {
@@ -39,9 +39,9 @@ var companyToGPA = [
         "visa": true,
         "fulltime": true,
         "internship": true,
-        "freshmen": true,
-        "sophomores": true,
-        "juniors": true,
+        "freshman": true,
+        "sophomore": true,
+        "junior": true,
         "senior": true
     },
     {
@@ -50,9 +50,9 @@ var companyToGPA = [
         "visa": true,
         "fulltime": true,
         "internship": true,
-        "freshmen": true,
-        "sophomores": true,
-        "juniors": true,
+        "freshman": true,
+        "sophomore": true,
+        "junior": true,
         "senior": true
     }
 ];
@@ -85,7 +85,6 @@ function getUrlVars(){
         hash = hashes[i].split('=');
         vars.push(hash[0]);
         vars[hash[0]] = hash[1];
-        console.log(hash[0] + " " + hash[1]);
     }
     return vars;
 }
@@ -94,7 +93,6 @@ function setBackgrounds () {
     var urlParams = getUrlVars();
     for (var i = companyToGPA.length - 1; i >= 0; i--) {
         var isValid = true;
-        console.log(companyToGPA[i]);
         if(companyToGPA[i].minGPA > urlParams["gpa"]){
             isValid = false;
             document.getElementById(companyToGPA[i].name + "Info").innerHTML =
@@ -150,7 +148,6 @@ window.onload = function() {
     setBackgrounds();
 
     function displayInfo() {
-        console.log(this.id);
         var curElement = document.getElementById(this.id +"Info");
         var result = $("#"+ this.id + "Info").css('height');
         result = result.substring(0, 3);

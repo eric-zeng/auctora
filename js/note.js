@@ -36,63 +36,70 @@ function addTriggersTo() {
 }
 
 function displayCanvas(element) {
-  $(element).toggleClass("active");
-  if( lastClick != element ) {
-    $(lastClick).removeClass("active");
-    signaturePad.clear();
-  }
-  var noNote = element.classList.contains("noNote");
   var cPar = document.getElementById("canvasParent");
-  var cCan = document.getElementById("canvasCancel");
-  var cDon = document.getElementById("canvasDone");
-  cPar.style.display="block";
-  if( noNote ) {
-    cCan.addEventListener("click", function() {
-      // don't modify classList of element
-      $(element).toggleClass("active");
-      cPar.style.display="none";
-      deaf();
-    });
-    cDon.addEventListener("click", function() {
-      if( !signaturePad.isEmpty() ) {
-        // modify classList
-        $(element).toggleClass("noNote");
-        $(element).toggleClass("annotated");
-
-        // save the annotation
-        noteMap[$(element).attr('id')] = signaturePad.toDataURL();
-      }
-      $(element).toggleClass("active");
-      cPar.style.display="none";
-      deaf();
-    });
-  } else {
-    signaturePad.fromDataURL(noteMap[$(element).attr("id")]);
-
-    cCan.addEventListener("click", function() {
-      $(element).toggleClass("active");
-      cPar.style.display="none";
+  if( !element.classList.contains("active") ) {
+    $(element).toggleClass("active");
+    
+    if( lastClick != element ) {
+      $(lastClick).removeClass("active");
       signaturePad.clear();
-      deaf();
-    });
-    cDon.addEventListener("click", function() {
-      if( !signaturePad.isEmpty() ) {
-        // save the annotation
-        noteMap[$(element).attr('id')] = signaturePad.toDataURL();
-      } else {       
-        // modify classList
-        $(element).toggleClass("noNote");
-        $(element).toggleClass("annotated");
+    }
+    var noNote = element.classList.contains("noNote");
+    
+    var cCan = document.getElementById("canvasCancel");
+    var cDon = document.getElementById("canvasDone");
+    cPar.style.display="block";
+    if( noNote ) {
+      cCan.addEventListener("click", function() {
+        // don't modify classList of element
+        $(element).toggleClass("active");
+        cPar.style.display="none";
+        deaf();
+      });
+      cDon.addEventListener("click", function() {
+        if( !signaturePad.isEmpty() ) {
+          // modify classList
+          $(element).toggleClass("noNote");
+          $(element).toggleClass("annotated");
 
-        // delete stored annotation
-        noteMap[$(element).attr('id')] = null;
-      }
-      $(element).toggleClass("active");
-      cPar.style.display="none";
-      deaf();
-    });
+          // save the annotation
+          noteMap[$(element).attr('id')] = signaturePad.toDataURL();
+        }
+        $(element).toggleClass("active");
+        cPar.style.display="none";
+        deaf();
+      });
+    } else {
+      signaturePad.fromDataURL(noteMap[$(element).attr("id")]);
+
+      cCan.addEventListener("click", function() {
+        $(element).toggleClass("active");
+        cPar.style.display="none";
+        signaturePad.clear();
+        deaf();
+      });
+      cDon.addEventListener("click", function() {
+        if( !signaturePad.isEmpty() ) {
+          // save the annotation
+          noteMap[$(element).attr('id')] = signaturePad.toDataURL();
+        } else {       
+          // modify classList
+          $(element).toggleClass("noNote");
+          $(element).toggleClass("annotated");
+
+          // delete stored annotation
+          noteMap[$(element).attr('id')] = null;
+        }
+        $(element).toggleClass("active");
+        cPar.style.display="none";
+        deaf();
+      });
+    }
+    lastClick = element;
+  } else {
+    cPar.style.display="none";
+    setTimeout( function() { cPar.style.display="block" }, 50 );
   }
-  lastClick = element;
 }
 
 function deaf() {
