@@ -37,6 +37,11 @@ h1 {
     vertical-align: middle;
 }
 
+.glyphicon {
+	color: DarkGray;
+	margin-left: 8px;
+}
+
 #header {
 	padding-top: 1em;
 	padding-bottom: 1em;
