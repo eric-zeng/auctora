@@ -3,9 +3,10 @@
 <html>
 	<head>
 		<title>Auctora</title>
-		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/typeahead.bundle.min.js"></script>
+    <script src="../js/jquery.tablesorter.min.js"></script>
     <script src="../js/home.js"></script>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -69,22 +70,25 @@
         </div>
 
         <div id="candidates" class="col-md-9">
-          <table class="table table-hover">
+          <table class="table table-hover" id="candidateTable">
+            <thead>
             <tr>
               <th></th>
               <th class="vert-align">Name</th>
               <th class="vert-align">Rating</th>
               <th></th>
             </tr>
+            </thead>
+            <tbody>
             {% for profile in profiles %}
             <tr>
               <td class="vert-align">
                 <img src="{{profile.pictureUrl}}" alt="studentPic" class="profilepic">
               </td>
-              <td class="vert-align">
+              <td class="vert-align" data="{{profile.fname}} {{profile.lname}}">
                 <a href="/profile?id={{profile.id}}">{{profile.fname}} {{profile.lname}}</a>
               </td>
-              <td class="vert-align">
+              <td class="vert-align" data="{{profile.stars}}">
                 <div class="acidjs-rating-stars">
                   <form id="starsForm">
                     <input {% if profile.stars == 5 %} checked {% endif %} type="radio" name="group-1" id="star5" value="5" />
@@ -105,6 +109,7 @@
               </td>
             </tr>
             {% endfor %}
+            </tbody>
           </table>
         </div>
       </div>

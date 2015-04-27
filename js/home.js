@@ -1,5 +1,3 @@
-
-
 function getUrl(nextPage) {
     var url = window.location.protocol + '//' + window.location.hostname;
     if (window.location.hostname == 'localhost') {
@@ -33,14 +31,25 @@ var substringMatcher = function(strs) {
   };
 };
 
+function myTextExtraction(node) {
+    return node.getAttribute("data");
+}
+
 $(document).ready(function() {
-    // $('#modal').on('shown.bs.modal', function () {
-    //     alert();
-    //     $('#myInput').focus();
-    // });
+    // Set up table sorter.
+    $("#candidateTable").tablesorter({
+        headers: {
+            0: {
+                sorter: false
+            },
+            3: {
+                sorter: false
+            }
+        },
+        textExtraction: myTextExtraction
+    });
 
-    // $('#basicmodal').modal();
-
+    // Set up modal dialog buttons.
     $('#emailall').click(function(){
         $('#basicmodal #title').html('Email candidates');
         var email = $('#email').attr('style', '');
@@ -59,6 +68,7 @@ $(document).ready(function() {
         $('#basicmodal #title').html('Export data');
     });
 
+    // Set up typeahead autocomplete for searching students.
     var nameToId = {}
 
     $('.typeahead').typeahead('val');
@@ -66,7 +76,7 @@ $(document).ready(function() {
     var xmlhttp = new XMLHttpRequest();
     var url = getUrl('nameRequest');
     xmlhttp.open('GET', url, true);
-    xmlhttp.responseType = 'JSON';
+    xmlhttp.responseType = 'json';
     xmlhttp.onload = function(e) {
         var arr = JSON.parse(xmlhttp.response);
 
