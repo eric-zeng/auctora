@@ -76,10 +76,10 @@
               <th></th>
               <th class="vert-align">Name</th>
               <th class="vert-align">Rating</th>
-              <th></th>
+              <th><input type="checkbox" value="" onclick="selectAll(this)"></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="body">
             {% for profile in profiles %}
             <tr>
               <td class="vert-align">

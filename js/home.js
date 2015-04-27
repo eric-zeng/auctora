@@ -35,6 +35,13 @@ function myTextExtraction(node) {
     return node.getAttribute("data");
 }
 
+function selectAll(checkbox) {
+    var tblBody = document.getElementById("body");
+    for (var i = 0; i < tblBody.children.length; i++) {
+        tblBody.children[i].children[3].children[0].checked = checkbox.checked;
+    }
+}
+
 $(document).ready(function() {
     // Set up table sorter.
     $("#candidateTable").tablesorter({
