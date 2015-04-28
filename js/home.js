@@ -83,7 +83,7 @@ $(document).ready(function() {
     var xmlhttp = new XMLHttpRequest();
     var url = getUrl('nameRequest');
     xmlhttp.open('GET', url, true);
-    xmlhttp.responseType = 'json';
+    xmlhttp.responseType = 'JSON';
     xmlhttp.onload = function(e) {
         var arr = JSON.parse(xmlhttp.response);
 
