@@ -7,3 +7,13 @@
 	font-family: 'RobotoLight';
 	src: url("../fonts/Roboto-Light.ttf");
 }
+
+@font-face {
+	font-family: 'BrandonReg';
+	src: url("../fonts/Brandon_reg.otf") format("opentype");
+}
+
+@font-face {
+	font-family: 'BrandonLight';
+	src: url("../fonts/Brandon_light.otf") format("opentype");
+}
