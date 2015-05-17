@@ -54,7 +54,7 @@ class Position(ndb.Model):
 # shows the Auctora login page
 class LandingHandler(webapp2.RequestHandler):
 	def get(self):
-		template = JINJA_ENVIRONMENT.get_template('landing.html')
+		template = JINJA_ENVIRONMENT.get_template('landing/main.html')
 		self.response.write(template.render())
 
 class LoginHandler(webapp2.RequestHandler):
