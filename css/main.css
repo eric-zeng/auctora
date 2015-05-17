@@ -1,8 +1,37 @@
 body {
-	padding-top: 70px;
+	padding-top: 50px;
+	color: #FFFFFF;
+	font-family: "BrandonReg";
 }
 
-#overview {
+h1 {
+	font-family: 'BrandonLight';
+}
+
+/* The jumbotron (overview section)*/
+.jumbotron {
 	background-color: #A2C9B7;
-	padding: 50 45 50 30;
+	color: #FFFFFF;
+	margin-bottom: 0;
+}
+#logo {
+	float: left;
+	margin-right: 30px;
+	max-height: 200px;
+}
+#description {
+	float:left;
+}
+#tagline {
+	font-size: 44;
+	float: left;
+}
+
+
+#problem {
+	background-color: #254063;
+	padding: 36px 0px 36px 0px;
+}
+.problem {
+	float: left;
 }
