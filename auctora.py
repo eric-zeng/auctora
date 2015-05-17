@@ -54,6 +54,11 @@ class Position(ndb.Model):
 # shows the Auctora login page
 class LandingHandler(webapp2.RequestHandler):
 	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('landing.html')
+		self.response.write(template.render())
+
+class LoginHandler(webapp2.RequestHandler):
+	def get(self):
 		requestedFile = self.request.url[1:]
 		logging.info('' + requestedFile)
 		template = JINJA_ENVIRONMENT.get_template('candidate/loginPage.html')
@@ -412,6 +417,7 @@ application = webapp2.WSGIApplication([
 	('/auth/linkedIn', LinkedInAuthHandler),
 
 	# Student UI Handlers
+	('/login', LoginHandler),
 	('/questions', QuestionsHandler),
 	('/companies', CompaniesHandler),
 
