@@ -1,18 +1,29 @@
 body {
 	padding-top: 50px;
-	color: #FFFFFF;
+	color: white;
 	font-family: "BrandonReg";
 }
 
-h1 {
+h1, h2, h3 {
 	font-family: 'BrandonLight';
 }
 
-/* The jumbotron (overview section)*/
-.jumbotron {
+p {
+	font-size: 18px;
+}
+
+img {
+	max-width: 100%;
+}
+
+.contentSection {
+	padding: 32px 20px 32px 20px;
+}
+
+#introSection {
 	background-color: #A2C9B7;
-	color: #FFFFFF;
-	margin-bottom: 0;
+	padding-top: 50px;
+	padding-bottom: 50px;
 }
 #logo {
 	float: left;
@@ -30,7 +41,6 @@ h1 {
 
 #problemSection {
 	background-color: #254063;
-	padding: 32px 20px 32px 20px;
 }
 .problem {
 	float: left;
@@ -39,4 +49,15 @@ h1 {
 	margin-left: 5px;
 	margin-right: 5px;
 	max-width: 200px;
+}
+
+#solutionSection {
+	background-color: #D7E8F7;
+	color: black;
+}
+
+@media (min-width: 750px) {
+	#solutionSection {
+		padding-bottom: 0px;
+	}
 }
