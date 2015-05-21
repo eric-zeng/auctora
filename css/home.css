@@ -1,5 +1,5 @@
 html, body {
-	background-color: #141821;
+	background-color: #3B424C;
 	height: 100%;
 	font-family: "RobotoLight";
 }
@@ -10,7 +10,7 @@ h1 {
 	font-weight: normal;
 }
 
-.container {
+#mainContainer {
 	background-color: #fff;
 }
 
@@ -35,7 +35,7 @@ h1 {
 #header {
 	padding-top: 1em;
 	padding-bottom: 1em;
-	background-color: #3B424C;
+	background-color: #254063;
 	margin-bottom:3em;
 	color: #fff;
 	text-align: center;

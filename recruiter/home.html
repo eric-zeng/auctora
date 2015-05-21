@@ -14,8 +14,34 @@
     <link rel="stylesheet" href="../css/typeaheadjs.css">
 	<link rel="stylesheet" href="../css/font.css">
     <link rel="stylesheet" href="../css/home.css">
+	<link rel="stylesheet" href="../css/navbar.css">
 	</head>
   <body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<!-- Dropdown menu for mobile !-->
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#auctora-collapse" id="navbarToggle">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="http://www.auctora.co/">Auctora</a>
+			</div>
+
+			<!-- Header items that will be in the dropdown menu on mobile !-->
+			<div class="collapse navbar-collapse" id="auctora-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li class="active"><a href="/home">Candidate Rankings</a></li>
+					<li><a>Settings</a></li>
+					<li><a>Help</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
     <div class="modal fade" id="basicmodal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -45,75 +71,76 @@
         </div>
       </form>
     </div>
+	<div id="main">
+	    <div class="container" id="mainContainer">
+	      <div id="header" class="row">
+	        <h1>Candidate Rankings</h1>
+	      </div>
 
-    <div class="container">
-      <div id="header" class="row">
-        <h1>Candidate Rankings</h1>
-      </div>
+	      <div id="main" class="row fill">
+	        <div id="sidebar" class="col-md-3">
+	          <div class="row">
+	            <div id="searchbox">
+	              <input class="typeahead" type="text" placeholder="Search for students">
+	            </div>
+	          </div>
+	          <div class="row sidebar">
+	            <button type="button" id="emailall" class="btn btn-primary sidebar center-block" data-toggle="modal" href="#basicmodal" data-target="#basicmodal">Email Selected</button>
+	          </div>
+	          <div class="row sidebar">
+	            <button type="button" id="categorize"class="btn btn-primary sidebar center-block" data-toggle="modal" href="#basicmodal" data-target="#basicmodal">Categorize</button>
+	          </div>
+	          <div class="row sidebar">
+	            <button type="button" id="exportdata" class="btn btn-primary sidebar center-block" data-toggle="modal" href="#basicmodal" data-target="#basicmodal">Export</button>
+	          </div>
 
-      <div id="main" class="row fill">
-        <div id="sidebar" class="col-md-3">
-          <div class="row">
-            <div id="searchbox">
-              <input class="typeahead" type="text" placeholder="Search for students">
-            </div>
-          </div>
-          <div class="row sidebar">
-            <button type="button" id="emailall" class="btn btn-primary sidebar center-block" data-toggle="modal" href="#basicmodal" data-target="#basicmodal">Email Selected</button>
-          </div>
-          <div class="row sidebar">
-            <button type="button" id="categorize"class="btn btn-primary sidebar center-block" data-toggle="modal" href="#basicmodal" data-target="#basicmodal">Categorize</button>
-          </div>
-          <div class="row sidebar">
-            <button type="button" id="exportdata" class="btn btn-primary sidebar center-block" data-toggle="modal" href="#basicmodal" data-target="#basicmodal">Export</button>
-          </div>
+	        </div>
 
-        </div>
-
-        <div id="candidates" class="col-md-9">
-          <table class="table table-hover" id="candidateTable">
-            <thead>
-            <tr>
-              <th></th>
-              <th class="vert-align">Name<span class="glyphicon glyphicon-triangle-bottom"></span></th>
-              <th class="vert-align">Rating<span class="glyphicon glyphicon-triangle-bottom"></span></th>
-              <th><input type="checkbox" value="" onclick="selectAll(this)"></th>
-            </tr>
-            </thead>
-            <tbody id="body">
-            {% for profile in profiles %}
-            <tr>
-              <td class="vert-align">
-                <img src="{{profile.pictureUrl}}" alt="studentPic" class="profilepic">
-              </td>
-              <td class="vert-align" data="{{profile.fname}} {{profile.lname}}">
-                <a href="/profile?id={{profile.id}}">{{profile.fname}} {{profile.lname}}</a>
-              </td>
-              <td class="vert-align" data="{{profile.stars}}">
-                <div class="acidjs-rating-stars">
-                  <form id="starsForm">
-                    <input {% if profile.stars == 5 %} checked {% endif %} type="radio" name="group-1" id="star5" value="5" />
-                    <label for="star5"></label>
-                    <input {% if profile.stars == 4 %} checked {% endif %} type="radio" name="group-1" id="star4" value="4" />
-                    <label for="star4"></label>
-                    <input {% if profile.stars == 3 %} checked {% endif %} type="radio" name="group-1" id="star3" value="3" />
-                    <label for="star3"></label>
-                    <input {% if profile.stars == 2 %} checked {% endif %} type="radio" name="group-1" id="star2" value="2" />
-                    <label for="star2"></label>
-                    <input {% if profile.stars == 1 %} checked {% endif %} type="radio" name="group-1" id="star1"  value="1" />
-                    <label for="star1"></label>
-                  </form>
-                </div>
-              </td>
-              <td class="vert-align">
-                <input type="checkbox" value="">
-              </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+	        <div id="candidates" class="col-md-9">
+	          <table class="table table-hover" id="candidateTable">
+	            <thead>
+	            <tr>
+	              <th></th>
+	              <th class="vert-align">Name<span class="glyphicon glyphicon-triangle-bottom"></span></th>
+	              <th class="vert-align">Rating<span class="glyphicon glyphicon-triangle-bottom"></span></th>
+	              <th><input type="checkbox" value="" onclick="selectAll(this)"></th>
+	            </tr>
+	            </thead>
+	            <tbody id="body">
+	            {% for profile in profiles %}
+	            <tr>
+	              <td class="vert-align">
+	                <img src="{{profile.pictureUrl}}" alt="studentPic" class="profilepic">
+	              </td>
+	              <td class="vert-align" data="{{profile.fname}} {{profile.lname}}">
+	                <a href="/profile?id={{profile.id}}">{{profile.fname}} {{profile.lname}}</a>
+	              </td>
+	              <td class="vert-align" data="{{profile.stars}}">
+	                <div class="acidjs-rating-stars">
+	                  <form id="starsForm">
+	                    <input {% if profile.stars == 5 %} checked {% endif %} type="radio" name="group-1" id="star5" value="5" />
+	                    <label for="star5"></label>
+	                    <input {% if profile.stars == 4 %} checked {% endif %} type="radio" name="group-1" id="star4" value="4" />
+	                    <label for="star4"></label>
+	                    <input {% if profile.stars == 3 %} checked {% endif %} type="radio" name="group-1" id="star3" value="3" />
+	                    <label for="star3"></label>
+	                    <input {% if profile.stars == 2 %} checked {% endif %} type="radio" name="group-1" id="star2" value="2" />
+	                    <label for="star2"></label>
+	                    <input {% if profile.stars == 1 %} checked {% endif %} type="radio" name="group-1" id="star1"  value="1" />
+	                    <label for="star1"></label>
+	                  </form>
+	                </div>
+	              </td>
+	              <td class="vert-align">
+	                <input type="checkbox" value="">
+	              </td>
+	            </tr>
+	            {% endfor %}
+	            </tbody>
+	          </table>
+	        </div>
+	      </div>
+	    </div>
+	</div>
   </body>
 </html>
