@@ -1,7 +1,7 @@
 body {
 	padding-top: 50px;
 	color: white;
-	font-family: "BrandonReg";
+	font-family: "RobotoLight";
 }
 
 h1, h2, h3 {
@@ -9,7 +9,7 @@ h1, h2, h3 {
 }
 
 p {
-	font-size: 18px;
+	font-size: 16px;
 }
 
 img {
@@ -55,9 +55,22 @@ img {
 	background-color: #D7E8F7;
 	color: black;
 }
-
 @media (min-width: 750px) {
 	#solutionSection {
 		padding-bottom: 0px;
 	}
+}
+
+.teamMember {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+	margin: auto;
+}
+.teamImage {
+	width: 192px;
+}
+#teamSection {
+	background-color: #69A199;
+	color: black;
 }
