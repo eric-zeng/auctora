@@ -6,4 +6,6 @@ function scrollTo(div) {
 	if (scrolledY) {
 	  window.scroll(0, scrolledY - 50);
 	}
+
+	document.getElementById('navbarToggle').click();
 }
