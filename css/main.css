@@ -20,7 +20,8 @@ img {
 }
 
 #introSection {
-	background-color: #A2C9B7;
+	/*background-color: #A2C9B7;*/
+	background-color: #69A199;
 	padding-top: 50px;
 	padding-bottom: 50px;
 }
@@ -29,35 +30,52 @@ img {
 	margin-right: 30px;
 	max-height: 200px;
 }
+
 #description {
 	float:left;
+	color: black;
 }
+
 #tagline {
 	font-size: 44;
 	float: left;
+	color: black;
+	font-weight: bold;
 }
 
 
 #problemSection {
 	background-color: #254063;
 }
+
 .problem {
 	float: left;
 	padding-bottom: 10px;
 	padding-top: 10px;
+	margin-top: 10px;
 	margin-left: 5px;
 	margin-right: 5px;
 	max-width: 200px;
+	text-align: center;
+}
+
+.problem > p {
+	margin-top: 15px;
 }
 
 #solutionSection {
 	background-color: #D7E8F7;
 	color: black;
 }
+
 @media (min-width: 750px) {
 	#solutionSection {
 		padding-bottom: 0px;
 	}
+}
+
+#solutionIntro {
+	margin-bottom: 20px; 
 }
 
 .teamMember {

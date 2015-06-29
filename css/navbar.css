@@ -2,6 +2,9 @@ body {
     padding-top: 50px;
 }
 
+#auctora-collapse li{
+    cursor: pointer;
+}
 .navbar-default {
   background-color: #131720;
   border-color: #202633;
