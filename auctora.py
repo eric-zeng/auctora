@@ -7,6 +7,9 @@ import urllib
 from google.appengine.ext import ndb
 from google.appengine.api import users
 from google.appengine.api import urlfetch
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.api.images import get_serving_url
 
 import webapp2
 import jinja2
@@ -26,6 +29,7 @@ class BasicProfile(ndb.Model):
 	pictureUrl = ndb.StringProperty()
 	profileUrl = ndb.StringProperty()
 	stars = ndb.IntegerProperty()
+	resumeFile = ndb.StringProperty()
 
 class Annotation(ndb.Model):
 	# id of BasicProfile that the annotation is associated with.
@@ -63,6 +67,30 @@ class LoginHandler(webapp2.RequestHandler):
 		logging.info('' + requestedFile)
 		template = JINJA_ENVIRONMENT.get_template('candidate/loginPage.html')
 		self.response.write(template.render())
+
+class ResumeUploadHandler(webapp2.RequestHandler):
+	def get(self):
+		# get the resume url link
+		upload_url = blobstore.create_upload_url('/resumeupload')
+
+		template_values = {
+			'resume_url' : upload_url
+		}
+		template = JINJA_ENVIRONMENT.get_template('candidate/resumeUpload.html')
+		self.response.write(template.render(template_values))
+
+class ResumeFormHandler(blobstore_handlers.BlobstoreUploadHandler):
+	def post(self):
+		# logging.info(self.request.body)
+		upload = self.get_uploads()[0]
+
+		logging.info(upload.key())
+		profile = BasicProfile.query(BasicProfile.fname == "Rama").fetch() #hardcoded in for now
+		if len(profile) != 0:
+			profileEntity = profile[0]
+			profileEntity.resumeFile = get_serving_url(upload.key())
+			profileEntity.put()
+			self.redirect('/questions')
 
 # serve the root page for the Auctora slides
 class SlidesLandingHandler(webapp2.RequestHandler):
@@ -418,6 +446,9 @@ application = webapp2.WSGIApplication([
 
 	# Student UI Handlers
 	('/login', LoginHandler),
+	('/resume', ResumeUploadHandler),
+	('/resumeupload', ResumeFormHandler),
+
 	('/questions', QuestionsHandler),
 	('/companies', CompaniesHandler),
 

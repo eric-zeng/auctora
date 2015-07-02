@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+	<head>
+		<title>Auctora</title>
+
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
+ <!-- Currently not logging this in the backend - if we change that we should use this script to send to backend
+		<script>
+			window.onload = function() {
+			$('#resumeUploadForm').on('submit',function(e) {
+				//e.preventDefault();
+				var form = $(this);
+				var formData = JSON.stringify(form.serializeArray());
+
+				//alert("I am about to POST this:\n\n" + formData);
+
+				$.ajax({
+					type: "POST",
+					url: "/submitQuestions",
+					data: formData,
+					success: function(){},
+					contentType : "application/json"
+				});
+			});
+			}
+		</script>
+ -->
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/font.css">
+		<link rel="stylesheet" href="../css/questions.css">
+
+		<link rel="icon" type="image/png" href="../images/favicon.ico">
+
+	</head>
+
+	<body>
+		<div class="container">
+			<div id="header" class="row">
+				<h1>Welcome to the BPC Sweet 16!</h1>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<p>Upload your resume:</p>
+
+					<form id="resumeUploadForm" action="{{ resume_url }}" method='POST' enctype="multipart/form-data">
+						<input type="file" accept='image/*' name="resumeupload" />
+						<input type="submit" name="submit" class="btn btn-primary" value="Submit">
+						<!-- <button type="submit" value="submit" class="btn btn-primary">Submit</button> -->
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
