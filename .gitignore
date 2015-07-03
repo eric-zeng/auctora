@@ -26,5 +26,7 @@ _testmain.go
 .DS_Store
 *.pyc
 
+*/Thumbs.db
+
 # DO NOT COMMIT THIS FILE!!!!!
 API_Key.txt
