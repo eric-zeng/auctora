@@ -1,15 +1,16 @@
 import logging
+import jinja2
 import json
 import os
 import random
 import urllib
+import webapp2
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
 from google.appengine.api import urlfetch
 
-import webapp2
-import jinja2
+from webapp2_extras import sessions
 
 JINJA_ENVIRONMENT = jinja2.Environment(
 	loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -48,7 +49,22 @@ class Position(ndb.Model):
 	endYear = ndb.IntegerProperty()
 	isCurrent = ndb.BooleanProperty()
 
-#class Education(ndb.Model):
+class BaseSessionHandler(webapp2.RequestHandler):
+	def dispatch(self):
+		# Get a session store for this request.
+		self.session_store = sessions.get_store(request=self.request)
+
+		try:
+			# Dispatch the request.
+			webapp2.RequestHandler.dispatch(self)
+		finally:
+			# Save all sessions.
+			self.session_store.save_sessions(self.response)
+
+	@webapp2.cached_property
+	def session(self):
+		# Returns a session using the default cookie key.
+		return self.session_store.get_session()
 
 # handler for URL with no path (just tidy-nomad-842.appspot.com)
 # shows the Auctora login page
@@ -73,7 +89,7 @@ class SlidesLandingHandler(webapp2.RequestHandler):
 		self.response.write(template.render())
 
 # Handle the redirect from the LinkedIn sign in page.
-class LinkedInAuthHandler(webapp2.RequestHandler):
+class LinkedInAuthHandler(BaseSessionHandler):
 	def get(self):
 		error = self.request.get('error', 'no error')
 		if error != 'no error':
@@ -102,9 +118,9 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 		tokenRequestData = urllib.urlencode(tokenRequest)
 		tokenResponse = urlfetch.fetch(
 			url='https://www.linkedin.com/uas/oauth2/accessToken',
-		    payload=tokenRequestData,
-		    method=urlfetch.POST,
-		    headers={'Content-Type': 'application/x-www-form-urlencoded'})
+			payload=tokenRequestData,
+			method=urlfetch.POST,
+			headers={'Content-Type': 'application/x-www-form-urlencoded'})
 
 		if tokenResponse.status_code != 200:
 			self.response.write('<html><body>Error ' +
@@ -224,30 +240,33 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 				posEntity.put()
 
+		self.session['profileId'] = profile['id']
+		self.session['userType'] = "candidate"
+
 		# Send the authentication-to-questions redirect page.
 		template = JINJA_ENVIRONMENT.get_template('candidate/authredirect.html')
 		self.response.write(template.render())
 
-class QuestionsHandler(webapp2.RequestHandler):
+class QuestionsHandler(BaseSessionHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('candidate/questions.html')
 		self.response.write(template.render())
 
-class CompaniesHandler(webapp2.RequestHandler):
+class CompaniesHandler(BaseSessionHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('candidate/companies.html')
 		self.response.write(template.render())
 
-class QuestionsFormHandler(webapp2.RequestHandler):
+class QuestionsFormHandler(BaseSessionHandler):
 	def post(self):
 		logging.info(self.request.body)
 
-class SearchHandler(webapp2.RequestHandler):
+class SearchHandler(BaseSessionHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('recruiter/search.html')
 		self.response.write(template.render())
 
-class ProfileHandler(webapp2.RequestHandler):
+class ProfileHandler(BaseSessionHandler):
 	def get(self):
 		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
 		if len(profiles) == 0:
@@ -261,7 +280,7 @@ class ProfileHandler(webapp2.RequestHandler):
 
 		self.response.write(template.render(template_values))
 
-class RecruiterHomeHandler(webapp2.RequestHandler):
+class RecruiterHomeHandler(BaseSessionHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('recruiter/home.html')
 		profiles = BasicProfile.query().order(-BasicProfile.stars).fetch()
@@ -269,7 +288,7 @@ class RecruiterHomeHandler(webapp2.RequestHandler):
 		self.response.write(template.render(template_values))
 
 # Update the number of stars in the profile.
-class StarsHandler(webapp2.RequestHandler):
+class StarsHandler(BaseSessionHandler):
 	def post(self):
 		stars = json.loads(self.request.body)
 		profiles = BasicProfile.query(BasicProfile.id == stars['id']).fetch()
@@ -279,7 +298,7 @@ class StarsHandler(webapp2.RequestHandler):
 # Handles requests for profile by id.
 # Send GET http://tidy-nomad-842.appspot.com/profileRequest?id=<insert id here>
 # to get a JSON string with all of the fields.
-class ProfileRequestHandler(webapp2.RequestHandler):
+class ProfileRequestHandler(BaseSessionHandler):
 	def get(self):
 		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
 		if len(profiles) < 1:
@@ -306,7 +325,7 @@ class ProfileRequestHandler(webapp2.RequestHandler):
 # to get a JSON array containing JSON objects with first name, last name,
 # picture, and id.
 # Intended for use in autocomplete.
-class NameRequestHandler(webapp2.RequestHandler):
+class NameRequestHandler(BaseSessionHandler):
 	def get(self):
 		prefix = self.request.get('startsWith').lower()
 		query = BasicProfile.query().order(BasicProfile.fname)
@@ -342,7 +361,7 @@ class NameRequestHandler(webapp2.RequestHandler):
 #   field: (fname|lname|headline|industry|location)
 #   image: <the data-uri of the image>
 # }
-class AnnotationHandler(webapp2.RequestHandler):
+class AnnotationHandler(BaseSessionHandler):
 	def post(self):
 		annotation = json.loads(self.request.body)
 		annotationEntity = Annotation(id=annotation['id'],
@@ -396,7 +415,7 @@ class ManualPositionHandler(webapp2.RequestHandler):
 		position.id = random.randint(1, 1000000)
 		position.put()
 
-class ProfileIdLookupHandler(webapp2.RequestHandler):
+class ProfileIdLookupHandler(BaseSessionHandler):
 	def get(self):
 		self.response.write('<html><body>')
 		self.response.write('<h3>Profile IDs</h3>')
@@ -405,6 +424,11 @@ class ProfileIdLookupHandler(webapp2.RequestHandler):
 			self.response.write(profile.fname + " " + profile.lname + ": ")
 			self.response.write(profile.id + "<br>")
 		self.response.write('</body></html>')
+
+config = {}
+config['webapp2_extras.sessions'] = {
+    'secret_key': 'my-super-secret-key',
+}
 
 application = webapp2.WSGIApplication([
 	# Home page handler
@@ -441,4 +465,4 @@ application = webapp2.WSGIApplication([
 	('/manualPosition', ManualPositionHandler),
 	('/profileIdLookup', ProfileIdLookupHandler),
 
-], debug=True)
+], config=config, debug=True)
