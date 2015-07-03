@@ -1,147 +1,149 @@
 <html>
-	<head>
-		<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Auctora</title>
-		<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-		<script src="../js/bootstrap.min.js"></script>
-		<script src="../js/main.js"></script>
-		<link rel="stylesheet" href="../css/bootstrap.min.css">
-		<link rel="stylesheet" href="../css/font.css">
-		<link rel="stylesheet" href="../css/main.css">
-		<link rel="stylesheet" href="../css/navbar.css">
-		<link rel="icon" type="image/png" href="../images/favicon.ico">
-	</head>
-	<body>
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<!-- Dropdown menu for mobile !-->
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#auctora-collapse" id="navbarToggle">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="http://www.auctora.co/">Auctora</a>
-				</div>
 
-				<!-- Header items that will be in the dropdown menu on mobile !-->
-  			<div class="collapse navbar-collapse" id="auctora-collapse">
-					<ul class="nav navbar-nav">
-						<li><a onclick="scrollTo('introSection')">Home</a></li>
-						<li><a onclick="scrollTo('problemSection')">The Problem</a></li>
-						<li><a onclick="scrollTo('solutionSection')">Our Solution</a></li>
-						<li><a onclick="scrollTo('teamSection')">About</a></li>
-						<li><a onclick="scrollTo('contactSection')">Contact Us</a></li>
-					</ul>
-				</div>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Auctora</title>
+	<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/main.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/font.css">
+	<link rel="stylesheet" href="../css/main.css">
+	<link rel="stylesheet" href="../css/navbar.css">
+	<link rel="icon" type="image/png" href="../images/favicon.ico">
+</head>
+
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<!-- Dropdown menu for mobile !-->
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#auctora-collapse" id="navbarToggle">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="http://www.auctora.co/">Auctora</a>
 			</div>
-		</nav>
-		<div id="introSection" class="contentSection">
-			<div class="container">
-				<img src="../images/logo.png" id="logo">
-				<h1 id="tagline">Bringing career fairs into the digital age</h1>
-				<p id="description">A recruiting tool that simplifies the career fair experience.</p>
-			</div>
-		</div>
-		<div id="problemSection" class="contentSection">
-			<div class="container">
-				<div class="row">
-					<h1>The Problem</h1>
-					<p>Recruiters face a wide range of problems at and after career fairs:</p>
-				</div>
-				<div class="row" id="problemItems">
-					<div class="col-md-3">
-						<div class="problem">
-							<img src="../images/landing/papers.png" height="64px">
-							<p>At career fairs, recruiters have to collect a large stack of resumes.</p>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="problem">
-							<img src="../images/landing/question.png" height="64px">
-							<p>They also answer a lot of repeated questions throughout the day.</p>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="problem">
-							<img src="../images/landing/folder.png" height="64px">
-							<p>After the fair, they have to categorize the resumes based on previous notes.</p>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="problem">
-							<img src="../images/landing/cloud.png" height="64px">
-							<p>Then, they manually upload the selected resumes into their internal recruiting system.</p>
-						</div>
-					</div>
-				</div>
+			<!-- Header items that will be in the dropdown menu on mobile !-->
+			<div class="collapse navbar-collapse" id="auctora-collapse">
+				<ul class="nav navbar-nav">
+					<li><a onclick="scrollTo('introSection')">Home</a></li>
+					<li><a onclick="scrollTo('problemSection')">The Problem</a></li>
+					<li><a onclick="scrollTo('solutionSection')">Our Solution</a></li>
+					<li><a onclick="scrollTo('teamSection')">About</a></li>
+					<li><a onclick="scrollTo('contactSection')">Contact Us</a></li>
+				</ul>
 			</div>
 		</div>
-		<div id="solutionSection" class="contentSection">
-			<div class="container">
-				<div class="row" id='solutionIntro'>
-					<h1>Introducing Auctora.</h1>
-					<p>A recruiting tool that streamlines the career fair experience.</p>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<img src="../images/landing/devices.png">
-					</div>
-					<div class="col-md-6">
-						<h3>For Recruiters</h3>
-						<p>Instantly discover candidates at career fairs. View, sort, annotate, and follow up with candidates in bulk.</p>
-						<h3>For Candidates</h3>
-						<p>Check into career fairs and seamlessly upload your resume to recruiters.</p>
-					</div>
-				</div>
-			</div>
+	</nav>
+	<div id="introSection" class="contentSection">
+		<div class="container">
+			<img src="../images/logo.png" id="logo">
+			<h1 id="tagline">Bringing career fairs into the digital age</h1>
+			<p id="description">A recruiting tool that simplifies the career fair experience.</p>
 		</div>
-		<div id="teamSection" class="contentSection">
-			<div class="container">
-				<div class="row">
-					<h1>About the Team</h1>
-				</div>
-				<div class="row">
-					<div class="col-md-4 teamMember">
-						<img src="../images/team/chris.png" class="teamImage">
-						<h3>Chris Wigley</h3>
-						<p>Operations and Finance</p>
-					</div>
-					<div class="col-md-4 teamMember">
-						<img src="../images/team/rama.png" class="teamImage">
-						<h3>Rama Gokhale</h3>
-						<p>Product Management</p>
-					</div>
-					<div class="col-md-4 teamMember">
-						<img src="../images/team/bryan.png" class="teamImage">
-						<h3>Bryan Djunaedi</h3>
-						<p>Development</p>
+	</div>
+	<div id="problemSection" class="contentSection">
+		<div class="container">
+			<div class="row">
+				<h1>The Problem</h1>
+				<p>Recruiters face a wide range of problems at and after career fairs:</p>
+			</div>
+			<div class="row" id="problemItems">
+				<div class="col-md-3">
+					<div class="problem">
+						<img src="../images/landing/papers.png" height="64px">
+						<p>At career fairs, recruiters have to collect a large stack of resumes.</p>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-6 teamMember">
-						<img src="../images/team/amb.png" class="teamImage">
-						<h3>Ambarish Chandrasekaran</h3>
-						<p>Marketing</p>
+				<div class="col-md-3">
+					<div class="problem">
+						<img src="../images/landing/question.png" height="64px">
+						<p>They also answer a lot of repeated questions throughout the day.</p>
 					</div>
-					<div class="col-md-6 teamMember">
-						<img src="../images/team/eric.png" class="teamImage">
-						<h3>Eric Zeng</h3>
-						<p>Development</p>
+				</div>
+				<div class="col-md-3">
+					<div class="problem">
+						<img src="../images/landing/folder.png" height="64px">
+						<p>After the fair, they have to categorize the resumes based on previous notes.</p>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="problem">
+						<img src="../images/landing/cloud.png" height="64px">
+						<p>Then, they manually upload the selected resumes into their internal recruiting system.</p>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div id="contactSection" class="contentSection">
-			<div class="container">
-				<div class="row">
-					<h1>Contact Us</h1>
-					<a href="mailto:team@auctora.co">team@auctora.co</a>
+	</div>
+	<div id="solutionSection" class="contentSection">
+		<div class="container">
+			<div class="row" id='solutionIntro'>
+				<h1>Introducing Auctora.</h1>
+				<p>A recruiting tool that streamlines the career fair experience.</p>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<img src="../images/landing/devices.png">
+				</div>
+				<div class="col-md-6">
+					<h3>For Recruiters</h3>
+					<p>Instantly discover candidates at career fairs. View, sort, annotate, and follow up with candidates in bulk.</p>
+					<h3>For Candidates</h3>
+					<p>Check into career fairs and seamlessly upload your resume to recruiters.</p>
 				</div>
 			</div>
 		</div>
-	</body>
+	</div>
+	<div id="teamSection" class="contentSection">
+		<div class="container">
+			<div class="row">
+				<h1>About the Team</h1>
+			</div>
+			<div class="row">
+				<div class="col-md-4 teamMember">
+					<img src="../images/team/chris.png" class="teamImage">
+					<h3>Chris Wigley</h3>
+					<p>Operations and Finance</p>
+				</div>
+				<div class="col-md-4 teamMember">
+					<img src="../images/team/rama.png" class="teamImage">
+					<h3>Rama Gokhale</h3>
+					<p>Product Management</p>
+				</div>
+				<div class="col-md-4 teamMember">
+					<img src="../images/team/bryan.png" class="teamImage">
+					<h3>Bryan Djunaedi</h3>
+					<p>Development</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 teamMember">
+					<img src="../images/team/amb.png" class="teamImage">
+					<h3>Ambarish Chandrasekaran</h3>
+					<p>Marketing</p>
+				</div>
+				<div class="col-md-6 teamMember">
+					<img src="../images/team/eric.png" class="teamImage">
+					<h3>Eric Zeng</h3>
+					<p>Development</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="contactSection" class="contentSection">
+		<div class="container">
+			<div class="row">
+				<h1>Contact Us</h1>
+				<a href="mailto:team@auctora.co">team@auctora.co</a>
+			</div>
+		</div>
+	</div>
+</body>
+
 </html>

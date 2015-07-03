@@ -1,47 +1,67 @@
 <html>
-	<head>
-		<title>Manual Entry</title>
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
 
-		<style>
-			h4    { padding: 6px; margin-left: 16px }
-			form  { display: table; margin-left: 16px; }
-			p     { display: table-row; }
-			section { display: table-cell; padding: 6px; }
-			input { display: table-cell; }
-			a     { margin-left: 8px; }
-		</style>
+<head>
+	<title>Manual Entry</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
+	<style>
+	h4 {
+		padding: 6px;
+		margin-left: 16px
+	}
 
-		<script>
-			window.onload = function() {
-				$('form').on('submit',function(e) {
-					e.preventDefault();
-					var form = $(this);
-					var formData = JSON.stringify(form.serializeArray());
+	form {
+		display: table;
+		margin-left: 16px;
+	}
 
-					$.ajax({
-						type: "POST",
-						url: "/manualPosition",
-						data: formData,
-						success: function(data){
-							if (data == '') {
-								alert("Data successfully entered");
-								document.getElementById('myform').reset();
-							} else {
-								alert(data);
-							}
-						},
-						contentType : "application/json"
-					});
-				});
-			}
-		</script>
-	</head>
-	<body>
-		<h4>Manual Position Data Entry Form</h4>
-		<form action="/manualPosition" id="myform">
+	p {
+		display: table-row;
+	}
+
+	section {
+		display: table-cell;
+		padding: 6px;
+	}
+
+	input {
+		display: table-cell;
+	}
+
+	a {
+		margin-left: 8px;
+	}
+	</style>
+	<script>
+	window.onload = function() {
+		$('form').on('submit', function(e) {
+			e.preventDefault();
+			var form = $(this);
+			var formData = JSON.stringify(form.serializeArray());
+
+			$.ajax({
+				type: "POST",
+				url: "/manualPosition",
+				data: formData,
+				success: function(data) {
+					if (data == '') {
+						alert("Data successfully entered");
+						document.getElementById('myform').reset();
+					} else {
+						alert(data);
+					}
+				},
+				contentType: "application/json"
+			});
+		});
+	}
+	</script>
+</head>
+
+<body>
+	<h4>Manual Position Data Entry Form</h4>
+	<form action="/manualPosition" id="myform">
 		<p>
 			<section>Profile ID:</section>
 			<input type="text" name="profileId" required>
@@ -75,7 +95,7 @@
 		</p>
 		<p>
 			<section>End Month:</section>
-			<input type="number" name="endMonth" min="1" max="12" >
+			<input type="number" name="endMonth" min="1" max="12">
 			<br>
 		</p>
 		<p>
@@ -89,6 +109,7 @@
 			<br>
 		</p>
 		<input type="submit" value="Submit" style="margin-left: 6px;">
-		</form>
-	</body>
+	</form>
+</body>
+
 </html>
