@@ -3,8 +3,8 @@ window.onload = function() {
 
     // Send users to the LinkedIn login page.
     function signIn() {
-        var selected = document.getElementById("selectedfair").outerText;
-        if(selected != "Select Fair"){
+        // var selected = document.getElementById("selectedfair").outerText;
+        // if(selected != "Select Fair"){
             var client_id = "75kh0yq5sa89ld";
 
             // Redirect URI can either be our app engine domain or localhost:8080.
@@ -23,9 +23,9 @@ window.onload = function() {
                 + client_id + "&redirect_uri=" + encodeURIComponent(redirect_uri) +
                 "&state=" + state + "&scope=" + scope;
             window.location = auth_url;
-        } else {
-            var errorBox = document.getElementById("errormessage");
-            errorBox.style.visibility = 'visible';
-        }
+        // } else {
+        //     var errorBox = document.getElementById("errormessage");
+        //     errorBox.style.visibility = 'visible';
+        // }
     }
 }

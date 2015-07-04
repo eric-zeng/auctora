@@ -68,30 +68,6 @@ class LoginHandler(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('candidate/loginPage.html')
 		self.response.write(template.render())
 
-class ResumeUploadHandler(webapp2.RequestHandler):
-	def get(self):
-		# get the resume url link
-		upload_url = blobstore.create_upload_url('/resumeupload')
-
-		template_values = {
-			'resume_url' : upload_url
-		}
-		template = JINJA_ENVIRONMENT.get_template('candidate/resumeUpload.html')
-		self.response.write(template.render(template_values))
-
-class ResumeFormHandler(blobstore_handlers.BlobstoreUploadHandler):
-	def post(self):
-		# logging.info(self.request.body)
-		upload = self.get_uploads()[0]
-
-		logging.info(upload.key())
-		profile = BasicProfile.query(BasicProfile.fname == "Rama").fetch() #hardcoded in for now
-		if len(profile) != 0:
-			profileEntity = profile[0]
-			profileEntity.resumeFile = get_serving_url(upload.key())
-			profileEntity.put()
-			self.redirect('/questions')
-
 # serve the root page for the Auctora slides
 class SlidesLandingHandler(webapp2.RequestHandler):
 	def get(self):
@@ -252,23 +228,64 @@ class LinkedInAuthHandler(webapp2.RequestHandler):
 
 				posEntity.put()
 
-		# Send the authentication-to-questions redirect page.
+		# TODO change to make database call to see if questions were answered
+		# in the case that someone logged in but didn't fill out the questions
+		template_values = {}
+		# if len(profiles) == 0:
+			# If this is the first login, send them to the questions page
+		template_values["home_screen"] = "questions"
+		# else:
+		# 	# Otherwise send them to their career fairs
+		# 	template_values["home_screen"] = "studenthome"
+
 		template = JINJA_ENVIRONMENT.get_template('candidate/authredirect.html')
-		self.response.write(template.render())
+		self.response.write(template.render(template_values))
 
 class QuestionsHandler(webapp2.RequestHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('candidate/questions.html')
 		self.response.write(template.render())
 
+class QuestionsFormHandler(webapp2.RequestHandler):
+	def post(self):
+		logging.info(self.request.body)
+		# enter student's 3 projects into database
+		# redirect to resume upload
+		self.redirect('/resume')
+
+class ResumeUploadHandler(webapp2.RequestHandler):
+	def get(self):
+		# get the resume url link
+		upload_url = blobstore.create_upload_url('/resumeupload')
+
+		template_values = {
+			'resume_url' : upload_url
+		}
+		template = JINJA_ENVIRONMENT.get_template('candidate/resumeUpload.html')
+		self.response.write(template.render(template_values))
+
+class ResumeFormHandler(blobstore_handlers.BlobstoreUploadHandler):
+	def post(self):
+		# logging.info(self.request.body)
+		upload = self.get_uploads()[0]
+
+		logging.info(upload.key())
+		profile = BasicProfile.query(BasicProfile.fname == "Rama").fetch() # hardcoded in for now
+		if len(profile) != 0:
+			profileEntity = profile[0]
+			profileEntity.resumeFile = get_serving_url(upload.key())
+			profileEntity.put()
+			self.redirect('/studenthome')
+
+class StudentHomeHandler(webapp2.RequestHandler):
+	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('candidate/studenthome.html')
+		self.response.write(template.render()) #TODO
+
 class CompaniesHandler(webapp2.RequestHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('candidate/companies.html')
 		self.response.write(template.render())
-
-class QuestionsFormHandler(webapp2.RequestHandler):
-	def post(self):
-		logging.info(self.request.body)
 
 class SearchHandler(webapp2.RequestHandler):
 	def get(self):
@@ -446,14 +463,17 @@ application = webapp2.WSGIApplication([
 
 	# Student UI Handlers
 	('/login', LoginHandler),
+
+	# Student questions form handler for first time login
+	('/questions', QuestionsHandler),
+	('/submitQuestions', QuestionsFormHandler),
 	('/resume', ResumeUploadHandler),
 	('/resumeupload', ResumeFormHandler),
 
-	('/questions', QuestionsHandler),
 	('/companies', CompaniesHandler),
-
-	# Student questions form response handler
-	('/submitQuestions', QuestionsFormHandler),
+	
+	# If student already has filled out questions
+	('/studenthome', StudentHomeHandler),
 
 	# Recruiter UI Handlers
 	('/search', SearchHandler),

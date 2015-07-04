@@ -36,12 +36,19 @@
 	<body>
 		<div class="container">
 			<div id="header" class="row">
-				<h1>Welcome to the BPC Sweet 16!</h1>
+				<h1>Set Up Your Profile</h1>
 			</div>
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<p>Please answer a few short questions to help recruiters get to know you better.</p>
-					<form id="questionsForm" action="/companies">
+					<form id="questionsForm" method="POST" action="/submitQuestions">
+						<p>Give us three projects you want recruiters to know about. Make sure to choose the three you are most proud of!</p>
+						<div class="form-group">
+
+							<input class="form-control" id="proj1" placeholder="e.g., Internship at Yo">
+							<input class="form-control" id="proj2" placeholder="e.g., Independent Google Maps project">
+							<input class="form-control" id="proj3" placeholder="e.g., Research study">
+						</div>
 						<div id="year" class ="checkbox">
 							<h3 class="form-question">What is your class standing?</h3>
 							<label class="list-item">
@@ -89,9 +96,7 @@
 							</select>
 						</label>
 						<br>
-						<label>
-							<h3 class="form-question">Do you require visa sponsorship from an employer to work in the United States?</h3>
-						</label>
+						<h3 class="form-question">I require visa sponsorship from an employer to work in the United States</h3>
 						<div id="toggles">
 							<input type="checkbox" name="checkbox1" id="checkbox1" class="ios-toggle" />
 							<label for="checkbox1" class="checkbox-label" data-off="no" data-on="yes"></label>
@@ -107,6 +112,10 @@
 								<input type="radio" name="lookingfor" value="internship" required>
 								Internship opportunity
 							</label>
+						</div>
+						<div class="form-group">
+							<label for="resumePDF">Upload your resume (PDF only)</label>
+							<input type="file" id="resumePDF">
 						</div>
 						<button type="submit" value="submit" class="btn btn-primary">Submit</button>
 					</form>
