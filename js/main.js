@@ -6,6 +6,11 @@ function scrollTo(div) {
 	if (scrolledY) {
 	  window.scroll(0, scrolledY - 50);
 	}
-
-	document.getElementById('navbarToggle').click();
 }
+
+// Collapse the navbar dropdown if on mobile
+$(document).on('click','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
+        $(this).collapse('hide');
+    }
+});
