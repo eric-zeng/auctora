@@ -1,3 +1,4 @@
+# Libraries
 import logging
 import jinja2
 import json
@@ -11,6 +12,9 @@ from google.appengine.api import users
 from google.appengine.api import urlfetch
 
 from webapp2_extras import sessions
+
+# Project files
+import datastore
 
 JINJA_ENVIRONMENT = jinja2.Environment(
 	loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
