@@ -8,9 +8,9 @@ import urllib
 import webapp2
 
 from google.appengine.ext import ndb
-from google.appengine.api import users
 from google.appengine.api import urlfetch
 
+from webapp2_extras import security
 from webapp2_extras import sessions
 
 # Project files
@@ -272,6 +272,13 @@ class RecruiterLoginHandler(webapp2.RequestHandler):
 	def post(self):
 		logging.info(self.request.body)
 
+class RecruiterRegistrationHandler(webapp2.RequestHandler):
+	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('recruiter/recruiterRegistration.html')
+		self.response.write(template.render())
+	def post(self):
+		logging.info(self.request.body)
+
 class SearchHandler(BaseSessionHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('recruiter/search.html')
@@ -461,6 +468,7 @@ application = webapp2.WSGIApplication([
 
 	# Recruiter UI Handlers
 	('/recruiterLogin', RecruiterLoginHandler),
+	('/recruiterRegistration', RecruiterRegistrationHandler),
 	('/search', SearchHandler),
 	('/profile', ProfileHandler),
 	('/home', RecruiterHomeHandler),
