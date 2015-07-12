@@ -261,6 +261,13 @@ class QuestionsFormHandler(BaseSessionHandler):
 	def post(self):
 		logging.info(self.request.body)
 
+class RecruiterLoginHandler(webapp2.RequestHandler):
+	def get(self):
+		template = JINJA_ENVIRONMENT.get_template('recruiter/recruiterLogin.html')
+		self.response.write(template.render())
+	def post(self):
+		logging.info(self.request.body)
+
 class SearchHandler(BaseSessionHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('recruiter/search.html')
@@ -449,6 +456,7 @@ application = webapp2.WSGIApplication([
 	('/submitQuestions', QuestionsFormHandler),
 
 	# Recruiter UI Handlers
+	('/recruiterLogin', RecruiterLoginHandler),
 	('/search', SearchHandler),
 	('/profile', ProfileHandler),
 	('/home', RecruiterHomeHandler),
