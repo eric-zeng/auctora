@@ -27,6 +27,8 @@ class Recruiter(ndb.Model):
 	id = ndb.StringProperty()
 	fname = ndb.StringProperty()
 	lname = ndb.StringProperty()
+	email = ndb.StringProperty()
+	passwordHash = ndb.StringProperty()
 
 class RecruiterAttendance(ndb.Model):
 	recruiterId = ndb.StringProperty()
@@ -37,4 +39,3 @@ class Annotation(ndb.Model):
 	profileId = ndb.StringProperty()
 	rating = ndb.IntegerProperty()
 	comments = ndb.StringProperty()
-

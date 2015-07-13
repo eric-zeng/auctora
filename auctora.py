@@ -5,6 +5,7 @@ import json
 import os
 import random
 import urllib
+import uuid
 import webapp2
 
 from google.appengine.ext import ndb
@@ -14,7 +15,7 @@ from webapp2_extras import security
 from webapp2_extras import sessions
 
 # Project files
-import datastore
+from datastore import Recruiter
 
 JINJA_ENVIRONMENT = jinja2.Environment(
 	loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -278,6 +279,31 @@ class RecruiterRegistrationHandler(webapp2.RequestHandler):
 		self.response.write(template.render())
 	def post(self):
 		logging.info(self.request.body)
+		data = json.loads(self.request.body)
+		# Parse the JSON form data representation into a dict
+		formData = dict()
+		for obj in data:
+			logging.info(obj['name'])
+			logging.info(obj['value'])
+
+			formData[obj['name']] = obj['value']
+		# Generate unique ID for the recruiter, try until unique id found
+		while True:
+			id = uuid.uuid4().hex
+			existing = Recruiter.query(Recruiter.id == id).fetch()
+			if len(existing) == 0:
+				break
+			logging.info('ID ' + id + ' already exists, trying again')
+
+		pwhash = security.generate_password_hash(formData['password'])
+
+		recruiter = Recruiter()
+		recruiter.id = id
+		recruiter.fname = formData['fname']
+		recruiter.lname = formData['lname']
+		recruiter.passwordHash = pwhash
+		recruiter.put()
+		self.response.write('{"redirect": "/home"}')
 
 class SearchHandler(BaseSessionHandler):
 	def get(self):
