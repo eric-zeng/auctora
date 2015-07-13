@@ -266,17 +266,30 @@ class QuestionsFormHandler(BaseSessionHandler):
 	def post(self):
 		logging.info(self.request.body)
 
-class RecruiterLoginHandler(webapp2.RequestHandler):
+def RedirectRecruiterToHomeIfLoggedIn(id, response):
+	if len(Recruiter.query(Recruiter.id == id).fetch()) == 1:
+		response.location = "/home"
+		response.status = 302
+		return True
+	return False
+
+class RecruiterLoginHandler(BaseSessionHandler):
 	def get(self):
+		if RedirectRecruiterToHomeIfLoggedIn(self.session['id'], self.response):
+			return
 		template = JINJA_ENVIRONMENT.get_template('recruiter/recruiterLogin.html')
 		self.response.write(template.render())
+
 	def post(self):
 		logging.info(self.request.body)
 
-class RecruiterRegistrationHandler(webapp2.RequestHandler):
+class RecruiterRegistrationHandler(BaseSessionHandler):
 	def get(self):
+		if RedirectRecruiterToHomeIfLoggedIn(self.session['id'], self.response):
+			return
 		template = JINJA_ENVIRONMENT.get_template('recruiter/recruiterRegistration.html')
 		self.response.write(template.render())
+
 	def post(self):
 		logging.info(self.request.body)
 		data = json.loads(self.request.body)
@@ -303,6 +316,10 @@ class RecruiterRegistrationHandler(webapp2.RequestHandler):
 		recruiter.lname = formData['lname']
 		recruiter.passwordHash = pwhash
 		recruiter.put()
+
+		self.session['userType'] = "recruiter"
+		self.session['id'] = id
+
 		self.response.write('{"redirect": "/home"}')
 
 class SearchHandler(BaseSessionHandler):
@@ -326,6 +343,11 @@ class ProfileHandler(BaseSessionHandler):
 
 class RecruiterHomeHandler(BaseSessionHandler):
 	def get(self):
+		sessionUserId = self.session['id']
+		if len(Recruiter.query(Recruiter.id == sessionUserId).fetch()) != 1:
+			self.response.write("<html><body><h1>No recruiter with id " + sessionUserId + "found!</h1></body></html>")
+			return
+
 		template = JINJA_ENVIRONMENT.get_template('recruiter/home.html')
 		profiles = BasicProfile.query().order(-BasicProfile.stars).fetch()
 		template_values = {"profiles": profiles}
