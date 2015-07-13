@@ -39,3 +39,36 @@ class Annotation(ndb.Model):
 	profileId = ndb.StringProperty()
 	rating = ndb.IntegerProperty()
 	comments = ndb.StringProperty()
+
+# Old model classes that should be deprecated!
+class BasicProfile(ndb.Model):
+	id = ndb.StringProperty()
+	fname = ndb.StringProperty()
+	lname = ndb.StringProperty()
+	headline = ndb.StringProperty()
+	industry = ndb.StringProperty()
+	location = ndb.StringProperty()
+	pictureUrl = ndb.StringProperty()
+	profileUrl = ndb.StringProperty()
+	stars = ndb.IntegerProperty()
+
+class Annotation(ndb.Model):
+	# id of BasicProfile that the annotation is associated with.
+	id = ndb.StringProperty()
+	 # Name of BasicProfile field that is annotated.
+	field = ndb.StringProperty()
+	 # Data-URL of the image.
+	image = ndb.StringProperty()
+
+class Position(ndb.Model):
+	id = ndb.IntegerProperty()
+	profileId = ndb.StringProperty() # Foreign key to BasicProfile
+	title = ndb.StringProperty()
+	description = ndb.StringProperty()
+	company = ndb.StringProperty()
+
+	startMonth = ndb.IntegerProperty()
+	startYear = ndb.IntegerProperty()
+	endMonth = ndb.IntegerProperty()
+	endYear = ndb.IntegerProperty()
+	isCurrent = ndb.BooleanProperty()
