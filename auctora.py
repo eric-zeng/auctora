@@ -15,7 +15,7 @@ from webapp2_extras import security
 from webapp2_extras import sessions
 
 # Project files
-from datastore import Recruiter
+from models import Recruiter
 
 JINJA_ENVIRONMENT = jinja2.Environment(
 	loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
