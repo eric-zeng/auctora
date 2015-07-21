@@ -37,12 +37,17 @@
 		</div>
 	</nav>
 	<form id="loginForm">
-		First Name <input type="text" name="fname"><br>
-		Last Name <input type="text" name="lname"><br>
-		Email address <input type="text" name="email"><br>
-		Phone Number <input type="text" name="phone"><br>
-		Password <input type="password" name="password"><br>
-		Confirm Password <input type="password" name="confirmPw"><br>
+		Name
+		<input type="text" name="fname" placeholder="First" required>
+		<input type="text" name="lname" placeholder="Last" required><br>
+		Email Address
+		<input type="email" name="email" required><br>
+		<input type="email" name="confirmEmail" placeholder="Confirm Email" required><br>
+		Phone Number
+		<input type="tel" name="phone" required><br>
+		Password
+		<input type="password" name="password" placeholder="8 characters minimum" required pattern=".{8,}"><br>
+		<input type="password" name="confirmPw" placeholder="Confirm Password" required=".{8,}"><br>
 		<input type="submit" value="Register">
 	</form>
 </body>

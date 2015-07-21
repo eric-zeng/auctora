@@ -10,8 +10,12 @@ window.onload = function() {
             dataType: "json",
             success: function(data, textStatus) {
                 if (data.redirect) {
-                    // data.redirect contains the string URL to redirect to
                     window.location.href = data.redirect;
+                } else if (data.error) {
+                    var msg = document.createElement("p")
+                    msg.setAttribute("style", "color: red")
+                    msg.appendChild(document.createTextNode(data.error))
+                    $("#loginForm").append(msg)
                 } else if (data.response) {
                     var msg = document.createElement("p")
                     msg.appendChild(document.createTextNode(data.response))

@@ -46,10 +46,20 @@ class RecruiterRegistrationHandler(BaseHandler):
 			formData[obj['name']] = obj['value']
 
 		email = formData['email']
+		confirmEmail = formData['confirmEmail']
 		fname = formData['fname']
 		lname = formData['lname']
 		phoneNumber = formData['phone']
 		rawPassword = formData['password']
+		confirmPassword = formData['confirmPw']
+
+		if email != confirmEmail:
+			self.response.write('{"error": "Email addresses don\'t match."}')
+			return
+
+		if rawPassword != confirmPassword:
+			self.response.write('{"error": "Passwords don\'t match."}')
+			return
 
 		# Use auth library to create a user
 		uniqueProperties = ['phoneNumber']
@@ -61,7 +71,7 @@ class RecruiterRegistrationHandler(BaseHandler):
 			phoneNumber=phoneNumber,
 			rawPassword=rawPassword)
 		if not newUser[0]:
-			self.response.write('{"response": "Unable to create user for email %s because of duplicate keys %s"}' % (email, newUser[1]))
+			self.response.write('{"error": "Unable to create user for email %s because of duplicate keys %s"}' % (email, newUser[1]))
 			return
 
 		user = newUser[1]
