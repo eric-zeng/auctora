@@ -21,5 +21,9 @@ We're trying to improve career fairs by making them less tedious for recruiters 
 
 ### Helpful resources
 * Google App Engine for Python documentation: https://cloud.google.com/appengine/docs/python/
+* webapp2 docs: https://webapp-improved.appspot.com/
+    - Sessions: https://webapp-improved.appspot.com/api/webapp2_extras/sessions.html
+    - Authentication: http://webapp-improved.appspot.com/api/webapp2_extras/auth.html
+* WebOb docs (the request/response objects): http://docs.webob.org/en/latest/
 * Bootstrap docs: http://getbootstrap.com/getting-started/
 * Mozilla Developer Network: https://developer.mozilla.org/en-US/ (general HTML/JS/CSS docs)
