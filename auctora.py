@@ -286,6 +286,7 @@ application = webapp2.WSGIApplication([
 	('/profile', recruiter.ProfileHandler),
 	('/home', recruiter.RecruiterHomeHandler),
 	('/setStars', recruiter.StarsHandler),
+	('/verification', recruiter.VerificationHandler),
 
 	# Profile data request handlers
 	('/profileRequest', recruiter.ProfileRequestHandler),
@@ -297,5 +298,7 @@ application = webapp2.WSGIApplication([
 	# Manual data entry for demos
 	('/manualPosition', ManualPositionHandler),
 	('/profileIdLookup', ProfileIdLookupHandler),
+
+	webapp2.Route('verification', handler=recruiter.VerificationHandler, name='verification')
 
 ], config=config, debug=True)

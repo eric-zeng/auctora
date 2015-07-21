@@ -1,6 +1,7 @@
 import jinja2
 import os
 import webapp2
+from webapp2_extras import auth
 from webapp2_extras import sessions
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -12,7 +13,6 @@ class BaseHandler(webapp2.RequestHandler):
 	def dispatch(self):
 		""" Get a session store for this request. """
 		self.session_store = sessions.get_store(request=self.request)
-
 		try:
 			# Dispatch the request.
 			webapp2.RequestHandler.dispatch(self)
@@ -25,6 +25,7 @@ class BaseHandler(webapp2.RequestHandler):
 		  """Shortcut to access the current session."""
 		  return self.session_store.get_session(backend="datastore")
 
+	@webapp2.cached_property
 	def auth(self):
 		"""Shortcut to access the auth instance as a property."""
 		return auth.get_auth()

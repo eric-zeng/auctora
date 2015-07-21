@@ -12,10 +12,10 @@ window.onload = function() {
                 if (data.redirect) {
                     // data.redirect contains the string URL to redirect to
                     window.location.href = data.redirect;
-                }
-                else {
-                    // data.form contains the HTML for the replacement form
-                    $("#myform").replaceWith(data.form);
+                } else if (data.response) {
+                    var msg = document.createElement("p")
+                    msg.appendChild(document.createTextNode(data.response))
+                    $("#loginForm").append(msg)
                 }
             }
         });

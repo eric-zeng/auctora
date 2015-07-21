@@ -43,31 +43,37 @@ class RecruiterRegistrationHandler(BaseHandler):
 		# Parse the JSON form data representation into a dict
 		formData = dict()
 		for obj in data:
-			logging.info(obj['name'])
-			logging.info(obj['value'])
-
 			formData[obj['name']] = obj['value']
-		# Generate unique ID for the recruiter, try until unique id found
-		while True:
-			id = uuid.uuid4().hex
-			existing = Recruiter.query(Recruiter.id == id).fetch()
-			if len(existing) == 0:
-				break
-			logging.info('ID ' + id + ' already exists, trying again')
 
-		pwhash = security.generate_password_hash(formData['password'])
+		email = formData['email']
+		fname = formData['fname']
+		lname = formData['lname']
+		phoneNumber = formData['phone']
+		rawPassword = formData['password']
 
-		recruiter = Recruiter()
-		recruiter.id = id
-		recruiter.fname = formData['fname']
-		recruiter.lname = formData['lname']
-		recruiter.passwordHash = pwhash
-		recruiter.put()
+		# Use auth library to create a user
+		uniqueProperties = ['phoneNumber']
+		newUser = self.user_model.create_user(
+			email,
+			uniqueProperties,
+			fname=fname,
+			lname=lname,
+			phoneNumber=phoneNumber,
+			rawPassword=rawPassword)
+		if not newUser[0]:
+			self.response.write('{"response": "Unable to create user for email %s because of duplicate keys %s"}' % (email, newUser[1]))
+			return
 
-		self.session['userType'] = "recruiter"
-		self.session['id'] = id
+		user = newUser[1]
+		user_id = user.get_id()
 
-		self.response.write('{"redirect": "/home"}')
+		token = self.user_model.create_signup_token(user_id)
+		verification_url = self.uri_for('verification', type='v', user_id=user_id, signup_token=token, _full=True)
+		msg = '{"response": "Send an email to user in order to verify their address. They will be able to do so by visiting %s"}' % (verification_url)
+
+		logging.info("created message")
+
+		self.response.write(msg)
 
 class SearchHandler(BaseHandler):
 	def get(self):
@@ -203,3 +209,7 @@ class AnnotationHandler(BaseHandler):
 			"field": a.field,
 			"image": a.image}
 		self.response.write(json.dumps(output, sort_keys=True))
+
+class VerificationHandler(BaseHandler):
+	def get(self):
+		self.response.write("unimplemented")
