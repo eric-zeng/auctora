@@ -6,7 +6,7 @@ from google.appengine.ext import ndb
 
 from webapp2_extras import sessions
 
-from common import BaseSessionHandler
+from common import BaseHandler
 from common import JINJA_ENVIRONMENT
 from models import Recruiter
 from models import BasicProfile
@@ -20,7 +20,7 @@ def RedirectRecruiterToHomeIfLoggedIn(session, response):
 		return True
 	return False
 
-class RecruiterLoginHandler(BaseSessionHandler):
+class RecruiterLoginHandler(BaseHandler):
 	def get(self):
 		if RedirectRecruiterToHomeIfLoggedIn(self.session, self.response):
 			return
@@ -30,7 +30,7 @@ class RecruiterLoginHandler(BaseSessionHandler):
 	def post(self):
 		logging.info(self.request.body)
 
-class RecruiterRegistrationHandler(BaseSessionHandler):
+class RecruiterRegistrationHandler(BaseHandler):
 	def get(self):
 		if RedirectRecruiterToHomeIfLoggedIn(self.session, self.response):
 			return
@@ -69,12 +69,12 @@ class RecruiterRegistrationHandler(BaseSessionHandler):
 
 		self.response.write('{"redirect": "/home"}')
 
-class SearchHandler(BaseSessionHandler):
+class SearchHandler(BaseHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('recruiter/search.html')
 		self.response.write(template.render())
 
-class ProfileHandler(BaseSessionHandler):
+class ProfileHandler(BaseHandler):
 	def get(self):
 		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
 		if len(profiles) == 0:
@@ -88,7 +88,7 @@ class ProfileHandler(BaseSessionHandler):
 
 		self.response.write(template.render(template_values))
 
-class RecruiterHomeHandler(BaseSessionHandler):
+class RecruiterHomeHandler(BaseHandler):
 	def get(self):
 		if 'id' not in self.session:
 			self.response.status = 401
@@ -106,7 +106,7 @@ class RecruiterHomeHandler(BaseSessionHandler):
 		self.response.write(template.render(template_values))
 
 # Update the number of stars in the profile.
-class StarsHandler(BaseSessionHandler):
+class StarsHandler(BaseHandler):
 	def post(self):
 		stars = json.loads(self.request.body)
 		profiles = BasicProfile.query(BasicProfile.id == stars['id']).fetch()
@@ -116,7 +116,7 @@ class StarsHandler(BaseSessionHandler):
 # Handles requests for profile by id.
 # Send GET http://tidy-nomad-842.appspot.com/profileRequest?id=<insert id here>
 # to get a JSON string with all of the fields.
-class ProfileRequestHandler(BaseSessionHandler):
+class ProfileRequestHandler(BaseHandler):
 	def get(self):
 		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
 		if len(profiles) < 1:
@@ -143,7 +143,7 @@ class ProfileRequestHandler(BaseSessionHandler):
 # to get a JSON array containing JSON objects with first name, last name,
 # picture, and id.
 # Intended for use in autocomplete.
-class NameRequestHandler(BaseSessionHandler):
+class NameRequestHandler(BaseHandler):
 	def get(self):
 		prefix = self.request.get('startsWith').lower()
 		query = BasicProfile.query().order(BasicProfile.fname)
@@ -179,7 +179,7 @@ class NameRequestHandler(BaseSessionHandler):
 #   field: (fname|lname|headline|industry|location)
 #   image: <the data-uri of the image>
 # }
-class AnnotationHandler(BaseSessionHandler):
+class AnnotationHandler(BaseHandler):
 	def post(self):
 		annotation = json.loads(self.request.body)
 		annotationEntity = Annotation(id=annotation['id'],

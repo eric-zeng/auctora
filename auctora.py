@@ -11,7 +11,7 @@ from webapp2_extras import security
 from webapp2_extras import sessions
 
 import recruiter
-from common import BaseSessionHandler
+from common import BaseHandler
 from common import JINJA_ENVIRONMENT
 from models import Annotation
 from models import BasicProfile
@@ -40,7 +40,7 @@ class SlidesLandingHandler(webapp2.RequestHandler):
 		self.response.write(template.render())
 
 # Handle the redirect from the LinkedIn sign in page.
-class LinkedInAuthHandler(BaseSessionHandler):
+class LinkedInAuthHandler(BaseHandler):
 	def get(self):
 		error = self.request.get('error', 'no error')
 		if error != 'no error':
@@ -198,17 +198,17 @@ class LinkedInAuthHandler(BaseSessionHandler):
 		template = JINJA_ENVIRONMENT.get_template('candidate/authredirect.html')
 		self.response.write(template.render())
 
-class QuestionsHandler(BaseSessionHandler):
+class QuestionsHandler(BaseHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('candidate/questions.html')
 		self.response.write(template.render())
 
-class CompaniesHandler(BaseSessionHandler):
+class CompaniesHandler(BaseHandler):
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('candidate/companies.html')
 		self.response.write(template.render())
 
-class QuestionsFormHandler(BaseSessionHandler):
+class QuestionsFormHandler(BaseHandler):
 	def post(self):
 		logging.info(self.request.body)
 
@@ -241,7 +241,7 @@ class ManualPositionHandler(webapp2.RequestHandler):
 		position.id = random.randint(1, 1000000)
 		position.put()
 
-class ProfileIdLookupHandler(BaseSessionHandler):
+class ProfileIdLookupHandler(BaseHandler):
 	def get(self):
 		self.response.write('<html><body>')
 		self.response.write('<h3>Profile IDs</h3>')
@@ -251,9 +251,14 @@ class ProfileIdLookupHandler(BaseSessionHandler):
 			self.response.write(profile.id + "<br>")
 		self.response.write('</body></html>')
 
-config = {}
-config['webapp2_extras.sessions'] = {
-    'secret_key': 'my-super-secret-key',
+config = {
+	'webapp2_extras.sessions': {
+		'secret_key': 'my-super-secret-key',
+	},
+	'webapp2_extras.auth': {
+		'user_model': 'models.User',
+		'user_attributes': ['name']
+	}
 }
 
 application = webapp2.WSGIApplication([
