@@ -11,8 +11,10 @@ from common import JINJA_ENVIRONMENT
 from models import Recruiter
 from models import BasicProfile
 
-def RedirectRecruiterToHomeIfLoggedIn(id, response):
-	if len(Recruiter.query(Recruiter.id == id).fetch()) == 1:
+def RedirectRecruiterToHomeIfLoggedIn(session, response):
+	if 'id' not in session:
+		return False
+	if len(Recruiter.query(Recruiter.id == session['id']).fetch()) == 1:
 		response.location = "/home"
 		response.status = 302
 		return True
@@ -20,7 +22,7 @@ def RedirectRecruiterToHomeIfLoggedIn(id, response):
 
 class RecruiterLoginHandler(BaseSessionHandler):
 	def get(self):
-		if RedirectRecruiterToHomeIfLoggedIn(self.session['id'], self.response):
+		if RedirectRecruiterToHomeIfLoggedIn(self.session, self.response):
 			return
 		template = JINJA_ENVIRONMENT.get_template('recruiter/recruiterLogin.html')
 		self.response.write(template.render())
@@ -30,7 +32,7 @@ class RecruiterLoginHandler(BaseSessionHandler):
 
 class RecruiterRegistrationHandler(BaseSessionHandler):
 	def get(self):
-		if RedirectRecruiterToHomeIfLoggedIn(self.session['id'], self.response):
+		if RedirectRecruiterToHomeIfLoggedIn(self.session, self.response):
 			return
 		template = JINJA_ENVIRONMENT.get_template('recruiter/recruiterRegistration.html')
 		self.response.write(template.render())
@@ -88,6 +90,11 @@ class ProfileHandler(BaseSessionHandler):
 
 class RecruiterHomeHandler(BaseSessionHandler):
 	def get(self):
+		if 'id' not in self.session:
+			self.response.status = 401
+			self.response.write("<html><body><h1>401 Unauthorized</h1></body></html>")
+			return
+
 		sessionUserId = self.session['id']
 		if len(Recruiter.query(Recruiter.id == sessionUserId).fetch()) != 1:
 			self.response.write("<html><body><h1>No recruiter with id " + sessionUserId + "found!</h1></body></html>")
