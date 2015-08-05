@@ -47,6 +47,7 @@ class RecruiterRegistrationHandler(BaseHandler):
 
 		email = formData['email']
 		confirmEmail = formData['confirmEmail']
+		name = formData['fname'] + ' ' + formData['lname']
 		fname = formData['fname']
 		lname = formData['lname']
 		phoneNumber = formData['phone']
@@ -66,10 +67,12 @@ class RecruiterRegistrationHandler(BaseHandler):
 		newUser = self.user_model.create_user(
 			email,
 			uniqueProperties,
+			name=name,
 			fname=fname,
 			lname=lname,
 			phoneNumber=phoneNumber,
-			rawPassword=rawPassword)
+			rawPassword=rawPassword,
+			verified=False)
 		if not newUser[0]:
 			self.response.write('{"error": "Unable to create user for email %s because of duplicate keys %s"}' % (email, newUser[1]))
 			return
@@ -199,8 +202,8 @@ class AnnotationHandler(BaseHandler):
 	def post(self):
 		annotation = json.loads(self.request.body)
 		annotationEntity = Annotation(id=annotation['id'],
-									  field=annotation['field'],
-									  image=annotation['image'])
+										field=annotation['field'],
+										image=annotation['image'])
 		annotationEntity.put()
 
 	# GET handler for testing. We'll might want to generate the annotation
@@ -222,4 +225,42 @@ class AnnotationHandler(BaseHandler):
 
 class VerificationHandler(BaseHandler):
 	def get(self):
-		self.response.write("unimplemented")
+		user = None
+		user_id = self.request.params['user_id']
+		signup_token = self.request.params['signup_token']
+		verification_type = self.request.params['type']
+
+		# it should be something more concise like
+		# self.auth.get_user_by_token(user_id, signup_token
+		# unfortunately the auth interface does not (yet) allow to manipulate
+		# signup tokens concisely
+		user, ts = self.user_model.get_by_auth_token(int(user_id), signup_token, 'signup')
+
+		if not user:
+			logging.info('Could not find any user with id "%s" signup token "%s"',
+				user_id, signup_token)
+			self.abort(404)
+
+		# store user data in the session
+		self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+
+		if verification_type == 'v':
+			# remove signup token, we don't want users to come back with an old link
+			self.user_model.delete_signup_token(user.get_id(), signup_token)
+
+			if not user.verified:
+				user.verified = True
+				user.put()
+
+			self.response.write('User email address has been verified.')
+			return
+		elif verification_type == 'p':
+			# supply user to the page
+			params = {
+				'user': user,
+				'token': signup_token
+			}
+			self.render_template('resetpassword.html', params)
+		else:
+			logging.info('verification type not supported')
+			self.abort(404)

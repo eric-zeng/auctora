@@ -1,4 +1,6 @@
+import time
 import webapp2_extras.appengine.auth.models
+
 from google.appengine.ext import ndb
 
 # Copied from a blog. This extends the default webapp2 User class so that
