@@ -13,10 +13,13 @@ We're trying to improve career fairs by making them less tedious for recruiters 
 ### Running the application
 * There are two ways to run the code - either on the live production server, or a local App Engine server. We want to make sure that whatever is running on the production server is not broken, so if you are just testing your changes, please run a local instance of the server.
 * Running local instances
-  * Type in the command `dev_appserver.py <auctora directory>`. <auctora directory> should be the folder that contains our app.yaml file.
+  * Run the command `gcloud preview app run app.yaml` while in the auctora directory.
   * The site will be hosted at `http://localhost:8080/`.
 * Deploying to the production server
-  * Run the command `appcfg.py update --oauth2 <auctora directory>`. BE CAREFUL! Don't deploy bad code!
+  * Run the command `gcloud preview app deploy app.yaml` to deploy a new remote instance. 
+  * To replace the default instance at www.auctora.co, you need to run `gcloud preview app deploy app.yaml --set-default`.
+  * To view all running instances, run `gcloud preview app modules list`. This will show the name and version number of each instance.
+  * To delete a running instance, run `gcloud preview app modules delete default --version <version number>`.
   * To deploy to the production server, you need access to the App Engine project. Contact the repository owner if you can't deploy but should be able to.
 
 ### Helpful resources
