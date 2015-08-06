@@ -5,7 +5,6 @@ window.onload = function() {
         var formData = JSON.stringify(form.serializeArray());
         $.ajax({
             type: "POST",
-            url: "/recruiterRegistration",
             data: formData,
             dataType: "json",
             success: function(data, textStatus) {

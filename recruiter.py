@@ -4,6 +4,7 @@ import uuid
 
 from google.appengine.ext import ndb
 
+from webapp2_extras import auth
 from webapp2_extras import sessions
 
 from common import BaseHandler
@@ -29,6 +30,18 @@ class RecruiterLoginHandler(BaseHandler):
 
 	def post(self):
 		logging.info(self.request.body)
+		data = json.loads(self.request.body)
+		formData = dict()
+		for obj in data:
+			formData[obj['name']] = obj['value']
+
+		email = formData['email']
+		password = formData['password']
+		try:
+			usr = self.auth.get_user_by_password(email, password, remember=True)
+			self.response.write('{"redirect": "/home"}')
+		except (auth.InvalidAuthIdError, auth.InvalidPasswordError) as e:
+			self.response.write('{"error": "Could not find that email/password combination"}')
 
 class RecruiterRegistrationHandler(BaseHandler):
 	def get(self):
@@ -71,7 +84,7 @@ class RecruiterRegistrationHandler(BaseHandler):
 			fname=fname,
 			lname=lname,
 			phoneNumber=phoneNumber,
-			rawPassword=rawPassword,
+			password_raw=rawPassword,
 			verified=False)
 		if not newUser[0]:
 			self.response.write('{"error": "Unable to create user for email %s because of duplicate keys %s"}' % (email, newUser[1]))
@@ -109,15 +122,8 @@ class ProfileHandler(BaseHandler):
 
 class RecruiterHomeHandler(BaseHandler):
 	def get(self):
-		if 'id' not in self.session:
-			self.response.status = 401
-			self.response.write("<html><body><h1>401 Unauthorized</h1></body></html>")
-			return
-
-		sessionUserId = self.session['id']
-		if len(Recruiter.query(Recruiter.id == sessionUserId).fetch()) != 1:
-			self.response.write("<html><body><h1>No recruiter with id " + sessionUserId + "found!</h1></body></html>")
-			return
+		if not self.auth.get_user_by_session():
+			return self.redirect('/recruiterLogin')
 
 		template = JINJA_ENVIRONMENT.get_template('recruiter/home.html')
 		profiles = BasicProfile.query().order(-BasicProfile.stars).fetch()
