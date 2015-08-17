@@ -282,6 +282,7 @@ application = webapp2.WSGIApplication([
 	# Recruiter UI Handlers
 	('/recruiterLogin', recruiter.RecruiterLoginHandler),
 	('/recruiterRegistration', recruiter.RecruiterRegistrationHandler),
+	('/recruiterLogout', recruiter.RecruiterLogoutHandler),
 	('/search', recruiter.SearchHandler),
 	('/profile', recruiter.ProfileHandler),
 	('/home', recruiter.RecruiterHomeHandler),
@@ -299,6 +300,7 @@ application = webapp2.WSGIApplication([
 	('/manualPosition', ManualPositionHandler),
 	('/profileIdLookup', ProfileIdLookupHandler),
 
+	webapp2.Route('/', handler=LandingHandler, name='landing'),
 	webapp2.Route('recruiterLogin', handler=recruiter.RecruiterLoginHandler, name='recruiterLogin'),
 	webapp2.Route('verification', handler=recruiter.VerificationHandler, name='verification')
 

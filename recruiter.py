@@ -101,6 +101,11 @@ class RecruiterRegistrationHandler(BaseHandler):
 
 		self.response.write(msg)
 
+class RecruiterLogoutHandler(BaseHandler):
+    def get(self):
+        self.auth.unset_session()
+        self.redirect(self.uri_for('landing'))
+
 class SearchHandler(BaseHandler):
 	@UserRequired
 	def get(self):
