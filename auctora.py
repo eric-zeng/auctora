@@ -263,46 +263,43 @@ config = {
 
 application = webapp2.WSGIApplication([
 	# Home page handler
-	('/', LandingHandler),
+	webapp2.Route('/', handler=LandingHandler, name='landing'),
 
 	# auctora pitch slides handler
-	('/slides', SlidesLandingHandler),
+	webapp2.Route('/slides', handler=SlidesLandingHandler, name='slides'),
 
 	# LinkedIn auth handler
-	('/auth/linkedIn', LinkedInAuthHandler),
+	webapp2.Route('/auth/linkedIn', handler=LinkedInAuthHandler, name='linkedin'),
 
 	# Student UI Handlers
-	('/login', LoginHandler),
-	('/questions', QuestionsHandler),
-	('/companies', CompaniesHandler),
+	webapp2.Route('/login', handler=LoginHandler, name='login'),
+	webapp2.Route('/questions', handler=QuestionsHandler, name='questions'),
+	webapp2.Route('/companies', handler=CompaniesHandler, name='companies'),
 
 	# Student questions form response handler
-	('/submitQuestions', QuestionsFormHandler),
+	webapp2.Route('/submitQuestions', handler=QuestionsFormHandler, name='submitQuestions'),
+
+	# Recruiter Auth Handlers
+	webapp2.Route('/recruiterLogin', handler=recruiter.RecruiterLoginHandler, name='recruiterLogin'),
+	webapp2.Route('/recruiterRegistration', handler=recruiter.RecruiterRegistrationHandler, name='recruiterRegistration'),
+	webapp2.Route('/recruiterLogout', handler=recruiter.RecruiterLogoutHandler, name='recruiterLogout'),
+	webapp2.Route('verification', handler=recruiter.VerificationHandler, name='verification'),
 
 	# Recruiter UI Handlers
-	('/recruiterLogin', recruiter.RecruiterLoginHandler),
-	('/recruiterRegistration', recruiter.RecruiterRegistrationHandler),
-	('/recruiterLogout', recruiter.RecruiterLogoutHandler),
-	('/search', recruiter.SearchHandler),
-	('/profile', recruiter.ProfileHandler),
-	('/home', recruiter.RecruiterHomeHandler),
-	('/setStars', recruiter.StarsHandler),
-	('/verification', recruiter.VerificationHandler),
+	webapp2.Route('/search', handler=recruiter.SearchHandler, name='search'),
+	webapp2.Route('/profile', handler=recruiter.ProfileHandler, name='profile'),
+	webapp2.Route('/home', handler=recruiter.RecruiterHomeHandler, name='home'),
+	webapp2.Route('/setStars', handler=recruiter.StarsHandler, name="setStars"),
 
 	# Profile data request handlers
-	('/profileRequest', recruiter.ProfileRequestHandler),
-	('/nameRequest', recruiter.NameRequestHandler),
+	webapp2.Route('/profileRequest', handler=recruiter.ProfileRequestHandler, name='profileRequest'),
+	webapp2.Route('/nameRequest', handler=recruiter.NameRequestHandler, name='nameRequest'),
 
 	# Handler for submitting an annotations image.
-	('/submitAnnotation', recruiter.AnnotationHandler),
+	webapp2.Route('/submitAnnotation', handler=recruiter.AnnotationHandler, name='submitAnnotation'),
 
 	# Manual data entry for demos
+	# TODO: Remove these handlers and associated files
 	('/manualPosition', ManualPositionHandler),
-	('/profileIdLookup', ProfileIdLookupHandler),
-
-	webapp2.Route('/', handler=LandingHandler, name='landing'),
-	webapp2.Route('home', handler=recruiter.RecruiterHomeHandler, name='home'),
-	webapp2.Route('recruiterLogin', handler=recruiter.RecruiterLoginHandler, name='recruiterLogin'),
-	webapp2.Route('verification', handler=recruiter.VerificationHandler, name='verification')
-
+	('/profileIdLookup', ProfileIdLookupHandler)
 ], config=config, debug=True)
