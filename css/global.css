@@ -1,0 +1,22 @@
+html, body {
+	background-color: #3B424C;
+	font-family: "RobotoLight";
+}
+h1, h2, h3 {
+	font-family: 'RobotoMedium';
+}
+
+h1 {
+	font-size: 36px;
+}
+
+.auctora-header {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	background-color: #254063;
+	margin-bottom:3em;
+	color: #fff;
+	text-align: center;
+	text-shadow: 0 1px 3px rgba(0,0,0,.5);
+	border: 2px;
+}

@@ -1,33 +1,8 @@
-html, body {
-	background-color: #141821;
-	height: 100%;
-	font-family: "RobotoLight";
-}
-
-h1 {
-	font-family: 'RobotoMedium';
-	font-size: 36px;
-	font-weight: normal;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-
-.row {
-	text-align: center;
-}
-
 .container {
 	background-color: #fff;
 	padding-bottom: 48px;
 }
 
-#header {
-	padding-top: 1em;
-	padding-bottom: 1em;
-	background-color: #3B424C;
-	margin-bottom:3em;
-	color: #fff;
+.row {
 	text-align: center;
-	text-shadow: 0 1px 3px rgba(0,0,0,.5);
-	border: 2px;
 }

@@ -1,13 +1,5 @@
-html, body {
-	background-color: #3B424C;
-	height: 100%;
-	font-family: "RobotoLight";
-}
-
 h1 {
-	font-family: 'RobotoMedium';
 	font-size: 45px;
-	font-weight: normal;
 }
 
 #mainContainer {
@@ -30,17 +22,6 @@ h1 {
 .glyphicon {
 	color: DarkGray;
 	margin-left: 8px;
-}
-
-#header {
-	padding-top: 1em;
-	padding-bottom: 1em;
-	background-color: #254063;
-	margin-bottom:3em;
-	color: #fff;
-	text-align: center;
-	text-shadow: 0 1px 3px rgba(0,0,0,.5);
-	border: 2px;
 }
 
 .profilepic {
