@@ -13,19 +13,33 @@ from models import Recruiter
 from models import BasicProfile
 
 def UserRequired(handler):
-  """
-    Decorator that checks if there's a user associated with the current session.
-    Will also fail if there's no session present.
-  """
-  def checkLogin(self, *args, **kwargs):
-    auth = self.auth
-    if not auth.get_user_by_session():
-      self.redirect(self.uri_for('recruiterLogin'), abort=True)
-    else:
-      return handler(self, *args, **kwargs)
-  return checkLogin
+    """
+        Decorator that checks if there's a user associated with the current session.
+        Will also fail if there's no session present.
+    """
+    def checkLogin(self, *args, **kwargs):
+        auth = self.auth
+        if not auth.get_user_by_session():
+            self.redirect(self.uri_for('recruiterLogin'), abort=True)
+        else:
+            return handler(self, *args, **kwargs)
+    return checkLogin
+
+def RedirectHomeIfLoggedIn(handler):
+    """
+        Decorator that redirects to the home handler if there's a user
+        associated with the current session.
+    """
+    def checkLogin(self, *args, **kwargs):
+        auth = self.auth
+        if auth.get_user_by_session():
+            self.redirect(self.uri_for('home'), abort=True)
+        else:
+            return handler(self, *args, **kwargs)
+    return checkLogin
 
 class RecruiterLoginHandler(BaseHandler):
+	@RedirectHomeIfLoggedIn
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('recruiter/recruiterLogin.html')
 		self.response.write(template.render())
@@ -46,6 +60,7 @@ class RecruiterLoginHandler(BaseHandler):
 			self.response.write('{"error": "Could not find that email/password combination"}')
 
 class RecruiterRegistrationHandler(BaseHandler):
+	@RedirectHomeIfLoggedIn
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('recruiter/recruiterRegistration.html')
 		self.response.write(template.render())

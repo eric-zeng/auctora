@@ -301,6 +301,7 @@ application = webapp2.WSGIApplication([
 	('/profileIdLookup', ProfileIdLookupHandler),
 
 	webapp2.Route('/', handler=LandingHandler, name='landing'),
+	webapp2.Route('home', handler=recruiter.RecruiterHomeHandler, name='home'),
 	webapp2.Route('recruiterLogin', handler=recruiter.RecruiterLoginHandler, name='recruiterLogin'),
 	webapp2.Route('verification', handler=recruiter.VerificationHandler, name='verification')
 
