@@ -12,19 +12,21 @@ from common import JINJA_ENVIRONMENT
 from models import Recruiter
 from models import BasicProfile
 
-def RedirectRecruiterToHomeIfLoggedIn(session, response):
-	if 'id' not in session:
-		return False
-	if len(Recruiter.query(Recruiter.id == session['id']).fetch()) == 1:
-		response.location = "/home"
-		response.status = 302
-		return True
-	return False
+def UserRequired(handler):
+  """
+    Decorator that checks if there's a user associated with the current session.
+    Will also fail if there's no session present.
+  """
+  def checkLogin(self, *args, **kwargs):
+    auth = self.auth
+    if not auth.get_user_by_session():
+      self.redirect(self.uri_for('recruiterLogin'), abort=True)
+    else:
+      return handler(self, *args, **kwargs)
+  return checkLogin
 
 class RecruiterLoginHandler(BaseHandler):
 	def get(self):
-		if RedirectRecruiterToHomeIfLoggedIn(self.session, self.response):
-			return
 		template = JINJA_ENVIRONMENT.get_template('recruiter/recruiterLogin.html')
 		self.response.write(template.render())
 
@@ -45,8 +47,6 @@ class RecruiterLoginHandler(BaseHandler):
 
 class RecruiterRegistrationHandler(BaseHandler):
 	def get(self):
-		if RedirectRecruiterToHomeIfLoggedIn(self.session, self.response):
-			return
 		template = JINJA_ENVIRONMENT.get_template('recruiter/recruiterRegistration.html')
 		self.response.write(template.render())
 
@@ -102,11 +102,13 @@ class RecruiterRegistrationHandler(BaseHandler):
 		self.response.write(msg)
 
 class SearchHandler(BaseHandler):
+	@UserRequired
 	def get(self):
 		template = JINJA_ENVIRONMENT.get_template('recruiter/search.html')
 		self.response.write(template.render())
 
 class ProfileHandler(BaseHandler):
+	@UserRequired
 	def get(self):
 		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
 		if len(profiles) == 0:
@@ -121,10 +123,8 @@ class ProfileHandler(BaseHandler):
 		self.response.write(template.render(template_values))
 
 class RecruiterHomeHandler(BaseHandler):
+	@UserRequired
 	def get(self):
-		if not self.auth.get_user_by_session():
-			return self.redirect('/recruiterLogin')
-
 		template = JINJA_ENVIRONMENT.get_template('recruiter/home.html')
 		profiles = BasicProfile.query().order(-BasicProfile.stars).fetch()
 		template_values = {"profiles": profiles}
@@ -132,6 +132,7 @@ class RecruiterHomeHandler(BaseHandler):
 
 # Update the number of stars in the profile.
 class StarsHandler(BaseHandler):
+	@UserRequired
 	def post(self):
 		stars = json.loads(self.request.body)
 		profiles = BasicProfile.query(BasicProfile.id == stars['id']).fetch()
@@ -142,6 +143,7 @@ class StarsHandler(BaseHandler):
 # Send GET http://tidy-nomad-842.appspot.com/profileRequest?id=<insert id here>
 # to get a JSON string with all of the fields.
 class ProfileRequestHandler(BaseHandler):
+	@UserRequired
 	def get(self):
 		profiles = BasicProfile.query(BasicProfile.id == self.request.get('id')).fetch()
 		if len(profiles) < 1:
@@ -169,6 +171,7 @@ class ProfileRequestHandler(BaseHandler):
 # picture, and id.
 # Intended for use in autocomplete.
 class NameRequestHandler(BaseHandler):
+	@UserRequired
 	def get(self):
 		prefix = self.request.get('startsWith').lower()
 		query = BasicProfile.query().order(BasicProfile.fname)
@@ -205,6 +208,7 @@ class NameRequestHandler(BaseHandler):
 #   image: <the data-uri of the image>
 # }
 class AnnotationHandler(BaseHandler):
+	@UserRequired
 	def post(self):
 		annotation = json.loads(self.request.body)
 		annotationEntity = Annotation(id=annotation['id'],
@@ -214,6 +218,7 @@ class AnnotationHandler(BaseHandler):
 
 	# GET handler for testing. We'll might want to generate the annotation
 	# in the profile page when it is loaded.
+	@UserRequired
 	def get(self):
 		results = Annotation.query(
 				Annotation.id == self.request.get['id'],
