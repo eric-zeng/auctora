@@ -9,8 +9,9 @@ from webapp2_extras import sessions
 
 from common import BaseHandler
 from common import JINJA_ENVIRONMENT
-from models import Recruiter
 from models import BasicProfile
+from models import Position
+from models import Recruiter
 
 def UserRequired(handler):
     """
