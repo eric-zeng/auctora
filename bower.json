@@ -1,0 +1,14 @@
+{
+  "name": "auctora",
+  "homepage": "https://github.com/eric-zeng/auctora",
+  "authors": [
+    "Eric Zeng",
+    "Rama Gokhale",
+    "Bryan Djunaedi"
+  ],
+  "description": "Making career fairs better",
+  "dependencies": {
+    "bootstrap": "latest",
+    "jquery": "latest"
+  }
+}

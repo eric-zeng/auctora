@@ -26,5 +26,9 @@ _testmain.go
 .DS_Store
 *.pyc
 
-# DO NOT COMMIT THIS FILE!!!!!
+# DO NOT COMMIT THIS FILE!!!!! LinkedIn private API key
 API_Key.txt
+
+# These should be fetched manually, not checked in
+bower_components
+node_modules
