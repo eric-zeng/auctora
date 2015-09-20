@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="../css/canvas.css"></link>
-		<link rel="stylesheet" href="../css/bootstrap.min.css">
-		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<link href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<link href="../css/canvas.css" rel="stylesheet">
+		<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<!--[if lt IE 9]>
 			<script type="text/javascript" src="lib/flashcanvas/flashcanvas.js"></script>
 		<![endif]-->
-		<script type="text/javascript" src="../js/signature_pad.js"></script>
-		<script type="text/javascript" src="../js/canvas.js"></script>
+		<script src="../js/signature_pad.js"></script>
+		<script src="../js/canvas.js"></script>
 
 	</head>
 	<body>
 		<h1>Testing!</h1>
-      <div id="canvasParent">
-        <div id="canvas">
-          <canvas width="10000" height="150">
-          </canvas>
-        </div>
+			<div id="canvasParent">
+				<div id="canvas">
+					<canvas width="10000" height="150">
+					</canvas>
+				</div>
 
-        <div id="canvasButtons">
-          <button id="canvasClear" type="button" class="btn canvasButton" data-toggle="button" aria-pressed="false" autocomplete="off">
-            Clear
-          </button>
-          <button id="canvasCancel" type="button" class="btn canvasButton" data-toggle="button" aria-pressed="false" autocomplete="off">
-            Cancel
-          </button>
-          <button id="canvasDone" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-            Done
-          </button>
-        </div>
-      </div>
+				<div id="canvasButtons">
+					<button id="canvasClear" type="button" class="btn canvasButton" data-toggle="button" aria-pressed="false" autocomplete="off">
+						Clear
+					</button>
+					<button id="canvasCancel" type="button" class="btn canvasButton" data-toggle="button" aria-pressed="false" autocomplete="off">
+						Cancel
+					</button>
+					<button id="canvasDone" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+						Done
+					</button>
+				</div>
+			</div>
 	</body>
 </html>

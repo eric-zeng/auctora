@@ -12,9 +12,16 @@ handlers:
   static_dir: js
   mime_type: application/javascript
 
-- url: /libs
-  static_dir: libs
+- url: /lib/css
+  static_dir: lib/css
+  mime_type: text/css
+
+- url: /lib/js
+  static_dir: lib/js
   mime_type: application/javascript
+
+- url: /lib/fonts
+  static_dir: lib/fonts
 
 - url: /images
   static_dir: images

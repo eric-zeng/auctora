@@ -4,30 +4,8 @@
 
 <head>
 	<title>Auctora</title>
-	<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
-	<!-- Currently not logging this in the backend - if we change that we should use this script to send to backend
-		<script>
-			window.onload = function() {
-			$('#questionsForm').on('submit',function(e) {
-				//e.preventDefault();
-				var form = $(this);
-				var formData = JSON.stringify(form.serializeArray());
-
-				//alert("I am about to POST this:\n\n" + formData);
-
-				$.ajax({
-					type: "POST",
-					url: "/submitQuestions",
-					data: formData,
-					success: function(){},
-					contentType : "application/json"
-				});
-			});
-			}
-		</script>
--->
-	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<script src="../lib/js/jquery.min.js"></script>
+	<link rel="stylesheet" href="../lib/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/font.css">
 	<link rel="stylesheet" href="../css/global.css">
 	<link rel="stylesheet" href="../css/questions.css">

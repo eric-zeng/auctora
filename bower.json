@@ -9,6 +9,7 @@
   "description": "Making career fairs better",
   "dependencies": {
     "bootstrap": "latest",
-    "jquery": "latest"
+    "jquery": "latest",
+    "typeahead.js": "~0.11.1"
   }
 }
